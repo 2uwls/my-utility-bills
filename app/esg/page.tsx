@@ -264,10 +264,11 @@ export default function ESGPage() {
               <CardContent className="space-y-4">
                 <div className="bg-blue-50 rounded-xl p-4">
                   <div className="text-sm text-gray-700 mb-3">
-                    전 세계에서 베어진 나무의 35%가 종이 생산에 사용됩니다. 전자
-                    문서와 모바일 청구서, 전자 증명서로 전환하면 A4 용지를
-                    만드는 데 소요되는 나무와 물을 아낄 수 있습니다. 환경 보호
-                    실천에 함께해요!
+                    전 세계에서 베어진 나무의 35%가 종이 생산에 사용됩니다.{' '}
+                    <br></br>
+                    전자문서와 모바일 청구서, 전자 증명서로 전환하면 A4 용지를
+                    만드는 데 소요되는 나무와 물을 아낄 수 있습니다. <br></br>
+                    환경 보호실천에 함께해요!
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <div className="text-center">
