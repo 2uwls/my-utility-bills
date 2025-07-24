@@ -14,6 +14,8 @@ export default function HomePage() {
         <MainTabNavigation active="home" />
         <HomeTabContent />
       </div>
+
+      
     </div>
   );
 }
