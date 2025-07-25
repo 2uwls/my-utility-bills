@@ -32,21 +32,6 @@ import {
   ComposedChart,
 } from 'recharts';
 
-// export default function AnalysisPage() {
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <KakaoHeader />
-//       {/* 헤더 등 필요시 복사 */}
-//       <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
-        // <MainSummarySection />
-        // <MainTabNavigation active="analysis" />
-//         {/* 분석 탭 내용 */}
-
-//       </div>
-//     </div>
-//   );
-// }
-
 export default function AnalysisPage() {
   const [analysisTab, setAnalysisTab] = useState('comprehensive');
 
@@ -170,28 +155,8 @@ export default function AnalysisPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 헤더 */}
       <KakaoHeader />
-      {/* <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link href="/">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-lg font-bold text-gray-900">상세 분석</h1>
-                <p className="text-xs text-gray-500">공과금 사용 패턴 분석</p>
-              </div>
-            </div>
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <BarChart3 className="h-4 w-4 text-white" />
-            </div>
-          </div>
-        </div>
-      </header> */}
+    
       <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
         <MainSummarySection/>
         <MainTabNavigation active="analysis"/>
