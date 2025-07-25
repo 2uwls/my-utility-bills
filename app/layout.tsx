@@ -4,7 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: '내공과금',
+  title: 'v0 App',
   description: 'Created with v0',
   generator: 'v0.dev',
 }
