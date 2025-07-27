@@ -31,8 +31,8 @@ export default function SavingsPage() {
 
         {/* 절약 탭 내용 */}
         <div className="space-y-6">
-          {/* 소개 카드 */}
-          <Card className="border-0 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 text-white">
+          {/* 소개 카드
+          <Card className="border-0 rounded-2xl text-gray-900 bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -50,8 +50,7 @@ export default function SavingsPage() {
                 방법을 찾아보세요.
               </div>
             </CardContent>
-          </Card>
-
+          </Card> */}
           {/* 전기/가스 시뮬레이션 카드들 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 전기 */}
@@ -80,19 +79,15 @@ export default function SavingsPage() {
                       <div className="w-1 h-1 bg-gray-400 rounded-full" />
                       시간대별 요금제 비교
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-gray-400 rounded-full" />
-                      역률 개선 효과
-                    </div>
                   </div>
-                  <div className="mt-4 flex items-center justify-between text-sm">
+                  {/* <div className="mt-4 flex items-center justify-between text-sm">
                     <span className="font-medium text-gray-900">
                       현재 월 요금: ₩85,000
                     </span>
                     <span className="text-green-600 font-medium text-xs">
                       최대 30% 절약 가능
                     </span>
-                  </div>
+                  </div> */}
                 </CardContent>
               </Card>
             </Link>
@@ -102,8 +97,8 @@ export default function SavingsPage() {
               <Card className="border-0 rounded-2xl bg-white cursor-pointer hover:shadow-lg transition-all group">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                      <Flame className="h-6 w-6 text-orange-600" />
+                    <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
+                      <Flame className="h-6 w-6 text-yellow-600" />
                     </div>
                     <div className="text-2xl">🔥</div>
                   </div>
@@ -119,28 +114,24 @@ export default function SavingsPage() {
                       <div className="w-1 h-1 bg-gray-400 rounded-full" />
                       사용량 절약 시뮬레이션
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-gray-400 rounded-full" />
-                      에너지 바우처 효과
-                    </div>
+
                     <div className="flex items-center gap-2">
                       <div className="w-1 h-1 bg-gray-400 rounded-full" />
                       계절별 사용량 분석
                     </div>
                   </div>
-                  <div className="mt-4 flex items-center justify-between text-sm">
+                  {/* <div className="mt-4 flex items-center justify-between text-sm">
                     <span className="font-medium text-gray-900">
                       현재 월 요금: ₩52,000
                     </span>
                     <span className="text-green-600 font-medium text-xs">
                       최대 25% 절약 가능
                     </span>
-                  </div>
+                  </div> */}
                 </CardContent>
               </Card>
             </Link>
           </div>
-
           {/* 통합 절약 효과 */}
           <Card className="border-0 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 text-white">
             <CardContent className="p-6">
@@ -167,7 +158,6 @@ export default function SavingsPage() {
               </div>
             </CardContent>
           </Card>
-
           {/* 최근 시뮬 결과 */}
           <Card className="border-0 rounded-2xl bg-white">
             <CardHeader>
@@ -220,7 +210,6 @@ export default function SavingsPage() {
               </div>
             </CardContent>
           </Card>
-
           {/* 하단 액션 */}
           <div className="grid grid-cols-2 gap-3 pb-6">
             <Link href="/rewards">

@@ -127,61 +127,59 @@ export default function AnalysisPage() {
         <MainTabNavigation active="analysis" />
         <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
           {/* 핵심 지표 요약 */}
-          <div className="grid grid-cols-4 gap-4">
-            <Card className="border-0 rounded-2xl bg-gradient-to-r from-green-400 to-green-500 text-white">
-              <CardContent className="p-4 text-center">
-                <div className="text-sm opacity-90">전년 대비 절약</div>
-                <div className="text-xl font-semibold">
-                  ₩{totalYearSavings.toLocaleString()}
+          <Card className="border-0 rounded-2xl bg-white">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="text-sm text-gray-600 mb-1">
+                    전년 대비 절약
+                  </div>
+                  <div className="text-lg font-semibold text-[#E5C200]">
+                    ₩{totalYearSavings.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">6개월 누적</div>
                 </div>
-                <div className="text-xs opacity-80">6개월 누적</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 rounded-2xl bg-white">
-              <CardContent className="p-4 text-center">
-                <div className="text-sm text-gray-600">누적 지출</div>
-                <div className="text-lg font-semibold text-gray-600">
-                  ₩{totalCumulative.toLocaleString()}
+                <div className="text-center">
+                  <div className="text-sm text-gray-600 mb-1">누적 지출</div>
+                  <div className="text-lg font-semibold text-gray-900">
+                    ₩{totalCumulative.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">6개월 총액</div>
                 </div>
-                <div className="text-xs text-gray-500">6개월 총액</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 rounded-2xl bg-white">
-              <CardContent className="p-4 text-center">
-                <div className="text-sm text-gray-600">월 평균</div>
-                <div className="text-xl font-semibold text-gray-600">
-                  ₩{Math.round(monthlyAverage).toLocaleString()}
+                <div className="text-center">
+                  <div className="text-sm text-gray-600 mb-1">월 평균</div>
+                  <div className="text-lg font-semibold text-gray-900">
+                    ₩{Math.round(monthlyAverage).toLocaleString()}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">6개월 평균</div>
                 </div>
-                <div className="text-xs text-gray-500">6개월 평균</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 rounded-2xl bg-white">
-              <CardContent className="p-4 text-center">
-                <div className="text-sm text-gray-600">이번 달</div>
-                <div className="text-xl font-semibold text-gray-600">
-                  ₩{currentMonth.total.toLocaleString()}
+                <div className="text-center">
+                  <div className="text-sm text-gray-600 mb-1">이번 달</div>
+                  <div className="text-lg font-semibold text-gray-900">
+                    ₩{currentMonth.total.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">9월 총액</div>
                 </div>
-                <div className="text-xs text-gray-500">9월 총액</div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* 탭 네비게이션 */}
           <Tabs value={analysisTab} onValueChange={setAnalysisTab}>
             <TabsList className="grid w-full grid-cols-3 bg-white rounded-2xl p-1 h-12">
               <TabsTrigger
                 value="comprehensive"
-                className="rounded-xl text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white">
+                className="rounded-xl text-sm data-[state=active]:bg-[#FFE300] data-[state=active]:text-gray-600">
                 종합 분석
               </TabsTrigger>
               <TabsTrigger
                 value="gas"
-                className="rounded-xl text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+                className="rounded-xl text-sm data-[state=active]:bg-[#FFE300] data-[state=active]:text-gray-600">
                 도시가스
               </TabsTrigger>
               <TabsTrigger
                 value="electric"
-                className="rounded-xl text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white">
+                className="rounded-xl text-sm data-[state=active]:bg-[#FFE300] data-[state=active]:text-gray-600">
                 전기요금
               </TabsTrigger>
             </TabsList>
@@ -229,9 +227,9 @@ export default function AnalysisPage() {
                         <Line
                           type="monotone"
                           dataKey="savings"
-                          stroke="#FF6B35"
+                          stroke="#666666"
                           strokeWidth={3}
-                          dot={{ fill: "#FF6B35", strokeWidth: 2, r: 5 }}
+                          dot={{ fill: "#666666", strokeWidth: 2, r: 5 }}
                           name="절약액"
                         />
                       </ComposedChart>
@@ -240,7 +238,7 @@ export default function AnalysisPage() {
                   <div className="mt-4 grid grid-cols-3 gap-4">
                     <div className="bg-[#FFE300] bg-opacity-10 rounded-xl p-4 text-center">
                       <div className="text-sm text-gray-600">올해 평균</div>
-                      <div className="text-lg font-bold text-yellow-500">
+                      <div className="text-lg font-bold text-gray-700">
                         ₩
                         {Math.round(
                           yearOverYearData.reduce(
@@ -250,7 +248,7 @@ export default function AnalysisPage() {
                         ).toLocaleString()}
                       </div>
                     </div>
-                    <div className="bg-gray-100 rounded-xl p-4 text-center">
+                    <div className="bg-white rounded-xl p-4 text-center border border-gray-200">
                       <div className="text-sm text-gray-600">작년 평균</div>
                       <div className="text-lg font-bold text-gray-700">
                         ₩
@@ -262,9 +260,9 @@ export default function AnalysisPage() {
                         ).toLocaleString()}
                       </div>
                     </div>
-                    <div className="bg-[#FF6B35] bg-opacity-10 rounded-xl p-4 text-center">
+                    <div className="bg-white rounded-xl p-4 text-center border border-gray-200">
                       <div className="text-sm text-gray-600">월평균 절약</div>
-                      <div className="text-lg font-bold text-[#FF6B35]">
+                      <div className="text-lg font-bold text-gray-600">
                         ₩
                         {Math.round(
                           totalYearSavings / yearOverYearData.length
@@ -391,9 +389,9 @@ export default function AnalysisPage() {
                         <Line
                           type="monotone"
                           dataKey="savings"
-                          stroke="#10B981"
-                          strokeWidth={4}
-                          dot={{ fill: "#10B981", strokeWidth: 2, r: 6 }}
+                          stroke="#666666"
+                          strokeWidth={3}
+                          dot={{ fill: "#666666", strokeWidth: 2, r: 5 }}
                           name="절약액"
                         />
                       </ComposedChart>
@@ -404,18 +402,18 @@ export default function AnalysisPage() {
                       <div className="text-sm text-gray-600 mb-2">
                         전년 동월 대비
                       </div>
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-gray-600">
                         -15%
                       </div>
                       <div className="text-xs text-gray-500">
                         평균 ₩7,000 절약
                       </div>
                     </div>
-                    <div className="bg-green-50 rounded-xl p-4">
+                    <div className="bg-white rounded-xl p-4 border border-gray-200">
                       <div className="text-sm text-gray-600 mb-2">
                         6개월 누적 절약
                       </div>
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-gray-600">
                         ₩
                         {gasExpenseData
                           .reduce((sum, item) => sum + item.savings, 0)
@@ -447,27 +445,27 @@ export default function AnalysisPage() {
                         <Bar
                           barSize={35}
                           dataKey="usage"
-                          fill="#FDBA74"
+                          fill="#FFE300"
                           name="사용량(㎥)"
                         />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="mt-4 bg-[#FDBA74] bg-opacity-10 rounded-xl p-4">
+                  <div className="mt-4 bg-white rounded-xl p-4 border border-gray-200">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-bold text-orange-900">
+                        <div className="font-bold text-gray-900">
                           이번 달 사용량
                         </div>
-                        <div className="text-sm text-orange-700">
+                        <div className="text-sm text-gray-700">
                           9월 45㎥ 사용
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-orange-600">
+                        <div className="text-2xl font-bold text-gray-600">
                           ₩42,000
                         </div>
-                        <div className="text-xs text-orange-500">
+                        <div className="text-xs text-gray-500">
                           전년 동월 대비 ₩7,000 절약
                         </div>
                       </div>
@@ -520,36 +518,36 @@ export default function AnalysisPage() {
                               : "절약액",
                           ]}
                         />
-                        <Bar dataKey="thisYear" fill="#3B82F6" name="올해" />
-                        <Bar dataKey="lastYear" fill="#BFDBFE" name="작년" />
+                        <Bar dataKey="thisYear" fill="#FFE300" name="올해" />
+                        <Bar dataKey="lastYear" fill="#AAAAAA" name="작년" />
                         <Line
                           type="monotone"
                           dataKey="savings"
-                          stroke="#10B981"
-                          strokeWidth={4}
-                          dot={{ fill: "#10B981", strokeWidth: 2, r: 6 }}
+                          stroke="#666666"
+                          strokeWidth={3}
+                          dot={{ fill: "#666666", strokeWidth: 2, r: 5 }}
                           name="절약액"
                         />
                       </ComposedChart>
                     </ResponsiveContainer>
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-4">
-                    <div className="bg-blue-50 rounded-xl p-4">
+                    <div className="bg-[#FFE300] bg-opacity-10 rounded-xl p-4">
                       <div className="text-sm text-gray-600 mb-2">
                         전년 동월 대비
                       </div>
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-gray-600">
                         -18%
                       </div>
                       <div className="text-xs text-gray-500">
                         평균 ₩12,000 절약
                       </div>
                     </div>
-                    <div className="bg-green-50 rounded-xl p-4">
+                    <div className="bg-white rounded-xl p-4 border border-gray-200">
                       <div className="text-sm text-gray-600 mb-2">
                         6개월 누적 절약
                       </div>
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-gray-600">
                         ₩
                         {electricExpenseData
                           .reduce((sum, item) => sum + item.savings, 0)
@@ -579,20 +577,21 @@ export default function AnalysisPage() {
                           formatter={(value) => [`${value}kWh`, "사용량"]}
                         />
                         <Bar
+                          barSize={35}
                           dataKey="usage"
-                          fill="#3B82F6"
+                          fill="#FFE300"
                           name="사용량(kWh)"
                         />
                         <ReferenceLine
                           y={200}
-                          stroke="#FFEB00"
+                          stroke="#FF6B35"
                           strokeWidth={2}
                           strokeDasharray="5 5"
                           label="1구간 상한"
                         />
                         <ReferenceLine
                           y={400}
-                          stroke="#EF4444"
+                          stroke="#FF6B35"
                           strokeWidth={2}
                           strokeDasharray="5 5"
                           label="2구간 상한"
@@ -600,27 +599,27 @@ export default function AnalysisPage() {
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="mt-4 bg-blue-50 rounded-xl p-4">
+                  <div className="mt-4 bg-white rounded-xl p-4 border border-gray-200">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-bold text-blue-900">
+                        <div className="font-bold text-gray-900">
                           현재 누진구간 현황
                         </div>
-                        <div className="text-sm text-blue-700">
+                        <div className="text-sm text-gray-700">
                           9월 320kWh 사용 중 (2구간)
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-blue-600">
+                        <div className="text-2xl font-bold text-gray-600">
                           주의
                         </div>
-                        <div className="text-xs text-blue-500">
+                        <div className="text-xs text-gray-900">
                           3구간까지 80kWh 여유
                         </div>
                       </div>
                     </div>
-                    <Progress value={80} className="h-2 bg-blue-100 mt-3" />
-                    <div className="text-xs text-blue-600 mt-1">
+                    <Progress value={80} className="h-2 bg-gray-100 mt-3" />
+                    <div className="text-xs text-gray-900 mt-1">
                       2구간 상한(400kWh)까지 80kWh 남음
                     </div>
                   </div>
