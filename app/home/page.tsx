@@ -23,12 +23,6 @@ export default function HomeTabContent() {
     { month: "8월", myUsage: 340, regionAvg: 370, peerAvg: 360 },
     { month: "9월", myUsage: 320, regionAvg: 356, peerAvg: 348 },
   ];
-  const cumulativeSavings = {
-    monthsUsed: 6,
-    totalSaved: 180000,
-    projectedYearEnd: 300000,
-    monthlyAverage: 30000,
-  };
 
   return (
     <>
@@ -45,7 +39,7 @@ export default function HomeTabContent() {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">전기</span>
+              <span className="text-sm font-medium text-gray-700 ">전기</span>
               <span className="text-sm text-gray-500">320kWh / 400kWh</span>
             </div>
             <Progress value={80} className="h-2 bg-gray-100" />
@@ -64,18 +58,6 @@ export default function HomeTabContent() {
             <div className="flex justify-between text-xs text-gray-500">
               <span>75% 사용중</span>
               <span className="font-medium text-gray-900">₩42,000</span>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">수도</span>
-              <span className="text-sm text-gray-500">18㎥ / 25㎥</span>
-            </div>
-            <Progress value={72} className="h-2 bg-gray-100" />
-            <div className="flex justify-between text-xs text-gray-500">
-              <span>72% 사용중</span>
-              <span className="font-medium text-gray-900">₩26,000</span>
             </div>
           </div>
         </CardContent>
@@ -114,16 +96,32 @@ export default function HomeTabContent() {
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip
-                  formatter={(value, name) => [
-                    `${value}kWh`,
-                    name === "myUsage"
-                      ? "내 사용량"
-                      : name === "regionAvg"
-                      ? "지역평균"
-                      : "또래평균",
-                  ]}
+                  labelFormatter={(label) => `${label}`}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-white p-3 border rounded-lg shadow-lg">
+                          <p className="font-medium">{label}</p>
+                          {payload.map((entry, index) => (
+                            <p key={index} style={{ color: entry.color }}>
+                              {entry.dataKey === "myUsage" && "내 사용량"}
+                              {entry.dataKey === "regionAvg" && "지역평균"}
+                              {entry.dataKey === "peerAvg" && "또래평균"}:{" "}
+                              {entry.value}kWh
+                            </p>
+                          ))}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
-                <Bar dataKey="myUsage" fill="#FFEB00" name="내 사용량" />
+                <Bar
+                  dataKey="myUsage"
+                  fill="#FFE300"
+                  name="내 사용량"
+                  barSize={40}
+                />
                 <Line
                   type="monotone"
                   dataKey="regionAvg"
