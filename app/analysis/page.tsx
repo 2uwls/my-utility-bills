@@ -1,8 +1,8 @@
-'use client';
-import MainTabNavigation from '@/components/main-tab-navigation';
-import MainSummarySection from '@/components/MainSummarySection';
-import KakaoHeader from '@/components/KakaoHeader';
-import { useState } from 'react';
+"use client";
+import MainTabNavigation from "@/components/main-tab-navigation";
+import MainSummarySection from "@/components/MainSummarySection";
+import KakaoHeader from "@/components/KakaoHeader";
+import { useState } from "react";
 import {
   ArrowLeft,
   BarChart3,
@@ -10,12 +10,12 @@ import {
   Flame,
   TrendingDown,
   CheckCircle,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Progress } from '@/components/ui/progress';
-import Link from 'next/link';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
 import {
   LineChart,
   Line,
@@ -30,115 +30,80 @@ import {
   AreaChart,
   ReferenceLine,
   ComposedChart,
-} from 'recharts';
+  Legend,
+} from "recharts";
 
 export default function AnalysisPage() {
-  const [analysisTab, setAnalysisTab] = useState('comprehensive');
+  const [analysisTab, setAnalysisTab] = useState("comprehensive");
 
   // 월별 총 지출 데이터 (최근 6개월)
   const monthlyExpenseData = [
-    { month: '4월', total: 158000, electric: 75000, gas: 55000, water: 28000 },
-    { month: '5월', total: 145000, electric: 68000, gas: 50000, water: 27000 },
-    { month: '6월', total: 135000, electric: 72000, gas: 38000, water: 25000 },
-    { month: '7월', total: 142000, electric: 85000, gas: 32000, water: 25000 },
-    { month: '8월', total: 138000, electric: 78000, gas: 35000, water: 25000 },
-    { month: '9월', total: 130000, electric: 62000, gas: 42000, water: 26000 },
+    { month: "4월", total: 55000, electric: 30000, gas: 25000 },
+    { month: "5월", total: 55000, electric: 30000, gas: 25000 },
+    { month: "6월", total: 50000, electric: 35000, gas: 15000 },
+    { month: "7월", total: 53000, electric: 40000, gas: 13000 },
+    { month: "8월", total: 52000, electric: 38000, gas: 14000 },
+    { month: "9월", total: 55000, electric: 30000, gas: 25000 },
   ];
 
   // 누적 데이터
   const cumulativeData = [
-    {
-      month: '4월',
-      cumulative: 158000,
-      electric: 75000,
-      gas: 55000,
-      water: 28000,
-    },
-    {
-      month: '5월',
-      cumulative: 303000,
-      electric: 143000,
-      gas: 105000,
-      water: 55000,
-    },
-    {
-      month: '6월',
-      cumulative: 438000,
-      electric: 215000,
-      gas: 143000,
-      water: 80000,
-    },
-    {
-      month: '7월',
-      cumulative: 580000,
-      electric: 300000,
-      gas: 175000,
-      water: 105000,
-    },
-    {
-      month: '8월',
-      cumulative: 718000,
-      electric: 378000,
-      gas: 210000,
-      water: 130000,
-    },
-    {
-      month: '9월',
-      cumulative: 848000,
-      electric: 440000,
-      gas: 252000,
-      water: 156000,
-    },
+    { month: "4월", cumulative: 55000, electric: 30000, gas: 25000 },
+    { month: "5월", cumulative: 110000, electric: 60000, gas: 50000 },
+    { month: "6월", cumulative: 160000, electric: 95000, gas: 65000 },
+    { month: "7월", cumulative: 213000, electric: 135000, gas: 78000 },
+    { month: "8월", cumulative: 265000, electric: 173000, gas: 92000 },
+    { month: "9월", cumulative: 320000, electric: 203000, gas: 117000 },
   ];
 
   // 작년 동월 대비 데이터 (가장 중요)
   const yearOverYearData = [
-    { month: '4월', thisYear: 130000, lastYear: 145000, savings: 15000 },
-    { month: '5월', thisYear: 118000, lastYear: 135000, savings: 17000 },
-    { month: '6월', thisYear: 110000, lastYear: 125000, savings: 15000 },
-    { month: '7월', thisYear: 117000, lastYear: 140000, savings: 23000 },
-    { month: '8월', thisYear: 113000, lastYear: 135000, savings: 22000 },
-    { month: '9월', thisYear: 104000, lastYear: 125000, savings: 21000 },
+    { month: "4월", thisYear: 55000, lastYear: 60000, savings: 5000 },
+    { month: "5월", thisYear: 55000, lastYear: 59000, savings: 4000 },
+    { month: "6월", thisYear: 50000, lastYear: 57000, savings: 7000 },
+    { month: "7월", thisYear: 53000, lastYear: 61000, savings: 8000 },
+    { month: "8월", thisYear: 52000, lastYear: 60000, savings: 8000 },
+    { month: "9월", thisYear: 55000, lastYear: 58000, savings: 3000 },
   ];
 
   // 도시가스 사용량 데이터 (누진제 없음)
   const gasUsageData = [
-    { month: '4월', usage: 65, amount: 55000 },
-    { month: '5월', usage: 58, amount: 50000 },
-    { month: '6월', usage: 42, amount: 38000 },
-    { month: '7월', usage: 35, amount: 32000 },
-    { month: '8월', usage: 38, amount: 35000 },
-    { month: '9월', usage: 45, amount: 42000 },
+    { month: "4월", usage: 20 },
+    { month: "5월", usage: 20 },
+    { month: "6월", usage: 13 },
+    { month: "7월", usage: 11 },
+    { month: "8월", usage: 12 },
+    { month: "9월", usage: 20 },
   ];
 
   // 도시가스 지출 데이터
   const gasExpenseData = [
-    { month: '4월', thisYear: 55000, lastYear: 62000, savings: 7000 },
-    { month: '5월', thisYear: 50000, lastYear: 58000, savings: 8000 },
-    { month: '6월', thisYear: 38000, lastYear: 45000, savings: 7000 },
-    { month: '7월', thisYear: 32000, lastYear: 38000, savings: 6000 },
-    { month: '8월', thisYear: 35000, lastYear: 42000, savings: 7000 },
-    { month: '9월', thisYear: 42000, lastYear: 49000, savings: 7000 },
+    { month: "4월", thisYear: 25000, lastYear: 28000, savings: 3000 },
+    { month: "5월", thisYear: 25000, lastYear: 27000, savings: 2000 },
+    { month: "6월", thisYear: 15000, lastYear: 18000, savings: 3000 },
+    { month: "7월", thisYear: 13000, lastYear: 16000, savings: 3000 },
+    { month: "8월", thisYear: 14000, lastYear: 17000, savings: 3000 },
+    { month: "9월", thisYear: 25000, lastYear: 28000, savings: 3000 },
   ];
 
   // 전기 사용량 데이터 (누진구간 확인용)
   const electricUsageData = [
-    { month: '4월', usage: 280, amount: 75000, bracket: 2 },
-    { month: '5월', usage: 250, amount: 68000, bracket: 2 },
-    { month: '6월', usage: 290, amount: 72000, bracket: 2 },
-    { month: '7월', usage: 350, amount: 85000, bracket: 2 },
-    { month: '8월', usage: 320, amount: 78000, bracket: 2 },
-    { month: '9월', usage: 320, amount: 62000, bracket: 2 },
+    { month: "4월", usage: 150, amount: 30000, bracket: 1 },
+    { month: "5월", usage: 155, amount: 30000, bracket: 1 },
+    { month: "6월", usage: 180, amount: 35000, bracket: 2 },
+    { month: "7월", usage: 210, amount: 40000, bracket: 2 },
+    { month: "8월", usage: 200, amount: 38000, bracket: 2 },
+    { month: "9월", usage: 150, amount: 30000, bracket: 1 },
   ];
 
   // 전기 지출 데이터
   const electricExpenseData = [
-    { month: '4월', thisYear: 75000, lastYear: 83000, savings: 8000 },
-    { month: '5월', thisYear: 68000, lastYear: 77000, savings: 9000 },
-    { month: '6월', thisYear: 72000, lastYear: 80000, savings: 8000 },
-    { month: '7월', thisYear: 85000, lastYear: 102000, savings: 17000 },
-    { month: '8월', thisYear: 78000, lastYear: 93000, savings: 15000 },
-    { month: '9월', thisYear: 62000, lastYear: 76000, savings: 14000 },
+    { month: "4월", thisYear: 30000, lastYear: 34000, savings: 4000 },
+    { month: "5월", thisYear: 30000, lastYear: 33000, savings: 3000 },
+    { month: "6월", thisYear: 35000, lastYear: 40000, savings: 5000 },
+    { month: "7월", thisYear: 40000, lastYear: 47000, savings: 7000 },
+    { month: "8월", thisYear: 38000, lastYear: 44000, savings: 6000 },
+    { month: "9월", thisYear: 30000, lastYear: 34000, savings: 4000 },
   ];
 
   // 통계 계산
@@ -156,17 +121,17 @@ export default function AnalysisPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <KakaoHeader />
-    
-      <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
-        <MainSummarySection/>
-        <MainTabNavigation active="analysis"/>
+
+      <div className="max-w-xl mx-auto px-4 py-4 space-y-4">
+        <MainSummarySection />
+        <MainTabNavigation active="analysis" />
         <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
           {/* 핵심 지표 요약 */}
           <div className="grid grid-cols-4 gap-4">
             <Card className="border-0 rounded-2xl bg-gradient-to-r from-green-400 to-green-500 text-white">
               <CardContent className="p-4 text-center">
                 <div className="text-sm opacity-90">전년 대비 절약</div>
-                <div className="text-2xl font-bold">
+                <div className="text-xl font-semibold">
                   ₩{totalYearSavings.toLocaleString()}
                 </div>
                 <div className="text-xs opacity-80">6개월 누적</div>
@@ -175,7 +140,7 @@ export default function AnalysisPage() {
             <Card className="border-0 rounded-2xl bg-white">
               <CardContent className="p-4 text-center">
                 <div className="text-sm text-gray-600">누적 지출</div>
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-lg font-semibold text-gray-600">
                   ₩{totalCumulative.toLocaleString()}
                 </div>
                 <div className="text-xs text-gray-500">6개월 총액</div>
@@ -184,7 +149,7 @@ export default function AnalysisPage() {
             <Card className="border-0 rounded-2xl bg-white">
               <CardContent className="p-4 text-center">
                 <div className="text-sm text-gray-600">월 평균</div>
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-xl font-semibold text-gray-600">
                   ₩{Math.round(monthlyAverage).toLocaleString()}
                 </div>
                 <div className="text-xs text-gray-500">6개월 평균</div>
@@ -193,7 +158,7 @@ export default function AnalysisPage() {
             <Card className="border-0 rounded-2xl bg-white">
               <CardContent className="p-4 text-center">
                 <div className="text-sm text-gray-600">이번 달</div>
-                <div className="text-2xl font-bold text-yellow-600">
+                <div className="text-xl font-semibold text-gray-600">
                   ₩{currentMonth.total.toLocaleString()}
                 </div>
                 <div className="text-xs text-gray-500">9월 총액</div>
@@ -206,27 +171,23 @@ export default function AnalysisPage() {
             <TabsList className="grid w-full grid-cols-3 bg-white rounded-2xl p-1 h-12">
               <TabsTrigger
                 value="comprehensive"
-                className="rounded-xl text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white"
-              >
+                className="rounded-xl text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white">
                 종합 분석
               </TabsTrigger>
               <TabsTrigger
                 value="gas"
-                className="rounded-xl text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-              >
+                className="rounded-xl text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white">
                 도시가스
               </TabsTrigger>
               <TabsTrigger
                 value="electric"
-                className="rounded-xl text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white"
-              >
+                className="rounded-xl text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white">
                 전기요금
               </TabsTrigger>
             </TabsList>
 
             {/* 종합 분석 탭 */}
             <TabsContent value="comprehensive" className="space-y-6 mt-6">
-            
               <Card className="border-0 rounded-2xl bg-white">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold flex items-center gap-2">
@@ -242,32 +203,44 @@ export default function AnalysisPage() {
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip
-                          formatter={(value, name) => [
-                            `₩${value.toLocaleString()}`,
-                            name === 'thisYear'
-                              ? '올해'
-                              : name === 'lastYear'
-                              ? '작년'
-                              : '절약액',
-                          ]}
+                          content={({ active, payload, label }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-white p-3 border rounded-lg shadow-lg">
+                                  <p className="font-medium">{label}</p>
+                                  {payload.map((entry, index) => (
+                                    <p
+                                      key={index}
+                                      style={{ color: entry.color }}>
+                                      {entry.dataKey === "thisYear" && "올해"}
+                                      {entry.dataKey === "lastYear" && "작년"}
+                                      {entry.dataKey === "savings" && "절약액"}:
+                                      ₩{entry.value?.toLocaleString()}
+                                    </p>
+                                  ))}
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
                         />
-                        <Bar dataKey="thisYear" fill="#10B981" name="올해" />
-                        <Bar dataKey="lastYear" fill="#EF4444" name="작년" />
+                        <Bar dataKey="thisYear" fill="#FFE300" name="올해" />
+                        <Bar dataKey="lastYear" fill="#AAAAAA" name="작년" />
                         <Line
                           type="monotone"
                           dataKey="savings"
-                          stroke="#FFEB00"
-                          strokeWidth={4}
-                          dot={{ fill: '#FFEB00', strokeWidth: 2, r: 6 }}
+                          stroke="#FF6B35"
+                          strokeWidth={3}
+                          dot={{ fill: "#FF6B35", strokeWidth: 2, r: 5 }}
                           name="절약액"
                         />
                       </ComposedChart>
                     </ResponsiveContainer>
                   </div>
                   <div className="mt-4 grid grid-cols-3 gap-4">
-                    <div className="bg-green-50 rounded-xl p-4 text-center">
+                    <div className="bg-[#FFE300] bg-opacity-10 rounded-xl p-4 text-center">
                       <div className="text-sm text-gray-600">올해 평균</div>
-                      <div className="text-lg font-bold text-green-600">
+                      <div className="text-lg font-bold text-yellow-500">
                         ₩
                         {Math.round(
                           yearOverYearData.reduce(
@@ -277,9 +250,9 @@ export default function AnalysisPage() {
                         ).toLocaleString()}
                       </div>
                     </div>
-                    <div className="bg-red-50 rounded-xl p-4 text-center">
+                    <div className="bg-gray-100 rounded-xl p-4 text-center">
                       <div className="text-sm text-gray-600">작년 평균</div>
-                      <div className="text-lg font-bold text-red-600">
+                      <div className="text-lg font-bold text-gray-700">
                         ₩
                         {Math.round(
                           yearOverYearData.reduce(
@@ -289,9 +262,9 @@ export default function AnalysisPage() {
                         ).toLocaleString()}
                       </div>
                     </div>
-                    <div className="bg-yellow-50 rounded-xl p-4 text-center">
+                    <div className="bg-[#FF6B35] bg-opacity-10 rounded-xl p-4 text-center">
                       <div className="text-sm text-gray-600">월평균 절약</div>
-                      <div className="text-lg font-bold text-yellow-600">
+                      <div className="text-lg font-bold text-[#FF6B35]">
                         ₩
                         {Math.round(
                           totalYearSavings / yearOverYearData.length
@@ -315,19 +288,22 @@ export default function AnalysisPage() {
                       <LineChart data={monthlyExpenseData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                        <YAxis tick={{ fontSize: 12 }} />
+                        <YAxis
+                          tick={{ fontSize: 12 }}
+                          domain={["dataMin - 5000", "dataMax + 5000"]}
+                        />
                         <Tooltip
                           formatter={(value) => [
                             `₩${value.toLocaleString()}`,
-                            '총 지출',
+                            "총 지출",
                           ]}
                         />
                         <Line
                           type="monotone"
                           dataKey="total"
-                          stroke="#3B82F6"
+                          stroke="#FFE300"
                           strokeWidth={3}
-                          dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
+                          dot={{ fill: "#FFE300", strokeWidth: 2, r: 4 }}
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -350,34 +326,31 @@ export default function AnalysisPage() {
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip
-                          formatter={(value) => [
+                          formatter={(value, name) => [
                             `₩${value.toLocaleString()}`,
-                            '',
+                            name === "electric"
+                              ? "전기"
+                              : name === "gas"
+                              ? "가스"
+                              : name,
                           ]}
                         />
+                        <Legend />
                         <Area
                           type="monotone"
                           dataKey="electric"
                           stackId="1"
-                          stroke="#FFEB00"
-                          fill="#FFEB00"
+                          stroke="#FFE300"
+                          fill="#FFE300"
                           name="전기"
                         />
                         <Area
                           type="monotone"
                           dataKey="gas"
                           stackId="1"
-                          stroke="#F97316"
-                          fill="#F97316"
+                          stroke="#FF6B35"
+                          fill="#FF6B35"
                           name="가스"
-                        />
-                        <Area
-                          type="monotone"
-                          dataKey="water"
-                          stackId="1"
-                          stroke="#3B82F6"
-                          fill="#3B82F6"
-                          name="수도"
                         />
                       </AreaChart>
                     </ResponsiveContainer>
@@ -406,28 +379,28 @@ export default function AnalysisPage() {
                         <Tooltip
                           formatter={(value, name) => [
                             `₩${value.toLocaleString()}`,
-                            name === 'thisYear'
-                              ? '올해'
-                              : name === 'lastYear'
-                              ? '작년'
-                              : '절약액',
+                            name === "thisYear"
+                              ? "올해"
+                              : name === "lastYear"
+                              ? "작년"
+                              : "절약액",
                           ]}
                         />
-                        <Bar dataKey="thisYear" fill="#F97316" name="올해" />
-                        <Bar dataKey="lastYear" fill="#FED7AA" name="작년" />
+                        <Bar dataKey="thisYear" fill="#FFE300" name="올해" />
+                        <Bar dataKey="lastYear" fill="#AAAAAA" name="작년" />
                         <Line
                           type="monotone"
                           dataKey="savings"
                           stroke="#10B981"
                           strokeWidth={4}
-                          dot={{ fill: '#10B981', strokeWidth: 2, r: 6 }}
+                          dot={{ fill: "#10B981", strokeWidth: 2, r: 6 }}
                           name="절약액"
                         />
                       </ComposedChart>
                     </ResponsiveContainer>
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-4">
-                    <div className="bg-orange-50 rounded-xl p-4">
+                    <div className="bg-[#FFE300] bg-opacity-10 rounded-xl p-4">
                       <div className="text-sm text-gray-600 mb-2">
                         전년 동월 대비
                       </div>
@@ -469,13 +442,18 @@ export default function AnalysisPage() {
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip
-                          formatter={(value) => [`${value}㎥`, '사용량']}
+                          formatter={(value) => [`${value}㎥`, "사용량"]}
                         />
-                        <Bar dataKey="usage" fill="#F97316" name="사용량(㎥)" />
+                        <Bar
+                          barSize={35}
+                          dataKey="usage"
+                          fill="#FDBA74"
+                          name="사용량(㎥)"
+                        />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="mt-4 bg-orange-50 rounded-xl p-4">
+                  <div className="mt-4 bg-[#FDBA74] bg-opacity-10 rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="font-bold text-orange-900">
@@ -535,11 +513,11 @@ export default function AnalysisPage() {
                         <Tooltip
                           formatter={(value, name) => [
                             `₩${value.toLocaleString()}`,
-                            name === 'thisYear'
-                              ? '올해'
-                              : name === 'lastYear'
-                              ? '작년'
-                              : '절약액',
+                            name === "thisYear"
+                              ? "올해"
+                              : name === "lastYear"
+                              ? "작년"
+                              : "절약액",
                           ]}
                         />
                         <Bar dataKey="thisYear" fill="#3B82F6" name="올해" />
@@ -549,7 +527,7 @@ export default function AnalysisPage() {
                           dataKey="savings"
                           stroke="#10B981"
                           strokeWidth={4}
-                          dot={{ fill: '#10B981', strokeWidth: 2, r: 6 }}
+                          dot={{ fill: "#10B981", strokeWidth: 2, r: 6 }}
                           name="절약액"
                         />
                       </ComposedChart>
@@ -598,7 +576,7 @@ export default function AnalysisPage() {
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip
-                          formatter={(value) => [`${value}kWh`, '사용량']}
+                          formatter={(value) => [`${value}kWh`, "사용량"]}
                         />
                         <Bar
                           dataKey="usage"

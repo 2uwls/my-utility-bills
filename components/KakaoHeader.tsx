@@ -15,14 +15,14 @@ export default function KakaoHeader() {
   const [selectedPeriod, setSelectedPeriod] = useState("2024");
   return (
     <header className="bg-white shadow-sm">
-      <div className="max-w-4xl mx-auto px-4 py-4">
+      <div className="max-w-xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#FFE300] rounded-full flex items-center justify-center">
               <Zap className="h-4 w-4 text-gray-900" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-gray-900">공과금 절약</h1>
+              <h1 className="text-lg font-bold text-gray-900">내공과금</h1>
               <p className="text-xs text-gray-500">카카오뱅크와 함께</p>
             </div>
           </div>
@@ -32,8 +32,8 @@ export default function KakaoHeader() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="2025">2025</SelectItem>
                 <SelectItem value="2024">2024</SelectItem>
-                <SelectItem value="2023">2023</SelectItem>
               </SelectContent>
             </Select>
             <Link href="/simulation">
@@ -60,7 +60,7 @@ export default function KakaoHeader() {
             <Link href="/signup">
               <Button
                 size="sm"
-                className="h-8 px-3 text-sm bg-yellow-400 hover:bg-yellow-500 text-gray-900">
+                className="h-8 px-3 text-sm bg-[#FFE300] hover:bg-yellow-500 text-gray-900">
                 회원가입
               </Button>
             </Link>

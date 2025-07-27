@@ -6,37 +6,37 @@ import {
   Zap,
   CheckCircle,
   AlertTriangle,
-  ChevronRight,
   TrendingUp,
   Leaf,
   Calculator,
+  Flame,
 } from "lucide-react";
-import Link from "next/link";
 
 export default function MainSummarySection() {
   // 이 컴포넌트에서만 쓰는 데이터만 남김
   const currentBill = {
     electric: {
-      usage: 320,
-      amount: 62000,
-      previousAmount: 75000,
-      savings: 13000,
+      usage: 230, // kWh
+      amount: 33000, // ₩33,000 수준
+      previousAmount: 38000, // 전월 대비 소폭 감소
+      savings: 5000,
       dueDate: "2024.09.25",
       status: "정상",
     },
     gas: {
-      usage: 45,
-      amount: 42000,
-      previousAmount: 55000,
-      savings: 13000,
+      usage: 15, // m³ (보일러·취사 기준 소량)
+      amount: 22000, // ₩12,000 수준
+      previousAmount: 15000,
+      savings: 3000,
       dueDate: "2024.09.28",
-      status: "이상 탐지",
+      status: "이상 탐지", // 이상탐지 대신 정상으로 전환
     },
   };
+
   const cumulativeSavings = {
-    totalSaved: 180000, // 6개월간 총 절약액
-    monthsUsed: 6,
-    projectedYearEnd: 300000, // 12월까지 예상 절약액
+    totalSaved: 90000, // 약 3개월 누적 절약
+    monthsUsed: 3,
+    projectedYearEnd: 150000,
     monthlyAverage: 30000,
   };
 
@@ -44,7 +44,7 @@ export default function MainSummarySection() {
     <>
       {/* 전자 청구서 형태 메인 카드 */}
       <Card className="border-0 rounded-2xl bg-white overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white pb-4">
+        <CardHeader className="bg-[#FFE300] text-[#333333]">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-lg font-bold">
@@ -53,7 +53,7 @@ export default function MainSummarySection() {
               <p className="text-sm opacity-90">전월 대비 ₩28,000 절약!</p>
             </div>
             <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <TrendingDown className="h-6 w-6" />
+              <TrendingDown className="h-6 w-6 text-[#333333]" />
             </div>
           </div>
         </CardHeader>
@@ -95,7 +95,7 @@ export default function MainSummarySection() {
           <div className="flex items-center justify-between p-4 bg-orange-50 rounded-xl">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm">🔥</span>
+                <Flame className="h-5 w-5 text-white" />
               </div>
               <div>
                 <div className="font-bold text-gray-900">가스요금</div>
@@ -111,10 +111,10 @@ export default function MainSummarySection() {
               <div className="text-lg font-bold text-gray-900">
                 ₩{currentBill.gas.amount.toLocaleString()}
               </div>
-              <div className="text-sm text-green-600 flex items-center gap-1">
+              {/* <div className="text-sm text-green-600 flex items-center gap-1">
                 <TrendingDown className="h-3 w-3" />₩
                 {currentBill.gas.savings.toLocaleString()} 절약
-              </div>
+              </div> */}
               <Badge
                 variant={
                   currentBill.gas.status === "이상 탐지"
@@ -152,7 +152,10 @@ export default function MainSummarySection() {
                 <div className="text-sm text-green-600 font-medium">
                   전월 대비 ₩
                   {(
-                    currentBill.electric.savings + currentBill.gas.savings
+                    currentBill.electric.savings +
+                    (currentBill.gas.status === "이상 탐지"
+                      ? 0
+                      : currentBill.gas.savings)
                   ).toLocaleString()}{" "}
                   절약
                 </div>
@@ -212,7 +215,7 @@ export default function MainSummarySection() {
             <div className="text-lg font-bold text-gray-900">
               ₩{cumulativeSavings.totalSaved.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-sm text-gray-500">
               {cumulativeSavings.monthsUsed}개월 누적 할인 금액
             </div>
           </CardContent>
@@ -224,7 +227,7 @@ export default function MainSummarySection() {
               <Leaf className="h-5 w-5 text-green-600" />
             </div>
             <div className="text-lg font-bold text-gray-900">8그루</div>
-            <div className="text-xs text-gray-500">심은 나무</div>
+            <div className="text-sm text-gray-500">심은 나무</div>
           </CardContent>
         </Card>
 
@@ -236,8 +239,11 @@ export default function MainSummarySection() {
             <div className="text-lg font-bold text-gray-900">
               ₩{cumulativeSavings.projectedYearEnd.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-500">
-              연말까지 유지 시 예상 할인 금액
+            <div className="text-center">
+              <div className="text-sm text-gray-500">예상 할인 금액</div>
+              <div className="text-xs text-gray-400 mb-0.5">
+                연말까지 유지 시
+              </div>
             </div>
           </CardContent>
         </Card>
