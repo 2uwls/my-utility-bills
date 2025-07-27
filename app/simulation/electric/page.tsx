@@ -372,7 +372,6 @@ export default function ElectricSimulationPage() {
       <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
         {/* 전기요금 현황 */}
         <Card className="border-0 rounded-2xl bg-[#FFE300] text-[#1E1E1E]">
-        <Card className="border-0 rounded-2xl bg-[#FFE300] text-[#1E1E1E]">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -444,13 +443,6 @@ export default function ElectricSimulationPage() {
             </div>
 
             <div className="h-48">
-              <ResponsiveContainer
-                className="border border-gray-200 rounded-xl p-6"
-                width="100%"
-                height="100%">
-                <BarChart
-                  data={timeBasedRates}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
               <ResponsiveContainer
                 className="border border-gray-200 rounded-xl p-6"
                 width="100%"
@@ -571,10 +563,6 @@ export default function ElectricSimulationPage() {
 
                     <div className="border border-gray-200 rounded-xl p-4 mb-4">
                       <div className="h-64 mb-4 relative">
-                        <ResponsiveContainer
-                          width="100%"
-                          height="100%"
-                          className="p-2">
                         <ResponsiveContainer
                           width="100%"
                           height="100%"
