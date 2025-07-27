@@ -97,8 +97,8 @@ export default function SavingsPage() {
               <Card className="border-0 rounded-2xl bg-white cursor-pointer hover:shadow-lg transition-all group">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
-                      <Flame className="h-6 w-6 text-yellow-600" />
+                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                      <Flame className="h-6 w-6 text-orange-600" />
                     </div>
                     <div className="text-2xl">🔥</div>
                   </div>
@@ -133,27 +133,33 @@ export default function SavingsPage() {
             </Link>
           </div>
           {/* 통합 절약 효과 */}
-          <Card className="border-0 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 text-white">
+          <Card className="border-0 rounded-2xl bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-lg font-bold">통합 절약 효과</h3>
-                  <p className="text-sm opacity-90">
+                  <h3 className="text-lg font-bold  text-gray-900">
+                    통합 절약 효과
+                  </h3>
+                  <p className="text-sm text-gray-600">
                     전기 + 가스 절약 시 예상 효과
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6" />
+                  <TrendingUp className="h-6 w-6 text-green-600" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-2xl font-bold">₩20,000</div>
-                  <div className="text-sm opacity-90">월 예상 절약액</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    ₩20,000
+                  </div>
+                  <div className="text-sm text-gray-600">월 예상 절약액</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">₩240,000</div>
-                  <div className="text-sm opacity-90">연간 예상 절약액</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    ₩240,000
+                  </div>
+                  <div className="text-sm text-gray-600">연간 예상 절약액</div>
                 </div>
               </div>
             </CardContent>
@@ -211,7 +217,7 @@ export default function SavingsPage() {
             </CardContent>
           </Card>
           {/* 하단 액션 */}
-          <div className="grid grid-cols-2 gap-3 pb-6">
+          {/* <div className="grid grid-cols-2 gap-3 pb-6">
             <Link href="/rewards">
               <Button className="h-12 bg-green-500 hover:bg-green-600 text-white rounded-2xl w-full">
                 <TrendingUp className="h-4 w-4 mr-2" />
@@ -225,7 +231,7 @@ export default function SavingsPage() {
                 홈으로 돌아가기
               </Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

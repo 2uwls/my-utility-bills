@@ -25,6 +25,7 @@ import {
   TrendingDown,
   Calendar,
   Calculator,
+  StickyNote,
 } from "lucide-react";
 
 import MainTabNavigation from "@/components/main-tab-navigation";
@@ -164,19 +165,19 @@ export default function ESGPage() {
 
           <TabsContent value="dashboard" className="p-4 space-y-4">
             {/* Monthly Savings Card */}
-            <Card className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white">
-              <CardHeader className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white pb-4">
+            <Card className="border-0 rounded-2xl">
+              <CardHeader className="rounded-2xl text-[#1E1E1E]pb-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-lg font-bold">
                       9월 공과금 절약 현황
                     </CardTitle>
-                    <p className="text-sm opacity-90">
+                    <p className="text-sm opacity-90 ">
                       전월 대비 전기 58kWh, 가스 13㎥ 절약!
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <TrendingDown className="h-6 w-6" />
+                  <div className="w-12 h-12 bg-[#FFE300] bg-opacity-20 rounded-full flex items-center justify-center">
+                    <TrendingDown className="h-6 w-6 text-yellow-600" />
                   </div>
                 </div>
               </CardHeader>
@@ -214,7 +215,7 @@ export default function ESGPage() {
             </div>
 
             {/* ESG Section */}
-            <Card className="bg-green-50 border-green-200">
+            <Card className="bg-green-50 border-green-200 rounded-2xl">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
@@ -225,9 +226,9 @@ export default function ESGPage() {
                 <p className="text-xs text-gray-600">환경 보호 기여도</p>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="bg-green-100 rounded-lg p-3 text-center">
+                <div className="bg-green-50 rounded-lg p-3 text-center">
                   <div className="text-2xl font-bold text-green-700 mb-1">
-                    4.1그루
+                    8.3그루
                   </div>
                   <p className="text-xs text-green-600">
                     이번 달까지 심은 나무
@@ -260,12 +261,13 @@ export default function ESGPage() {
                 <CardDescription>나무 1그루, 물 10리터</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="bg-blue-50 rounded-xl p-4">
-                  <div className="text-sm text-gray-700 mb-3">
+                <div className=" bg-blue-50 rounded-xl p-4 flex flex-col items-center">
+                  <div className="text-base text-gray-700 mb-3 text-center">
                     전 세계에서 베어진 나무의 35%가 종이 생산에 사용됩니다.{" "}
                     <br></br>
-                    전자문서와 모바일 청구서, 전자 증명서로 전환하면 A4 용지를
-                    만드는 데 소요되는 나무와 물을 아낄 수 있습니다. <br></br>
+                    전자문서와 모바일 청구서, 전자 증명서로 전환하면 <br></br>
+                    A4 용지를 만드는 데 소요되는 나무와 물을 아낄 수 있습니다.
+                    <br></br>
                     환경 보호실천에 함께해요!
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
@@ -281,7 +283,7 @@ export default function ESGPage() {
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-xl font-bold text-green-600">
                         종이 약 640톤 절감 효과
                       </div>
                     </div>
@@ -316,7 +318,7 @@ export default function ESGPage() {
                     </div>
                     <div className="text-center">
                       <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span className="text-xl">📄</span>
+                        <StickyNote className="h-6 w-6 text-yellow-600" />
                       </div>
                       <div className="text-lg font-bold text-yellow-600">
                         {environmentalImpact.paperSaved}장
