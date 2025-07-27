@@ -11,6 +11,7 @@ import {
   Calculator,
   Flame,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function MainSummarySection() {
   // 이 컴포넌트에서만 쓰는 데이터만 남김
@@ -20,7 +21,7 @@ export default function MainSummarySection() {
       amount: 33000, // ₩33,000 수준
       previousAmount: 38000, // 전월 대비 소폭 감소
       savings: 5000,
-      dueDate: "2024.09.25",
+      dueDate: "2025.09.25",
       status: "정상",
     },
     gas: {
@@ -28,7 +29,7 @@ export default function MainSummarySection() {
       amount: 22000, // ₩12,000 수준
       previousAmount: 15000,
       savings: 3000,
-      dueDate: "2024.09.28",
+      dueDate: "2025.09.28",
       status: "이상 탐지", // 이상탐지 대신 정상으로 전환
     },
   };
@@ -222,13 +223,16 @@ export default function MainSummarySection() {
         </Card>
 
         <Card className="border-0 rounded-2xl bg-white">
-          <CardContent className="p-4 text-center">
-            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Leaf className="h-5 w-5 text-yellow-600" />
-            </div>
-            <div className="text-lg font-bold text-gray-900">8그루</div>
-            <div className="text-sm text-gray-500">심은 나무</div>
-          </CardContent>
+          <Link href="/rewards">
+            <CardContent className="p-4 text-center">
+              <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Leaf className="h-5 w-5 text-yellow-600" />
+              </div>
+              <div className="text-lg font-bold text-gray-900">8그루</div>
+
+              <div className="text-sm text-gray-500">심은 나무</div>
+            </CardContent>
+          </Link>
         </Card>
 
         <Card className="border-0 rounded-2xl bg-white">

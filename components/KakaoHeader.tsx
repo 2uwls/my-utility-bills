@@ -1,5 +1,5 @@
 "use client";
-import { Zap, Calculator, Gift, Bell } from "lucide-react";
+import { Zap, Calculator, Bell, TreeDeciduous } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function KakaoHeader() {
-  const [selectedPeriod, setSelectedPeriod] = useState("2024");
+  const [selectedPeriod, setSelectedPeriod] = useState("2025");
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-xl mx-auto px-4 py-4">
@@ -43,7 +43,7 @@ export default function KakaoHeader() {
             </Link>
             <Link href="/rewards">
               <Button variant="ghost" size="icon" className="h-8 w-8 relative">
-                <Gift className="h-4 w-4" />
+                <TreeDeciduous className="h-4 w-4" />
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs">!</span>
                 </div>

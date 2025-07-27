@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   ArrowLeft,
   Share2,
@@ -11,20 +11,20 @@ import {
   Calendar,
   Trophy,
   Sparkles,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import Link from 'next/link';
-import Image from 'next/image';
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function RewardsPage() {
   const [currentStreak, setCurrentStreak] = useState(2); // 현재 연속 절약 개월
@@ -36,81 +36,81 @@ export default function RewardsPage() {
   const trees = [
     {
       id: 1,
-      month: '2024.01',
+      month: "2025.01",
       savings: 12000,
-      type: 'seed',
+      type: "seed",
       unlocked: true,
       position: { x: 20, y: 30 },
     },
     {
       id: 2,
-      month: '2024.02',
+      month: "2025.02",
       savings: 15000,
-      type: 'sprout',
+      type: "sprout",
       unlocked: true,
       position: { x: 60, y: 20 },
     },
     {
       id: 3,
-      month: '2024.03',
+      month: "2025.03",
       savings: 11000,
-      type: 'small-tree',
+      type: "small-tree",
       unlocked: true,
       position: { x: 40, y: 50 },
     },
     {
       id: 4,
-      month: '2024.04',
+      month: "2025.04",
       savings: 14000,
-      type: 'medium-tree',
+      type: "medium-tree",
       unlocked: true,
       position: { x: 80, y: 40 },
     },
     {
       id: 5,
-      month: '2024.05',
+      month: "2024.05",
       savings: 16000,
-      type: 'large-tree',
+      type: "large-tree",
       unlocked: true,
       position: { x: 25, y: 70 },
     },
     {
       id: 6,
-      month: '2024.06',
+      month: "2025.06",
       savings: 18000,
-      type: 'flower-tree',
+      type: "flower-tree",
       unlocked: true,
       position: { x: 70, y: 65 },
     },
     {
       id: 7,
-      month: '2024.07',
+      month: "2025.07",
       savings: 22000,
-      type: 'light-bulb-tree',
+      type: "light-bulb-tree",
       unlocked: true,
       position: { x: 50, y: 25 },
     },
     {
       id: 8,
-      month: '2024.08',
+      month: "2025.08",
       savings: 20000,
-      type: 'large-tree',
+      type: "large-tree",
       unlocked: true,
       position: { x: 85, y: 70 },
     },
     {
       id: 9,
-      month: '2024.09',
+      month: "2025.09",
       savings: 0,
-      type: 'mystery',
+      type: "mystery",
       unlocked: false,
       position: { x: 30, y: 80 },
     },
     {
       id: 10,
-      month: '2024.10',
+      month: "2025.10",
       savings: 0,
-      type: 'mystery',
+      type: "mystery",
       unlocked: false,
       position: { x: 75, y: 25 },
     },
@@ -118,40 +118,40 @@ export default function RewardsPage() {
 
   const getTreeImageSrc = (type) => {
     switch (type) {
-      case 'seed':
-        return '/images/trees/seed.png';
-      case 'sprout':
-        return '/images/trees/sprout.png';
-      case 'small-tree':
-        return '/images/trees/small-tree.png';
-      case 'medium-tree':
-        return '/images/trees/medium-tree.png';
-      case 'large-tree':
-        return '/images/trees/large-tree.png';
-      case 'light-bulb-tree':
-        return '/images/trees/light-bulb-tree.png';
-      case 'flower-tree':
-        return '/images/trees/flower-tree.png';
+      case "seed":
+        return "/images/trees/seed.png";
+      case "sprout":
+        return "/images/trees/sprout.png";
+      case "small-tree":
+        return "/images/trees/small-tree.png";
+      case "medium-tree":
+        return "/images/trees/medium-tree.png";
+      case "large-tree":
+        return "/images/trees/large-tree.png";
+      case "light-bulb-tree":
+        return "/images/trees/light-bulb-tree.png";
+      case "flower-tree":
+        return "/images/trees/flower-tree.png";
       default:
-        return '/images/trees/seed.png';
+        return "/images/trees/seed.png";
     }
   };
 
   const getTreeSize = (type) => {
     switch (type) {
-      case 'seed':
+      case "seed":
         return { width: 30, height: 30 };
-      case 'sprout':
+      case "sprout":
         return { width: 35, height: 35 };
-      case 'small-tree':
+      case "small-tree":
         return { width: 40, height: 50 };
-      case 'medium-tree':
+      case "medium-tree":
         return { width: 45, height: 55 };
-      case 'large-tree':
+      case "large-tree":
         return { width: 50, height: 60 };
-      case 'light-bulb-tree':
+      case "light-bulb-tree":
         return { width: 50, height: 60 };
-      case 'flower-tree':
+      case "flower-tree":
         return { width: 50, height: 60 };
       default:
         return { width: 30, height: 30 };
@@ -165,21 +165,20 @@ export default function RewardsPage() {
     return (
       <div
         className={`absolute cursor-pointer transition-all duration-300 hover:scale-110 ${
-          isUnlocked ? 'opacity-100' : 'opacity-40'
+          isUnlocked ? "opacity-100" : "opacity-40"
         }`}
         style={{
           left: `${tree.position.x}%`,
           top: `${tree.position.y}%`,
-          transform: 'translate(-50%, -50%)',
+          transform: "translate(-50%, -50%)",
         }}
-        onClick={() => onClick(tree)}
-      >
+        onClick={() => onClick(tree)}>
         {/* 나무 그림자 */}
         <div
           className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-black opacity-20 rounded-full"
           style={{
             width: `${size.width * 0.8}px`,
-            height: '8px',
+            height: "8px",
           }}
         />
 
@@ -198,8 +197,7 @@ export default function RewardsPage() {
           // 잠긴 나무 (물음표)
           <div
             className="bg-gray-300 rounded-full flex items-center justify-center border-2 border-gray-400"
-            style={{ width: size.width, height: size.height }}
-          >
+            style={{ width: size.width, height: size.height }}>
             <span className="text-gray-500 text-lg font-bold">?</span>
           </div>
         )}
@@ -225,7 +223,7 @@ export default function RewardsPage() {
     <div className="min-h-screen bg-gradient-to-b from-sky-200 via-sky-100 to-green-100">
       {/* 헤더 */}
       <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link href="/">
@@ -245,8 +243,7 @@ export default function RewardsPage() {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-xl bg-transparent"
-            >
+              className="rounded-xl bg-transparent">
               <Share2 className="h-4 w-4 mr-2" />
               친구 초대
             </Button>
@@ -254,7 +251,7 @@ export default function RewardsPage() {
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
         {/* 숲 통계 */}
         <Card className="border-0 rounded-2xl bg-white mb-4">
           <CardContent className="p-4">
@@ -290,11 +287,11 @@ export default function RewardsPage() {
               <div className="absolute top-4 left-10 w-16 h-8 bg-white rounded-full opacity-80 animate-pulse" />
               <div
                 className="absolute top-8 right-20 w-12 h-6 bg-white rounded-full opacity-60 animate-pulse"
-                style={{ animationDelay: '1s' }}
+                style={{ animationDelay: "1s" }}
               />
               <div
                 className="absolute top-12 left-1/3 w-20 h-10 bg-white rounded-full opacity-70 animate-pulse"
-                style={{ animationDelay: '2s' }}
+                style={{ animationDelay: "2s" }}
               />
 
               {/* 3D 언덕 */}
@@ -303,13 +300,12 @@ export default function RewardsPage() {
                 <div
                   className="relative mx-auto bg-gradient-to-b from-green-400 to-green-600 rounded-t-full"
                   style={{
-                    width: '90%',
-                    height: '200px',
+                    width: "90%",
+                    height: "200px",
                     transform:
-                      'perspective(500px) rotateX(60deg) rotateY(-5deg)',
-                    transformOrigin: 'bottom center',
-                  }}
-                >
+                      "perspective(500px) rotateX(60deg) rotateY(-5deg)",
+                    transformOrigin: "bottom center",
+                  }}>
                   {/* 언덕 위 잔디 텍스처 */}
                   <div className="absolute inset-0 opacity-30">
                     {Array.from({ length: 50 }).map((_, i) => (
@@ -330,21 +326,21 @@ export default function RewardsPage() {
                 <div
                   className="absolute bottom-0 left-0 bg-gradient-to-b from-green-300 to-green-500 rounded-t-full"
                   style={{
-                    width: '40%',
-                    height: '120px',
+                    width: "40%",
+                    height: "120px",
                     transform:
-                      'perspective(300px) rotateX(50deg) rotateY(10deg)',
-                    transformOrigin: 'bottom center',
+                      "perspective(300px) rotateX(50deg) rotateY(10deg)",
+                    transformOrigin: "bottom center",
                   }}
                 />
                 <div
                   className="absolute bottom-0 right-0 bg-gradient-to-b from-green-300 to-green-500 rounded-t-full"
                   style={{
-                    width: '35%',
-                    height: '100px',
+                    width: "35%",
+                    height: "100px",
                     transform:
-                      'perspective(300px) rotateX(50deg) rotateY(-10deg)',
-                    transformOrigin: 'bottom center',
+                      "perspective(300px) rotateX(50deg) rotateY(-10deg)",
+                    transformOrigin: "bottom center",
                   }}
                 />
               </div>
@@ -377,8 +373,8 @@ export default function RewardsPage() {
                         key={i}
                         className="absolute top-1/2 left-1/2 w-1 bg-yellow-300 opacity-60 animate-pulse"
                         style={{
-                          height: '30px',
-                          transformOrigin: 'bottom center',
+                          height: "30px",
+                          transformOrigin: "bottom center",
                           transform: `translate(-50%, -50%) rotate(${
                             i * 45
                           }deg)`,
@@ -415,8 +411,6 @@ export default function RewardsPage() {
                   </div>
                 </div>
               )}
-
-      
             </div>
           </CardContent>
         </Card>
@@ -439,7 +433,7 @@ export default function RewardsPage() {
                   </div>
                   <div>
                     <div className="font-bold text-gray-900">햇빛 보상</div>
-                    <div className="text-sm text-gray-600">3개월 연속 절약</div>
+                    <div className="text-xs text-gray-600">3개월 연속 절약</div>
                   </div>
                 </div>
                 {currentStreak >= 3 ? (
@@ -449,8 +443,7 @@ export default function RewardsPage() {
                 ) : (
                   <Badge
                     variant="outline"
-                    className="border-yellow-400 text-yellow-600"
-                  >
+                    className="border-yellow-400 text-yellow-600">
                     {3 - currentStreak}개월 남음
                   </Badge>
                 )}
@@ -461,7 +454,7 @@ export default function RewardsPage() {
               />
               <div className="text-xs text-gray-600 mt-2">
                 {currentStreak >= 3
-                  ? '모든 나무가 더 빨리 자라요!'
+                  ? "모든 나무가 더 빨리 자라요!"
                   : `${currentStreak}/3개월 달성`}
               </div>
             </CardContent>
@@ -483,7 +476,7 @@ export default function RewardsPage() {
                   </div>
                   <div>
                     <div className="font-bold text-gray-900">물뿌리개 보상</div>
-                    <div className="text-sm text-gray-600">친구 10명 초대</div>
+                    <div className="text-xs text-gray-600">친구 10명 초대</div>
                   </div>
                 </div>
                 {invitedFriends >= 10 ? (
@@ -493,8 +486,7 @@ export default function RewardsPage() {
                 ) : (
                   <Badge
                     variant="outline"
-                    className="border-blue-400 text-blue-600"
-                  >
+                    className="border-blue-400 text-blue-600">
                     {10 - invitedFriends}명 남음
                   </Badge>
                 )}
@@ -505,7 +497,7 @@ export default function RewardsPage() {
               />
               <div className="text-xs text-gray-600 mt-2">
                 {invitedFriends >= 10
-                  ? '특별한 나무를 심을 수 있어요!'
+                  ? "특별한 나무를 심을 수 있어요!"
                   : `${invitedFriends}/10명 초대 완료`}
               </div>
             </CardContent>
@@ -532,11 +524,10 @@ export default function RewardsPage() {
                   key={tree.id}
                   className={`relative p-4 rounded-xl border-2 transition-all cursor-pointer ${
                     tree.unlocked
-                      ? 'bg-green-50 border-green-200 hover:border-green-300'
-                      : 'bg-gray-50 border-gray-200'
+                      ? "bg-green-50 border-green-200 hover:border-green-300"
+                      : "bg-gray-50 border-gray-200"
                   }`}
-                  onClick={() => setSelectedTree(tree)}
-                >
+                  onClick={() => setSelectedTree(tree)}>
                   <div className="text-center">
                     {/* 미니 나무 이미지 */}
                     <div className="w-12 h-12 mx-auto mb-2 relative flex items-center justify-center">
@@ -621,28 +612,27 @@ export default function RewardsPage() {
                 </div>
                 {[
                   {
-                    name: '김민수',
+                    name: "김민수",
                     savings: 25000,
-                    avatar: '김',
-                    treeType: 'large-tree',
+                    avatar: "김",
+                    treeType: "large-tree",
                   },
                   {
-                    name: '이지영',
+                    name: "이지영",
                     savings: 18000,
-                    avatar: '이',
-                    treeType: 'flower-tree',
+                    avatar: "이",
+                    treeType: "flower-tree",
                   },
                   {
-                    name: '박준호',
+                    name: "박준호",
                     savings: 32000,
-                    avatar: '박',
-                    treeType: 'light-bulb-tree',
+                    avatar: "박",
+                    treeType: "light-bulb-tree",
                   },
                 ].map((friend, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-xl"
-                  >
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
                         <AvatarFallback className="bg-yellow-400 text-gray-900 text-xs">
@@ -700,18 +690,17 @@ export default function RewardsPage() {
         </Card>
 
         {/* 하단 액션 버튼 */}
-        <div className="grid grid-cols-2 gap-3 pb-6">
+        {/* <div className="grid grid-cols-2 gap-3 pb-6">
           <Button className="h-12 bg-green-500 hover:bg-green-600 text-white rounded-2xl">
             <Trophy className="h-4 w-4 mr-2" />
             랭킹 보기
           </Button>
           <Button
             variant="outline"
-            className="h-12 rounded-2xl border-gray-200 bg-white"
-          >
+            className="h-12 rounded-2xl border-gray-200 bg-white">
             <Share2 className="h-4 w-4 mr-2" />숲 공유하기
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {/* 나무 상세 모달 */}
@@ -753,8 +742,7 @@ export default function RewardsPage() {
               )}
               <Button
                 onClick={() => setSelectedTree(null)}
-                className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-xl"
-              >
+                className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-xl">
                 확인
               </Button>
             </div>
