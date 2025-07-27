@@ -223,8 +223,8 @@ export default function MainSummarySection() {
 
         <Card className="border-0 rounded-2xl bg-white">
           <CardContent className="p-4 text-center">
-            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Leaf className="h-5 w-5 text-green-600" />
+            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Leaf className="h-5 w-5 text-yellow-600" />
             </div>
             <div className="text-lg font-bold text-gray-900">8그루</div>
             <div className="text-sm text-gray-500">심은 나무</div>
@@ -233,8 +233,8 @@ export default function MainSummarySection() {
 
         <Card className="border-0 rounded-2xl bg-white">
           <CardContent className="p-4 text-center">
-            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Calculator className="h-5 w-5 text-purple-600" />
+            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Calculator className="h-5 w-5 text-yellow-600" />
             </div>
             <div className="text-lg font-bold text-gray-900">
               ₩{cumulativeSavings.projectedYearEnd.toLocaleString()}
