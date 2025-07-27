@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   ArrowLeft,
   Flame,
@@ -13,31 +13,49 @@ import {
   Calendar,
   Snowflake,
   Sun,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Switch } from "@/components/ui/switch"
-import Link from "next/link"
-import { Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
+  Zap,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import Link from "next/link";
+import {
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+} from "recharts";
 
-type Season = "winter" | "spring" | "summer" | "fall"
+type Season = "winter" | "spring" | "summer" | "fall";
 
-const seasons: Season[] = ["winter", "spring", "summer", "fall"]
+const seasons: Season[] = ["winter", "spring", "summer", "fall"];
 type TipKey =
-  | 'temperature'
-  | 'humidity'
-  | 'awayMode'
-  | 'coldWater'
-  | 'boilerCleaning'
-  | 'warmClothes'
-  | 'valveControl'
-  | 'shower'
-  | 'autoPayment'
-  | 'cardChange'
+  | "temperature"
+  | "humidity"
+  | "awayMode"
+  | "coldWater"
+  | "boilerCleaning"
+  | "warmClothes"
+  | "valveControl"
+  | "shower"
+  | "autoPayment"
+  | "cardChange";
 
 export default function GasSimulationPage() {
-  const [gasReduction, setGasReduction] = useState([15])
-  const [currentSeason, setCurrentSeason] = useState<'winter' | 'spring' | 'summer' | 'fall'>("winter") // winter, summer, spring, fall
+  const [gasReduction, setGasReduction] = useState([15]);
+  const [currentSeason, setCurrentSeason] = useState<
+    "winter" | "spring" | "summer" | "fall"
+  >("winter"); // winter, summer, spring, fall
 
   // 절약 팁 적용 상태
   const [savingTips, setSavingTips] = useState<Record<TipKey, boolean>>({
@@ -51,7 +69,7 @@ export default function GasSimulationPage() {
     shower: false,
     autoPayment: false,
     cardChange: false,
-  })
+  });
 
   // 계절별 기본 가스 요금 (동계가 높음)
   const baseGasBill = {
@@ -59,59 +77,76 @@ export default function GasSimulationPage() {
     spring: 45000,
     summer: 25000,
     fall: 55000,
-  }
-
-  
+  };
 
   // 절약 팁별 절감 효과 (원/월)
   const savingEffects = {
-    temperature: currentSeason === "winter" ? 12000 : currentSeason === "fall" ? 8000 : 0,
-    humidity: currentSeason === "winter" ? 5000 : currentSeason === "fall" ? 3000 : 0,
+    temperature:
+      currentSeason === "winter" ? 12000 : currentSeason === "fall" ? 8000 : 0,
+    humidity:
+      currentSeason === "winter" ? 5000 : currentSeason === "fall" ? 3000 : 0,
     awayMode:
-      currentSeason === "winter" ? 8000 : currentSeason === "fall" ? 5000 : currentSeason === "spring" ? 3000 : 0,
+      currentSeason === "winter"
+        ? 8000
+        : currentSeason === "fall"
+        ? 5000
+        : currentSeason === "spring"
+        ? 3000
+        : 0,
     coldWater: 4000, // 연중 동일
     boilerCleaning:
-      currentSeason === "winter" ? 6000 : currentSeason === "fall" ? 4000 : currentSeason === "spring" ? 2000 : 0,
-    warmClothes: currentSeason === "winter" ? 10000 : currentSeason === "fall" ? 6000 : 0,
-    valveControl: currentSeason === "winter" ? 7000 : currentSeason === "fall" ? 4000 : 0,
+      currentSeason === "winter"
+        ? 6000
+        : currentSeason === "fall"
+        ? 4000
+        : currentSeason === "spring"
+        ? 2000
+        : 0,
+    warmClothes:
+      currentSeason === "winter" ? 10000 : currentSeason === "fall" ? 6000 : 0,
+    valveControl:
+      currentSeason === "winter" ? 7000 : currentSeason === "fall" ? 4000 : 0,
     shower: 8000, // 연중 동일 (온수 사용)
     autoPayment: 500, // 연중 동일
     cardChange: 1000, // 연중 동일
-  }
+  };
 
   // 현재 적용된 절약 효과 계산
   const calculateTotalSavings = () => {
-  return (Object.keys(savingTips) as TipKey[]).reduce((total, tip) => {
-    return total + (savingTips[tip] ? savingEffects[tip] : 0)
-  }, 0)
-}
+    return (Object.keys(savingTips) as TipKey[]).reduce((total, tip) => {
+      return total + (savingTips[tip] ? savingEffects[tip] : 0);
+    }, 0);
+  };
 
   // 누적 절약 데이터 (12개월)
   const generateCumulativeData = () => {
-    const totalMonthlySaving = calculateTotalSavings()
-    const data = []
-    let cumulative = 0
+    const totalMonthlySaving = calculateTotalSavings();
+    const data = [];
+    let cumulative = 0;
 
     for (let i = 1; i <= 12; i++) {
-      cumulative += totalMonthlySaving
+      cumulative += totalMonthlySaving;
       data.push({
         month: `${i}월`,
         monthly: totalMonthlySaving,
         cumulative: cumulative,
-      })
+      });
     }
-    return data
-  }
+    return data;
+  };
 
   // 계절별 절약 팁 데이터
-  const seasonalTips: Record<Season, {
-  id: TipKey
-  title: string
-  description: string
-  icon: React.ReactNode
-  saving: number
-  detail: string
-}[]>  = {
+  const seasonalTips: Record<
+    Season,
+    {
+      id: TipKey;
+      title: string;
+      description: string;
+      icon: React.ReactNode;
+      saving: number;
+      detail: string;
+    }[]
+  > = {
     winter: [
       {
         id: "temperature",
@@ -170,7 +205,6 @@ export default function GasSimulationPage() {
         icon: <Droplets className="h-5 w-5" />,
         saving: savingEffects.shower,
         detail: "5분 단축 시 월 8,000원 절약",
-        
       },
     ],
     spring: [
@@ -209,17 +243,17 @@ export default function GasSimulationPage() {
         detail: "난방 시작 시기 연기",
       },
     ],
-  }
+  };
 
   // 연중 공통 절약 팁
-  const commonTips : {
-  id: TipKey
-  title: string
-  description: string
-  icon: React.ReactNode
-  saving: number
-  detail: string
-}[]= [
+  const commonTips: {
+    id: TipKey;
+    title: string;
+    description: string;
+    icon: React.ReactNode;
+    saving: number;
+    detail: string;
+  }[] = [
     {
       id: "coldWater",
       title: "냉수 사용 습관",
@@ -244,67 +278,84 @@ export default function GasSimulationPage() {
       saving: savingEffects.cardChange,
       detail: "월 1,000원 할인",
     },
-  ]
+  ];
 
   const handleTipToggle = (tipId: TipKey) => {
     setSavingTips((prev) => ({
       ...prev,
       [tipId]: !prev[tipId],
-    }))
-  }
+    }));
+  };
 
-  const getSeasonName = (season: 'winter' | 'spring' | 'summer' | 'fall') => {
+  const getSeasonName = (season: "winter" | "spring" | "summer" | "fall") => {
     const names = {
       winter: "겨울",
       spring: "봄",
       summer: "여름",
       fall: "가을",
-    }
-    return names[season]
-  }
+    };
+    return names[season];
+  };
 
-  const getSeasonIcon = (season: 'winter' | 'spring' | 'summer' | 'fall') => {
+  const getSeasonIcon = (season: "winter" | "spring" | "summer" | "fall") => {
     const icons = {
       winter: <Snowflake className="h-4 w-4" />,
       spring: <Sun className="h-4 w-4" />,
       summer: <Sun className="h-4 w-4" />,
       fall: <Calendar className="h-4 w-4" />,
-    }
-    return icons[season]
-  }
+    };
+    return icons[season];
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 헤더 */}
       <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/simulation">
+              <Link href="/savings">
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               </Link>
               <div>
-                <h1 className="text-lg font-bold text-gray-900">도시가스 시뮬레이션</h1>
-                <p className="text-xs text-gray-500">계절별 절약 팁과 효과 확인</p>
+                <h1 className="text-lg font-bold text-gray-900">
+                  도시가스 시뮬레이션
+                </h1>
+                <p className="text-xs text-gray-500">
+                  계절별 절약 팁과 효과 확인
+                </p>
               </div>
             </div>
-            <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center">
-              <Flame className="h-4 w-4 text-white" />
+            <div className="flex items-center gap-3">
+              <Link href="/simulation/gas">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 bg-transparent">
+                  <Zap className="h-4 w-4" />
+                  전기요금
+                </Button>
+              </Link>
+              <div className="w-8 h-8 bg-[#FFE300] rounded-full flex items-center justify-center">
+                <Flame className="h-4 w-4 text-white" />
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
         {/* 현재 절약 현황 */}
-        <Card className="border-0 rounded-2xl bg-gradient-to-r from-orange-400 to-red-400 text-white">
+        <Card className="border-0 rounded-2xl bg-[#FFE300] text-[#1E1E1E]">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-lg font-bold">현재 절약 효과</h2>
-                <p className="text-sm opacity-90">{getSeasonName(currentSeason)}철 기준</p>
+                <p className="text-sm opacity-90">
+                  {getSeasonName(currentSeason)}철 기준
+                </p>
               </div>
               <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                 <Flame className="h-6 w-6" />
@@ -312,11 +363,15 @@ export default function GasSimulationPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-2xl font-bold">₩{calculateTotalSavings().toLocaleString()}</div>
+                <div className="text-2xl font-bold">
+                  ₩{calculateTotalSavings().toLocaleString()}
+                </div>
                 <div className="text-sm opacity-90">월 절약액</div>
               </div>
               <div>
-                <div className="text-2xl font-bold">₩{(calculateTotalSavings() * 12).toLocaleString()}</div>
+                <div className="text-2xl font-bold">
+                  ₩{(calculateTotalSavings() * 12).toLocaleString()}
+                </div>
                 <div className="text-sm opacity-90">연간 절약액</div>
               </div>
             </div>
@@ -326,26 +381,43 @@ export default function GasSimulationPage() {
         {/* 연중 공통 절약 팁 */}
         <Card className="border-0 rounded-2xl bg-white">
           <CardHeader>
-            <CardTitle className="text-lg font-bold">연중 공통 절약 팁</CardTitle>
-            <CardDescription>계절에 관계없이 적용할 수 있는 절약 방법</CardDescription>
+            <CardTitle className="text-lg font-bold">
+              연중 공통 절약 팁
+            </CardTitle>
+            <CardDescription>
+              계절에 관계없이 적용할 수 있는 절약 방법
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {commonTips.map((tip) => (
-              <div key={tip.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+              <div
+                key={tip.id}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">{tip.icon}</div>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center">
+                    {tip.icon}
+                  </div>
                   <div className="flex-1">
                     <div className="font-bold text-gray-900">{tip.title}</div>
-                    <div className="text-sm text-gray-600">{tip.description}</div>
-                    <div className="text-xs text-blue-600 mt-1">{tip.detail}</div>
+                    <div className="text-sm text-gray-600">
+                      {tip.description}
+                    </div>
+                    <div className="text-xs text-blue-600 mt-1">
+                      {tip.detail}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <div className="text-lg font-bold text-green-600">₩{tip.saving.toLocaleString()}</div>
+                    <div className="text-lg font-bold text-green-600">
+                      ₩{tip.saving.toLocaleString()}
+                    </div>
                     <div className="text-xs text-gray-500">월 절약</div>
                   </div>
-                  <Switch checked={savingTips[tip.id]} onCheckedChange={() => handleTipToggle(tip.id)} />
+                  <Switch
+                    checked={savingTips[tip.id]}
+                    onCheckedChange={() => handleTipToggle(tip.id)}
+                  />
                 </div>
               </div>
             ))}
@@ -355,8 +427,12 @@ export default function GasSimulationPage() {
         {/* 계절 선택 */}
         <Card className="border-0 rounded-2xl bg-white">
           <CardHeader>
-            <CardTitle className="text-lg font-bold">계절별 절약 시뮬레이션</CardTitle>
-            <CardDescription>계절을 선택하여 맞춤 절약 팁을 확인하세요</CardDescription>
+            <CardTitle className="text-lg font-bold">
+              계절별 절약 시뮬레이션
+            </CardTitle>
+            <CardDescription>
+              계절을 선택하여 맞춤 절약 팁을 확인하세요
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-4 gap-2">
@@ -366,11 +442,10 @@ export default function GasSimulationPage() {
                   variant={currentSeason === season ? "default" : "outline"}
                   className={`h-12 rounded-xl ${
                     currentSeason === season
-                      ? "bg-orange-500 hover:bg-orange-600 text-white"
+                      ? "bg-[#FFE300] hover:bg-[#E5C200] text-s[#1E1E1E]"
                       : "border-gray-200 bg-white hover:bg-gray-50"
                   }`}
-                  onClick={() => setCurrentSeason(season)}
-                >
+                  onClick={() => setCurrentSeason(season)}>
                   <div className="flex items-center gap-2">
                     {getSeasonIcon(season)}
                     <span className="text-sm">{getSeasonName(season)}</span>
@@ -397,25 +472,36 @@ export default function GasSimulationPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {seasonalTips[currentSeason]?.map((tip) => (
-              <div key={tip.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+              <div
+                key={tip.id}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center">
                     {tip.icon}
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-gray-900">{tip.title}</div>
-                    <div className="text-sm text-gray-600">{tip.description}</div>
-                    <div className="text-xs text-orange-600 mt-1">{tip.detail}</div>
+                    <div className="text-sm text-gray-600">
+                      {tip.description}
+                    </div>
+                    <div className="text-xs text-blue-600 mt-1">
+                      {tip.detail}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   {tip.saving > 0 && (
                     <div className="text-right">
-                      <div className="text-lg font-bold text-green-600">₩{tip.saving.toLocaleString()}</div>
+                      <div className="text-lg font-bold text-green-600">
+                        ₩{tip.saving.toLocaleString()}
+                      </div>
                       <div className="text-xs text-gray-500">월 절약</div>
                     </div>
                   )}
-                  <Switch checked={savingTips[tip.id]} onCheckedChange={() => handleTipToggle(tip.id)} />
+                  <Switch
+                    checked={savingTips[tip.id]}
+                    onCheckedChange={() => handleTipToggle(tip.id)}
+                  />
                 </div>
               </div>
             ))}
@@ -430,18 +516,22 @@ export default function GasSimulationPage() {
                 <Droplets className="h-5 w-5 text-blue-500" />
                 샤워 시간 절약 시뮬레이션
               </CardTitle>
-              <CardDescription>샤워 시간을 줄여서 온수 사용량을 절약해보세요</CardDescription>
+              <CardDescription>
+                샤워 시간을 줄여서 온수 사용량을 절약해보세요
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="bg-blue-50 rounded-xl p-4 mb-4">
+              <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <div className="font-bold text-gray-900">현재 샤워 시간</div>
-                    <div className="text-2xl font-bold text-blue-600">15분</div>
+                    <div className="font-bold text-gray-900">
+                      현재 샤워 시간
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900">15분</div>
                   </div>
                   <div className="text-right">
                     <div className="font-bold text-gray-900">목표 시간</div>
-                    <div className="text-lg font-bold text-green-600">10분</div>
+                    <div className="text-lg font-bold text-gray-900">10분</div>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -449,9 +539,11 @@ export default function GasSimulationPage() {
                     <span>절약 시간: 5분</span>
                     <span>월 절약액: ₩8,000</span>
                   </div>
-                  <div className="bg-green-100 rounded-lg p-3">
-                    <div className="text-sm text-green-800">💡 절약 팁</div>
-                    <div className="text-sm text-green-700">
+                  <div className=" bg-blue-50 rounded-lg p-3">
+                    <div className="text-base text-gray-900 font-semibold mb-2">
+                      💡 절약 팁
+                    </div>
+                    <div className="text-sm text-gray-700">
                       • 샤워 전 미리 물 온도 조절
                       <br />• 비누칠할 때 물 잠시 끄기
                       <br />• 타이머 사용으로 시간 관리
@@ -466,8 +558,12 @@ export default function GasSimulationPage() {
         {/* 누적 절약 그래프 */}
         <Card className="border-0 rounded-2xl bg-white">
           <CardHeader>
-            <CardTitle className="text-lg font-bold">연간 누적 절약 효과</CardTitle>
-            <CardDescription>현재 설정으로 1년간 절약할 수 있는 금액</CardDescription>
+            <CardTitle className="text-lg font-bold">
+              연간 누적 절약 효과
+            </CardTitle>
+            <CardDescription>
+              현재 설정으로 1년간 절약할 수 있는 금액
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-80">
@@ -482,26 +578,35 @@ export default function GasSimulationPage() {
                       name === "monthly" ? "월 절약액" : "누적 절약액",
                     ]}
                   />
-                  <Bar dataKey="monthly" fill="#F97316" name="월 절약액" />
+                  <Bar
+                    barSize={20}
+                    dataKey="monthly"
+                    fill="#FFE300"
+                    name="월 절약액"
+                  />
                   <Line
                     type="monotone"
                     dataKey="cumulative"
-                    stroke="#10B981"
+                    stroke="#666666"
                     strokeWidth={3}
-                    dot={{ fill: "#10B981", strokeWidth: 2, r: 4 }}
+                    dot={{ fill: "#666666", strokeWidth: 2, r: 4 }}
                     name="누적 절약액"
                   />
                 </LineChart>
               </ResponsiveContainer>
             </div>
 
-            <div className="mt-4 p-4 bg-green-50 rounded-xl">
+            <div className="mt-4 p-4 bg-gray-50 rounded-xl">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="font-bold text-green-900">연간 총 절약 예상액</div>
-                  <div className="text-sm text-green-700">현재 적용된 절약 팁 기준</div>
+                  <div className="font-bold text-gray-900">
+                    연간 총 절약 예상액
+                  </div>
+                  <div className="text-sm text-gray-700">
+                    현재 적용된 절약 팁 기준
+                  </div>
                 </div>
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-gray-900">
                   ₩{(calculateTotalSavings() * 12).toLocaleString()}
                 </div>
               </div>
@@ -509,7 +614,7 @@ export default function GasSimulationPage() {
           </CardContent>
         </Card>
 
-        {/* 절약 팁 요약 */}
+        {/* 절약 팁 요약
         <Card className="border-0 rounded-2xl bg-gradient-to-r from-blue-400 to-purple-400 text-white">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-4">
@@ -520,11 +625,15 @@ export default function GasSimulationPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-2xl font-bold">{Object.values(savingTips).filter(Boolean).length}개</div>
+                <div className="text-2xl font-bold">
+                  {Object.values(savingTips).filter(Boolean).length}개
+                </div>
                 <div className="text-sm opacity-90">활성화된 절약 팁</div>
               </div>
               <div>
-                <div className="text-2xl font-bold">₩{calculateTotalSavings().toLocaleString()}</div>
+                <div className="text-2xl font-bold">
+                  ₩{calculateTotalSavings().toLocaleString()}
+                </div>
                 <div className="text-sm opacity-90">월 예상 절약액</div>
               </div>
             </div>
@@ -532,20 +641,22 @@ export default function GasSimulationPage() {
         </Card>
 
         {/* 하단 액션 버튼 */}
-        <div className="grid grid-cols-2 gap-3 pb-6">
+        {/* <div className="grid grid-cols-2 gap-3 pb-6">
           <Link href="/simulation/electric">
             <Button className="h-12 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-2xl w-full">
               전기요금 시뮬레이션
             </Button>
           </Link>
           <Link href="/rewards">
-            <Button variant="outline" className="h-12 rounded-2xl border-gray-200 bg-white w-full">
+            <Button
+              variant="outline"
+              className="h-12 rounded-2xl border-gray-200 bg-white w-full">
               <TrendingUp className="h-4 w-4 mr-2" />
               절약 숲 보기
             </Button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
-  )
+  );
 }

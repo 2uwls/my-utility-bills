@@ -379,7 +379,7 @@ export default function ElectricSimulationPage() {
 
       <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
         {/* 전기요금 현황 */}
-        <Card className="border-0 rounded-2xl bg-[#FFE300] text-gray-700">
+        <Card className="border-0 rounded-2xl bg-[#FFE300] text-[#1E1E1E]">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -451,10 +451,12 @@ export default function ElectricSimulationPage() {
 
             <div className="h-48">
               <ResponsiveContainer
-                className="border border-gray-200 rounded-xl p-4 pt-6"
+                className="border border-gray-200 rounded-xl p-6"
                 width="100%"
                 height="100%">
-                <BarChart data={timeBasedRates}>
+                <BarChart
+                  data={timeBasedRates}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="time" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} />
@@ -544,7 +546,10 @@ export default function ElectricSimulationPage() {
 
                     <div className="border border-gray-200 rounded-xl p-4 mb-4">
                       <div className="h-64 mb-4 relative">
-                        <ResponsiveContainer width="100%" height="100%">
+                        <ResponsiveContainer
+                          width="100%"
+                          height="100%"
+                          className="p-2">
                           <BarChart
                             data={getProgressiveComparisonData()}
                             margin={{
@@ -733,7 +738,7 @@ export default function ElectricSimulationPage() {
                           "요금",
                         ]}
                       />
-                      <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+                      <Bar dataKey="amount">
                         {getEssentialDeductionData().map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
@@ -872,7 +877,7 @@ export default function ElectricSimulationPage() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-4 p-4 bg-[#FFE300] bg-opacity-10 rounded-xl">
+            <div className="mt-4 p-4 bg-gray-50 rounded-xl">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-bold text-gray-900">
