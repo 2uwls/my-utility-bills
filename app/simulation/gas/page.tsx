@@ -1,7 +1,8 @@
 "use client";
 
-import type React from "react";
-import { useState, useEffect } from "react";
+
+import type React from "react"
+import { useState, useEffect } from "react"
 import {
   ArrowLeft,
   Flame,
@@ -14,6 +15,7 @@ import {
   Snowflake,
   Sun,
   Zap,
+
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,6 +41,7 @@ import Link from "next/link";
 
 type Season = "winter" | "spring" | "summer" | "fall";
 const seasons: Season[] = ["winter", "spring", "summer", "fall"];
+
 
 type TipKey =
   | "temperature"
@@ -284,6 +287,7 @@ export default function GasSimulationPage() {
     const data = [];
     let cumulative = 0;
 
+
     // Define month-to-season mapping
     const monthToSeasonMap: Record<number, Season> = {
       1: "winter", // January
@@ -298,6 +302,7 @@ export default function GasSimulationPage() {
       10: "fall", // October
       11: "fall", // November
       12: "winter", // December
+
     };
 
     // Desired order of months for the graph: Dec, Jan, Feb, ..., Nov
@@ -307,6 +312,7 @@ export default function GasSimulationPage() {
       const monthName = `${monthNum}월`;
       const monthSeason = monthToSeasonMap[monthNum];
       let monthlySavingForThisMonth = 0;
+
 
       // Add savings from common tips if they are active
       commonTips.forEach((tip) => {
@@ -328,6 +334,7 @@ export default function GasSimulationPage() {
       });
 
       cumulative += monthlySavingForThisMonth;
+
       data.push({
         month: monthName,
         monthly: monthlySavingForThisMonth,
@@ -344,6 +351,7 @@ export default function GasSimulationPage() {
       [uniqueKey]: !prev[uniqueKey],
     }));
   };
+
 
   const getSeasonName = (season: Season) => {
     const names = {
@@ -392,6 +400,7 @@ export default function GasSimulationPage() {
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-2 bg-transparent">
+
                   <Zap className="h-4 w-4" />
                   전기요금
                 </Button>
@@ -455,6 +464,7 @@ export default function GasSimulationPage() {
                   <div className="w-10 h-10 rounded-full flex items-center justify-center">
                     {tip.icon}
                   </div>
+
                   <div className="flex-1">
                     <div className="font-bold text-gray-900">{tip.title}</div>
                     <div className="text-sm text-gray-600">
@@ -545,6 +555,7 @@ export default function GasSimulationPage() {
                     <div className="text-xs text-blue-600 mt-1">
                       {tip.detail}
                     </div>
+
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -554,6 +565,7 @@ export default function GasSimulationPage() {
                         <div className="text-lg font-bold text-green-600">
                           ₩{tip.saving.toLocaleString()}
                         </div>
+
                         <div className="text-xs text-gray-500">월 절약</div>
                       </div>
                     )}
@@ -563,6 +575,7 @@ export default function GasSimulationPage() {
                         <div className="text-lg font-bold text-green-600">
                           ₩{showerSavingAmount.toLocaleString()}
                         </div>
+
                         <div className="text-xs text-gray-500">월 절약</div>
                       </div>
                     )}
@@ -571,6 +584,7 @@ export default function GasSimulationPage() {
                     onCheckedChange={() =>
                       handleTipToggle(tip.id, currentSeason)
                     }
+
                   />
                 </div>
               </div>
@@ -631,6 +645,7 @@ export default function GasSimulationPage() {
                         <br />• 비누칠할 때 물 잠시 끄기
                         <br />• 타이머 사용으로 시간 관리
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -687,6 +702,7 @@ export default function GasSimulationPage() {
                   <div className="text-sm text-gray-700">
                     현재 적용된 절약 팁 기준
                   </div>
+
                 </div>
                 <div className="text-2xl font-bold text-gray-900">
                   ₩{(calculateTotalSavings() * 12).toLocaleString()}
