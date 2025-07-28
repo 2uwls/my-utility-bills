@@ -158,9 +158,13 @@ export default function ESGPage() {
 
         {/* ESG 탭 내용 */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="dashboard">대시보드</TabsTrigger>
-            <TabsTrigger value="articles">에너지 정보</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 rounded-2xl">
+            <TabsTrigger value="dashboard" className="rounded-2xl">
+              대시보드
+            </TabsTrigger>
+            <TabsTrigger value="articles" className="rounded-2xl">
+              에너지 정보
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="p-4 space-y-4">
@@ -173,7 +177,7 @@ export default function ESGPage() {
                       9월 공과금 절약 현황
                     </CardTitle>
                     <p className="text-sm opacity-90 ">
-                      전월 대비 전기 58kWh, 가스 13㎥ 절약!
+                      전월 대비 전기 21kWh, 가스 0㎥ 절약!
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-[#FFE300] bg-opacity-20 rounded-full flex items-center justify-center">
@@ -190,7 +194,7 @@ export default function ESGPage() {
                   <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Zap className="h-5 w-5 text-yellow-600" />
                   </div>
-                  <div className="text-lg font-bold text-gray-900">348kWh</div>
+                  <div className="text-lg font-bold text-gray-900">228kWh</div>
                   <div className="text-xs text-gray-500">6개월 누적 절약</div>
                 </CardContent>
               </Card>
@@ -208,7 +212,7 @@ export default function ESGPage() {
                   <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Calculator className="h-5 w-5 text-purple-600" />
                   </div>
-                  <div className="text-lg font-bold text-gray-900">580kWh</div>
+                  <div className="text-lg font-bold text-gray-900">520kWh</div>
                   <div className="text-xs text-gray-500">연말 예상 절약</div>
                 </CardContent>
               </Card>
@@ -262,7 +266,7 @@ export default function ESGPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className=" bg-blue-50 rounded-xl p-4 flex flex-col items-center">
-                  <div className="text-base text-gray-700 mb-3 text-center">
+                  <div className="text-sm text-gray-700 mb-3 text-center">
                     전 세계에서 베어진 나무의 35%가 종이 생산에 사용됩니다.{" "}
                     <br></br>
                     전자문서와 모바일 청구서, 전자 증명서로 전환하면 <br></br>
@@ -272,17 +276,18 @@ export default function ESGPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">
-                        1억 2,701만 건
-                      </div>
                       <div className="text-xs text-gray-600">
                         전자 문서, 모바일 청구서, 전자 증명서
                       </div>
                       <div className="text-xs text-gray-500">
                         2023년 총 전환 건수
                       </div>
+                      <div className="text-2xl font-bold text-blue-600">
+                        1억 2,701만 건
+                      </div>
                     </div>
                     <div className="text-center">
+                      <br />
                       <div className="text-xl font-bold text-green-600">
                         종이 약 640톤 절감 효과
                       </div>

@@ -47,7 +47,7 @@ export default function ElectricSimulationPage() {
   const [currentSeason, setCurrentSeason] = useState("winter"); // winter, summer, spring, fall
 
   // 전기요금 시뮬레이션 상태
-  const [monthlyUsage, setMonthlyUsage] = useState([350]); // kWh
+  const [monthlyUsage, setMonthlyUsage] = useState([240]); // kWh
   const [electricSavings, setElectricSavings] = useState({
     essentialDeduction: false, // 필수사용공제
     kepcoPayback: false, // 한전 페이백
@@ -452,7 +452,7 @@ export default function ElectricSimulationPage() {
                   margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="time" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[0, "dataMax + 20"]} />
                   <Tooltip
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
