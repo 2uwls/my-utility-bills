@@ -375,14 +375,26 @@ export default function AnalysisPage() {
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip
-                          formatter={(value, name) => [
-                            `₩${value.toLocaleString()}`,
-                            name === "thisYear"
-                              ? "올해"
-                              : name === "lastYear"
-                              ? "작년"
-                              : "절약액",
-                          ]}
+                          content={({ active, payload, label }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-white p-3 border rounded-lg shadow-lg">
+                                  <p className="font-medium">{label}</p>
+                                  {payload.map((entry, index) => (
+                                    <p
+                                      key={index}
+                                      style={{ color: entry.color }}>
+                                      {entry.dataKey === "thisYear" && "올해"}
+                                      {entry.dataKey === "lastYear" && "작년"}
+                                      {entry.dataKey === "savings" && "절약액"}:
+                                      ₩{entry.value?.toLocaleString()}
+                                    </p>
+                                  ))}
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
                         />
                         <Bar dataKey="thisYear" fill="#FFE300" name="올해" />
                         <Bar dataKey="lastYear" fill="#AAAAAA" name="작년" />
@@ -509,14 +521,26 @@ export default function AnalysisPage() {
                         <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip
-                          formatter={(value, name) => [
-                            `₩${value.toLocaleString()}`,
-                            name === "thisYear"
-                              ? "올해"
-                              : name === "lastYear"
-                              ? "작년"
-                              : "절약액",
-                          ]}
+                          content={({ active, payload, label }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-white p-3 border rounded-lg shadow-lg">
+                                  <p className="font-medium">{label}</p>
+                                  {payload.map((entry, index) => (
+                                    <p
+                                      key={index}
+                                      style={{ color: entry.color }}>
+                                      {entry.dataKey === "thisYear" && "올해"}
+                                      {entry.dataKey === "lastYear" && "작년"}
+                                      {entry.dataKey === "savings" && "절약액"}:
+                                      ₩{entry.value?.toLocaleString()}
+                                    </p>
+                                  ))}
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
                         />
                         <Bar dataKey="thisYear" fill="#FFE300" name="올해" />
                         <Bar dataKey="lastYear" fill="#AAAAAA" name="작년" />
