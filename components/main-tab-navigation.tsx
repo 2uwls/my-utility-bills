@@ -18,7 +18,7 @@ export default function MainTabNavigation({ active }: { active: string }) {
           <Link key={tab.value} href={tab.href} className="contents">
             <TabsTrigger
               value={tab.value}
-              className="rounded-xl text-sm data-[state=active]:bg-yellow-400 data-[state=active]:text-gray-900">
+              className="rounded-xl text-sm data-[state=active]:bg-[#FFE300] data-[state=active]:text-gray-900">
               {tab.label}
             </TabsTrigger>
           </Link>

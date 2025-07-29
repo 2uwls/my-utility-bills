@@ -4,7 +4,13 @@ import React from "react";
 import KakaoHeader from "@/components/KakaoHeader";
 import MainSummarySection from "@/components/MainSummarySection";
 import MainTabNavigation from "@/components/main-tab-navigation";
-import { ArrowLeft, Calculator, Lightbulb, Flame, TrendingUp } from "lucide-react";
+import {
+  ArrowLeft,
+  Calculator,
+  Lightbulb,
+  Flame,
+  TrendingUp,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,31 +25,32 @@ export default function SavingsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <KakaoHeader />
-      <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
+      <div className="max-w-xl mx-auto px-4 py-4 space-y-4">
         <MainSummarySection />
         <MainTabNavigation active="savings" />
 
         {/* 절약 탭 내용 */}
         <div className="space-y-6">
-
-          {/* 소개 카드 */}
-          <Card className="border-0 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 text-white">
+          {/* 소개 카드
+          <Card className="border-0 rounded-2xl text-gray-900 bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-lg font-bold">절약 시뮬레이션</h2>
-                  <p className="text-sm opacity-90">절약 방법별 효과를 미리 계산해보세요</p>
+                  <p className="text-sm opacity-90">
+                    절약 방법별 효과를 미리 계산해보세요
+                  </p>
                 </div>
                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                   <Calculator className="h-6 w-6" />
                 </div>
               </div>
               <div className="text-sm opacity-90">
-                전기요금과 도시가스 요금을 각각 시뮬레이션하여 최적의 절약 방법을 찾아보세요.
+                전기요금과 도시가스 요금을 각각 시뮬레이션하여 최적의 절약
+                방법을 찾아보세요.
               </div>
             </CardContent>
-          </Card>
-
+          </Card> */}
           {/* 전기/가스 시뮬레이션 카드들 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 전기 */}
@@ -56,9 +63,12 @@ export default function SavingsPage() {
                     </div>
                     <div className="text-2xl">⚡</div>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">전기요금 시뮬레이션</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    전기요금 시뮬레이션
+                  </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    사용량 절약, 시간대별 요금제, 역률 개선 등 다양한 전기요금 절약 방법을 시뮬레이션해보세요.
+                    사용량 절약, 시간대별 요금제 등 다양한 전기요금 절약 방법을
+                    시뮬레이션해보세요.
                   </p>
                   <div className="space-y-2 text-xs text-gray-500">
                     <div className="flex items-center gap-2">
@@ -69,15 +79,15 @@ export default function SavingsPage() {
                       <div className="w-1 h-1 bg-gray-400 rounded-full" />
                       시간대별 요금제 비교
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-gray-400 rounded-full" />
-                      역률 개선 효과
-                    </div>
                   </div>
-                  <div className="mt-4 flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-900">현재 월 요금: ₩85,000</span>
-                    <span className="text-green-600 font-medium text-xs">최대 30% 절약 가능</span>
-                  </div>
+                  {/* <div className="mt-4 flex items-center justify-between text-sm">
+                    <span className="font-medium text-gray-900">
+                      현재 월 요금: ₩85,000
+                    </span>
+                    <span className="text-green-600 font-medium text-xs">
+                      최대 30% 절약 가능
+                    </span>
+                  </div> */}
                 </CardContent>
               </Card>
             </Link>
@@ -92,63 +102,77 @@ export default function SavingsPage() {
                     </div>
                     <div className="text-2xl">🔥</div>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">도시가스 시뮬레이션</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    도시가스 시뮬레이션
+                  </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    사용량 절약, 에너지 바우처, 계절별 사용 패턴 등 도시가스 요금 절약 방법을 시뮬레이션해보세요.
+                    사용량 절약, 계절별 사용 패턴 등 도시가스 요금 절약 방법을
+                    시뮬레이션해보세요.
                   </p>
                   <div className="space-y-2 text-xs text-gray-500">
                     <div className="flex items-center gap-2">
                       <div className="w-1 h-1 bg-gray-400 rounded-full" />
                       사용량 절약 시뮬레이션
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-gray-400 rounded-full" />
-                      에너지 바우처 효과
-                    </div>
+
                     <div className="flex items-center gap-2">
                       <div className="w-1 h-1 bg-gray-400 rounded-full" />
                       계절별 사용량 분석
                     </div>
                   </div>
-                  <div className="mt-4 flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-900">현재 월 요금: ₩52,000</span>
-                    <span className="text-green-600 font-medium text-xs">최대 25% 절약 가능</span>
-                  </div>
+                  {/* <div className="mt-4 flex items-center justify-between text-sm">
+                    <span className="font-medium text-gray-900">
+                      현재 월 요금: ₩52,000
+                    </span>
+                    <span className="text-green-600 font-medium text-xs">
+                      최대 25% 절약 가능
+                    </span>
+                  </div> */}
                 </CardContent>
               </Card>
             </Link>
           </div>
-
           {/* 통합 절약 효과 */}
-          <Card className="border-0 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 text-white">
+          <Card className="border-0 rounded-2xl bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-lg font-bold">통합 절약 효과</h3>
-                  <p className="text-sm opacity-90">전기 + 가스 절약 시 예상 효과</p>
+                  <h3 className="text-lg font-bold  text-gray-900">
+                    통합 절약 효과
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    전기 + 가스 절약 시 예상 효과
+                  </p>
                 </div>
                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6" />
+                  <TrendingUp className="h-6 w-6 text-green-600" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-2xl font-bold">₩20,000</div>
-                  <div className="text-sm opacity-90">월 예상 절약액</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    ₩20,000
+                  </div>
+                  <div className="text-sm text-gray-600">월 예상 절약액</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">₩240,000</div>
-                  <div className="text-sm opacity-90">연간 예상 절약액</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    ₩240,000
+                  </div>
+                  <div className="text-sm text-gray-600">연간 예상 절약액</div>
                 </div>
               </div>
             </CardContent>
           </Card>
-
           {/* 최근 시뮬 결과 */}
           <Card className="border-0 rounded-2xl bg-white">
             <CardHeader>
-              <CardTitle className="text-lg font-bold">최근 시뮬레이션 결과</CardTitle>
-              <CardDescription>지난 시뮬레이션 결과를 다시 확인해보세요</CardDescription>
+              <CardTitle className="text-lg font-bold">
+                최근 시뮬레이션 결과
+              </CardTitle>
+              <CardDescription>
+                지난 시뮬레이션 결과를 다시 확인해보세요
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
@@ -157,12 +181,16 @@ export default function SavingsPage() {
                     <Lightbulb className="h-4 w-4 text-yellow-600" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-900">전기요금 15% 절약</div>
-                    <div className="text-xs text-gray-500">2024.09.15</div>
+                    <div className="text-sm font-medium text-gray-900">
+                      전기요금 15% 절약
+                    </div>
+                    <div className="text-xs text-gray-500">2025.09.15</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-bold text-green-600">₩12,750</div>
+                  <div className="text-sm font-bold text-green-600">
+                    ₩12,750
+                  </div>
                   <div className="text-xs text-gray-500">월 절약액</div>
                 </div>
               </div>
@@ -173,20 +201,23 @@ export default function SavingsPage() {
                     <Flame className="h-4 w-4 text-orange-600" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-900">도시가스 20% 절약</div>
-                    <div className="text-xs text-gray-500">2024.09.10</div>
+                    <div className="text-sm font-medium text-gray-900">
+                      도시가스 20% 절약
+                    </div>
+                    <div className="text-xs text-gray-500">2025.09.10</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-bold text-green-600">₩10,400</div>
+                  <div className="text-sm font-bold text-green-600">
+                    ₩10,400
+                  </div>
                   <div className="text-xs text-gray-500">월 절약액</div>
                 </div>
               </div>
             </CardContent>
           </Card>
-
           {/* 하단 액션 */}
-          <div className="grid grid-cols-2 gap-3 pb-6">
+          {/* <div className="grid grid-cols-2 gap-3 pb-6">
             <Link href="/rewards">
               <Button className="h-12 bg-green-500 hover:bg-green-600 text-white rounded-2xl w-full">
                 <TrendingUp className="h-4 w-4 mr-2" />
@@ -194,11 +225,13 @@ export default function SavingsPage() {
               </Button>
             </Link>
             <Link href="/">
-              <Button variant="outline" className="h-12 rounded-2xl border-gray-200 bg-white w-full">
+              <Button
+                variant="outline"
+                className="h-12 rounded-2xl border-gray-200 bg-white w-full">
                 홈으로 돌아가기
               </Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

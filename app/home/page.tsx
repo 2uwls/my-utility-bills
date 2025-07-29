@@ -16,19 +16,27 @@ import {
 export default function HomeTabContent() {
   // 홈 탭에서만 쓰는 데이터만 남김
   const comparisonData = [
-    { month: "4월", myUsage: 320, regionAvg: 356, peerAvg: 348 },
-    { month: "5월", myUsage: 310, regionAvg: 350, peerAvg: 340 },
-    { month: "6월", myUsage: 300, regionAvg: 340, peerAvg: 330 },
-    { month: "7월", myUsage: 330, regionAvg: 360, peerAvg: 350 },
-    { month: "8월", myUsage: 340, regionAvg: 370, peerAvg: 360 },
-    { month: "9월", myUsage: 320, regionAvg: 356, peerAvg: 348 },
+    { month: "4월", myUsage: 210, regionAvg: 250, peerAvg: 240 },
+    { month: "5월", myUsage: 220, regionAvg: 255, peerAvg: 245 },
+    { month: "6월", myUsage: 200, regionAvg: 240, peerAvg: 230 },
+    { month: "7월", myUsage: 230, regionAvg: 260, peerAvg: 250 },
+    { month: "8월", myUsage: 240, regionAvg: 265, peerAvg: 255 },
+    { month: "9월", myUsage: 220, regionAvg: 250, peerAvg: 240 },
   ];
-  const cumulativeSavings = {
-    monthsUsed: 6,
-    totalSaved: 180000,
-    projectedYearEnd: 300000,
-    monthlyAverage: 30000,
-  };
+
+  // 실제 평균 계산
+  const myUsageAvg = Math.round(
+    comparisonData.reduce((sum, item) => sum + item.myUsage, 0) /
+      comparisonData.length
+  );
+  const regionAvg = Math.round(
+    comparisonData.reduce((sum, item) => sum + item.regionAvg, 0) /
+      comparisonData.length
+  );
+  const peerAvg = Math.round(
+    comparisonData.reduce((sum, item) => sum + item.peerAvg, 0) /
+      comparisonData.length
+  );
 
   return (
     <>
@@ -45,37 +53,27 @@ export default function HomeTabContent() {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">전기</span>
-              <span className="text-sm text-gray-500">320kWh / 400kWh</span>
+              <span className="text-sm font-medium text-gray-700 ">전기</span>
+              <span className="text-sm text-gray-500">240kWh / 400kWh</span>
             </div>
-            <Progress value={80} className="h-2 bg-gray-100" />
+            <Progress value={60} className="h-2 bg-gray-100" />
             <div className="flex justify-between text-xs text-gray-500">
-              <span>80% 사용중</span>
-              <span className="font-medium text-gray-900">₩62,000</span>
+              {/* <span>60% 사용중</span> */}
+              <span></span>
+              <span className="font-medium text-gray-900">₩34,184</span>
             </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-gray-700">가스</span>
-              <span className="text-sm text-gray-500">45㎥ / 60㎥</span>
+              <span className="text-sm text-gray-500">18㎥ / 30㎥</span>
             </div>
-            <Progress value={75} className="h-2 bg-gray-100" />
+            <Progress value={60} className="h-2 bg-gray-100" />
             <div className="flex justify-between text-xs text-gray-500">
-              <span>75% 사용중</span>
-              <span className="font-medium text-gray-900">₩42,000</span>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">수도</span>
-              <span className="text-sm text-gray-500">18㎥ / 25㎥</span>
-            </div>
-            <Progress value={72} className="h-2 bg-gray-100" />
-            <div className="flex justify-between text-xs text-gray-500">
-              <span>72% 사용중</span>
-              <span className="font-medium text-gray-900">₩26,000</span>
+              {/* <span>60% 사용중</span> */}
+              <span></span>
+              <span className="font-medium text-gray-900">₩16,913</span>
             </div>
           </div>
         </CardContent>
@@ -114,16 +112,32 @@ export default function HomeTabContent() {
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip
-                  formatter={(value, name) => [
-                    `${value}kWh`,
-                    name === "myUsage"
-                      ? "내 사용량"
-                      : name === "regionAvg"
-                      ? "지역평균"
-                      : "또래평균",
-                  ]}
+                  labelFormatter={(label) => `${label}`}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-white p-3 border rounded-lg shadow-lg">
+                          <p className="font-medium">{label}</p>
+                          {payload.map((entry, index) => (
+                            <p key={index} style={{ color: entry.color }}>
+                              {entry.dataKey === "myUsage" && "내 사용량"}
+                              {entry.dataKey === "regionAvg" && "지역평균"}
+                              {entry.dataKey === "peerAvg" && "또래평균"}:{" "}
+                              {entry.value}kWh
+                            </p>
+                          ))}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
-                <Bar dataKey="myUsage" fill="#FFEB00" name="내 사용량" />
+                <Bar
+                  dataKey="myUsage"
+                  fill="#FFE300"
+                  name="내 사용량"
+                  barSize={40}
+                />
                 <Line
                   type="monotone"
                   dataKey="regionAvg"
@@ -146,15 +160,21 @@ export default function HomeTabContent() {
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-yellow-50 rounded-xl p-3">
               <div className="text-sm font-medium text-gray-900">우리집</div>
-              <div className="text-lg font-bold text-yellow-600">320kWh</div>
+              <div className="text-lg font-bold text-yellow-600">
+                {myUsageAvg}kWh
+              </div>
             </div>
             <div className="bg-gray-50 rounded-xl p-3">
               <div className="text-sm font-medium text-gray-900">지역평균</div>
-              <div className="text-lg font-bold text-gray-600">356kWh</div>
+              <div className="text-lg font-bold text-gray-600">
+                {regionAvg}kWh
+              </div>
             </div>
             <div className="bg-gray-50 rounded-xl p-3">
               <div className="text-sm font-medium text-gray-900">또래평균</div>
-              <div className="text-lg font-bold text-gray-600">348kWh</div>
+              <div className="text-lg font-bold text-gray-600">
+                {peerAvg}kWh
+              </div>
             </div>
           </div>
         </CardContent>
