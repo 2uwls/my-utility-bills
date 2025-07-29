@@ -254,8 +254,8 @@ export default function CardDetailPage() {
                 <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Star className="h-6 w-6 text-white" />
                 </div>
-                <div className="font-bold text-gray-900">연회비 무료</div>
-                <div className="text-xs text-gray-600">평생 무료</div>
+                <div className="font-bold text-gray-900">국내 7,900원</div>
+                <div className="text-xs text-gray-600">해외겸용 19,000원</div>
               </div>
               <div className="text-center p-4 bg-yellow-50 rounded-xl">
                 <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -436,7 +436,7 @@ export default function CardDetailPage() {
                     카카오뱅크 그린플랜 카드
                   </div>
                   <div className="text-sm text-gray-600">
-                    연회비 무료 · 즉시 발급
+                    연회비 7,900(국내) · 즉시 발급
                   </div>
                 </div>
                 <div className="text-right">
