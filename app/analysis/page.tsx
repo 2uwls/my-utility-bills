@@ -38,72 +38,72 @@ export default function AnalysisPage() {
 
   // 월별 총 지출 데이터 (최근 6개월)
   const monthlyExpenseData = [
-    { month: "4월", total: 55000, electric: 30000, gas: 25000 },
-    { month: "5월", total: 55000, electric: 30000, gas: 25000 },
-    { month: "6월", total: 50000, electric: 35000, gas: 15000 },
-    { month: "7월", total: 53000, electric: 40000, gas: 13000 },
-    { month: "8월", total: 52000, electric: 38000, gas: 14000 },
-    { month: "9월", total: 55000, electric: 30000, gas: 25000 },
+    { month: "4월", total: 62370, electric: 37120, gas: 25250 },
+    { month: "5월", total: 59810, electric: 35310, gas: 24500 },
+    { month: "6월", total: 53440, electric: 38760, gas: 14680 },
+    { month: "7월", total: 55270, electric: 42010, gas: 13260 },
+    { month: "8월", total: 51990, electric: 39850, gas: 12140 },
+    { month: "9월", total: 45988, electric: 30766, gas: 15222 },
   ];
 
   // 누적 데이터
   const cumulativeData = [
-    { month: "4월", cumulative: 55000, electric: 30000, gas: 25000 },
-    { month: "5월", cumulative: 110000, electric: 60000, gas: 50000 },
-    { month: "6월", cumulative: 160000, electric: 95000, gas: 65000 },
-    { month: "7월", cumulative: 213000, electric: 135000, gas: 78000 },
-    { month: "8월", cumulative: 265000, electric: 173000, gas: 92000 },
-    { month: "9월", cumulative: 320000, electric: 203000, gas: 117000 },
+    { month: "4월", cumulative: 62370, electric: 37120, gas: 25250 },
+    { month: "5월", cumulative: 122180, electric: 72430, gas: 49750 },
+    { month: "6월", cumulative: 175620, electric: 111190, gas: 64430 },
+    { month: "7월", cumulative: 230890, electric: 153200, gas: 77690 },
+    { month: "8월", cumulative: 282880, electric: 193050, gas: 89830 },
+    { month: "9월", cumulative: 328868, electric: 223816, gas: 105052 },
   ];
 
   // 작년 동월 대비 데이터 (가장 중요)
   const yearOverYearData = [
-    { month: "4월", thisYear: 55000, lastYear: 60000, savings: 5000 },
-    { month: "5월", thisYear: 55000, lastYear: 59000, savings: 4000 },
-    { month: "6월", thisYear: 50000, lastYear: 57000, savings: 7000 },
-    { month: "7월", thisYear: 53000, lastYear: 61000, savings: 8000 },
-    { month: "8월", thisYear: 52000, lastYear: 60000, savings: 8000 },
-    { month: "9월", thisYear: 55000, lastYear: 58000, savings: 3000 },
+    { month: "4월", thisYear: 62370, lastYear: 65420, savings: 3050 },
+    { month: "5월", thisYear: 59810, lastYear: 64300, savings: 4490 },
+    { month: "6월", thisYear: 53440, lastYear: 60780, savings: 7340 },
+    { month: "7월", thisYear: 55270, lastYear: 62100, savings: 6830 },
+    { month: "8월", thisYear: 51990, lastYear: 59400, savings: 7410 },
+    { month: "9월", thisYear: 45988, lastYear: 57220, savings: 11232 },
   ];
 
   // 도시가스 사용량 데이터 (누진제 없음)
   const gasUsageData = [
     { month: "4월", usage: 20 },
-    { month: "5월", usage: 20 },
-    { month: "6월", usage: 13 },
-    { month: "7월", usage: 11 },
-    { month: "8월", usage: 12 },
-    { month: "9월", usage: 20 },
+    { month: "5월", usage: 19 },
+    { month: "6월", usage: 12 },
+    { month: "7월", usage: 10 },
+    { month: "8월", usage: 10 },
+    { month: "9월", usage: 12 },
   ];
 
   // 도시가스 지출 데이터
   const gasExpenseData = [
-    { month: "4월", thisYear: 25000, lastYear: 28000, savings: 3000 },
-    { month: "5월", thisYear: 25000, lastYear: 27000, savings: 2000 },
-    { month: "6월", thisYear: 15000, lastYear: 18000, savings: 3000 },
-    { month: "7월", thisYear: 13000, lastYear: 16000, savings: 3000 },
-    { month: "8월", thisYear: 14000, lastYear: 17000, savings: 3000 },
-    { month: "9월", thisYear: 25000, lastYear: 28000, savings: 3000 },
+    { month: "4월", thisYear: 25250, lastYear: 28250, savings: 3000 },
+    { month: "5월", thisYear: 24500, lastYear: 26800, savings: 2300 },
+    { month: "6월", thisYear: 14680, lastYear: 17680, savings: 3000 },
+    { month: "7월", thisYear: 13260, lastYear: 16260, savings: 3000 },
+    { month: "8월", thisYear: 12140, lastYear: 15140, savings: 3000 },
+    { month: "9월", thisYear: 15222, lastYear: 18222, savings: 3000 },
   ];
 
   // 전기 사용량 데이터 (누진구간 확인용)
   const electricUsageData = [
-    { month: "4월", usage: 150, amount: 30000, bracket: 1 },
-    { month: "5월", usage: 155, amount: 30000, bracket: 1 },
-    { month: "6월", usage: 180, amount: 35000, bracket: 2 },
-    { month: "7월", usage: 210, amount: 40000, bracket: 2 },
-    { month: "8월", usage: 200, amount: 38000, bracket: 2 },
-    { month: "9월", usage: 150, amount: 30000, bracket: 1 },
+    { month: "4월", usage: 170, amount: 37120, bracket: 1 },
+    { month: "5월", usage: 160, amount: 35310, bracket: 1 },
+    { month: "6월", usage: 200, amount: 38760, bracket: 2 },
+    { month: "7월", usage: 250, amount: 42010, bracket: 2 },
+    { month: "8월", usage: 260, amount: 39850, bracket: 2 },
+    { month: "9월", usage: 240, amount: 30766, bracket: 2 },
   ];
 
   // 전기 지출 데이터
   const electricExpenseData = [
-    { month: "4월", thisYear: 30000, lastYear: 34000, savings: 4000 },
-    { month: "5월", thisYear: 30000, lastYear: 33000, savings: 3000 },
-    { month: "6월", thisYear: 35000, lastYear: 40000, savings: 5000 },
-    { month: "7월", thisYear: 40000, lastYear: 47000, savings: 7000 },
-    { month: "8월", thisYear: 38000, lastYear: 44000, savings: 6000 },
-    { month: "9월", thisYear: 30000, lastYear: 34000, savings: 4000 },
+    { month: "4월", thisYear: 37120, lastYear: 41120, savings: 4000 },
+    { month: "5월", thisYear: 35310, lastYear: 38810, savings: 3500 },
+    { month: "6월", thisYear: 38760, lastYear: 43760, savings: 5000 },
+    { month: "7월", thisYear: 42010, lastYear: 49010, savings: 7000 },
+    { month: "8월", thisYear: 39850, lastYear: 45850, savings: 6000 },
+    { month: "9월", thisYear: 30766, lastYear: 34766, savings: 4000 },
   ];
 
   // 통계 계산
@@ -606,7 +606,7 @@ export default function AnalysisPage() {
                           현재 누진구간 현황
                         </div>
                         <div className="text-sm text-gray-700">
-                          9월 320kWh 사용 중 (2구간)
+                          9월 240kWh 사용 중 (2구간)
                         </div>
                       </div>
                       <div className="text-right">
@@ -614,13 +614,13 @@ export default function AnalysisPage() {
                           주의
                         </div>
                         <div className="text-xs text-gray-900">
-                          3구간까지 80kWh 여유
+                          3구간까지 160kWh 여유
                         </div>
                       </div>
                     </div>
-                    <Progress value={80} className="h-2 bg-gray-100 mt-3" />
+                    <Progress value={60} className="h-2 bg-gray-100 mt-3" />
                     <div className="text-xs text-gray-900 mt-1">
-                      2구간 상한(400kWh)까지 80kWh 남음
+                      2구간 상한(400kWh)까지 160kWh 남음
                     </div>
                   </div>
                 </CardContent>

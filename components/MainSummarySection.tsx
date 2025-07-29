@@ -17,27 +17,27 @@ export default function MainSummarySection() {
   // 이 컴포넌트에서만 쓰는 데이터만 남김
   const currentBill = {
     electric: {
-      usage: 230, // kWh
-      amount: 33000, // ₩33,000 수준
+      usage: 240, // kWh
+      amount: 34184 - Math.round(34184 * 0.1), // ₩33,000 수준
       previousAmount: 38000, // 전월 대비 소폭 감소
-      savings: 5000,
+      savings: Math.round(34184 * 0.1),
       dueDate: "2025.09.25",
       status: "정상",
     },
     gas: {
-      usage: 15, // m³ (보일러·취사 기준 소량)
-      amount: 22000, // ₩12,000 수준
+      usage: 18, // m³ (보일러·취사 기준 소량)
+      amount: 16913 - Math.round(16913 * 0.1), // ₩12,000 수준
       previousAmount: 15000,
-      savings: 3000,
+      savings: Math.round(16913 * 0.1),
       dueDate: "2025.09.28",
-      status: "이상 탐지", // 이상탐지 대신 정상으로 전환
+      status: "정상", // 이상탐지 대신 정상으로 전환
     },
   };
 
   const cumulativeSavings = {
-    totalSaved: 90000, // 약 3개월 누적 절약
+    totalSaved: 17026, // 약 3개월 누적 절약
     monthsUsed: 3,
-    projectedYearEnd: 150000,
+    projectedYearEnd: 80700,
     monthlyAverage: 30000,
   };
 
@@ -112,10 +112,10 @@ export default function MainSummarySection() {
               <div className="text-lg font-bold text-gray-900">
                 ₩{currentBill.gas.amount.toLocaleString()}
               </div>
-              {/* <div className="text-sm text-green-600 flex items-center gap-1">
+              <div className="text-sm text-green-600 flex items-center gap-1">
                 <TrendingDown className="h-3 w-3" />₩
                 {currentBill.gas.savings.toLocaleString()} 절약
-              </div> */}
+              </div>
               <Badge
                 variant={
                   currentBill.gas.status === "이상 탐지"

@@ -67,8 +67,8 @@ export default function SavingsPage() {
                     전기요금 시뮬레이션
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    사용량 절약, 시간대별 요금제, 역률 개선 등 다양한 전기요금
-                    절약 방법을 시뮬레이션해보세요.
+                    사용량 절약, 시간대별 요금제 등 다양한 전기요금 절약 방법을
+                    시뮬레이션해보세요.
                   </p>
                   <div className="space-y-2 text-xs text-gray-500">
                     <div className="flex items-center gap-2">
@@ -106,8 +106,8 @@ export default function SavingsPage() {
                     도시가스 시뮬레이션
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    사용량 절약, 에너지 바우처, 계절별 사용 패턴 등 도시가스
-                    요금 절약 방법을 시뮬레이션해보세요.
+                    사용량 절약, 계절별 사용 패턴 등 도시가스 요금 절약 방법을
+                    시뮬레이션해보세요.
                   </p>
                   <div className="space-y-2 text-xs text-gray-500">
                     <div className="flex items-center gap-2">
@@ -184,7 +184,7 @@ export default function SavingsPage() {
                     <div className="text-sm font-medium text-gray-900">
                       전기요금 15% 절약
                     </div>
-                    <div className="text-xs text-gray-500">2024.09.15</div>
+                    <div className="text-xs text-gray-500">2025.09.15</div>
                   </div>
                 </div>
                 <div className="text-right">
@@ -204,7 +204,7 @@ export default function SavingsPage() {
                     <div className="text-sm font-medium text-gray-900">
                       도시가스 20% 절약
                     </div>
-                    <div className="text-xs text-gray-500">2024.09.10</div>
+                    <div className="text-xs text-gray-500">2025.09.10</div>
                   </div>
                 </div>
                 <div className="text-right">
