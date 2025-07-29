@@ -1,8 +1,7 @@
 "use client";
 
-
-import type React from "react"
-import { useState, useEffect } from "react"
+import type React from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft,
   Flame,
@@ -15,7 +14,6 @@ import {
   Snowflake,
   Sun,
   Zap,
-
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +39,6 @@ import Link from "next/link";
 
 type Season = "winter" | "spring" | "summer" | "fall";
 const seasons: Season[] = ["winter", "spring", "summer", "fall"];
-
 
 type TipKey =
   | "temperature"
@@ -87,7 +84,7 @@ const seasonalTips: Record<
       title: "실내 적정 난방 온도 설정",
       description: "18~20℃로 설정하기",
       icon: <Thermometer className="h-5 w-5" />,
-      saving: 12000,
+      saving: 6000,
       detail: "1도만 낮춰도 7% 절약 가능",
     },
     {
@@ -95,7 +92,7 @@ const seasonalTips: Record<
       title: "적정 습도 유지",
       description: "40~60% 습도 유지하기",
       icon: <Droplets className="h-5 w-5" />,
-      saving: 5000,
+      saving: 2000,
       detail: "습도가 높으면 체감온도 상승",
     },
     {
@@ -103,7 +100,7 @@ const seasonalTips: Record<
       title: "외출모드 활용",
       description: '외출시 보일러 "외출모드"로 전환',
       icon: <Home className="h-5 w-5" />,
-      saving: 8000,
+      saving: 4000,
       detail: "15도 정도로 자동 조절",
     },
     {
@@ -111,7 +108,7 @@ const seasonalTips: Record<
       title: "보온용품 착용",
       description: "실내 내복, 수면양말 등 착용",
       icon: <Snowflake className="h-5 w-5" />,
-      saving: 10000,
+      saving: 5000,
       detail: "체감온도 2-3도 상승 효과",
     },
     {
@@ -119,7 +116,7 @@ const seasonalTips: Record<
       title: "난방 밸브 조정",
       description: "사용하지 않는 방 밸브 잠그기",
       icon: <AlertCircle className="h-5 w-5" />,
-      saving: 7000,
+      saving: 3000,
       detail: "불필요한 난방 차단",
     },
     {
@@ -127,7 +124,7 @@ const seasonalTips: Record<
       title: "보일러 관리",
       description: "보일러 청소 및 배관 공기 빼기",
       icon: <AlertCircle className="h-5 w-5" />,
-      saving: 6000,
+      saving: 2000,
       detail: "효율성 10-15% 향상",
     },
   ],
@@ -138,7 +135,7 @@ const seasonalTips: Record<
       description: "온수 사용 시간 줄이기",
       icon: <Droplets className="h-5 w-5" />,
       saving: 0, // 샤워 절약액은 슬라이더로 동적 계산되므로 초기값 0
-      detail: "5분 단축 시 월 8,000원 절약",
+      detail: "5분 단축 시 월 4,000원 절약",
     },
   ],
   spring: [
@@ -147,7 +144,7 @@ const seasonalTips: Record<
       title: "간헐적 난방 사용",
       description: "필요시에만 난방 가동",
       icon: <Home className="h-5 w-5" />,
-      saving: 3000,
+      saving: 2000,
       detail: "봄철 온도 조절",
     },
     {
@@ -155,7 +152,7 @@ const seasonalTips: Record<
       title: "보일러 점검",
       description: "난방 시즌 전 점검 및 청소",
       icon: <AlertCircle className="h-5 w-5" />,
-      saving: 2000,
+      saving: 1000,
       detail: "효율성 향상",
     },
   ],
@@ -165,7 +162,7 @@ const seasonalTips: Record<
       title: "초기 난방 온도 조절",
       description: "서서히 온도 올리기",
       icon: <Thermometer className="h-5 w-5" />,
-      saving: 8000,
+      saving: 4000,
       detail: "급격한 온도 변화 방지",
     },
     {
@@ -173,7 +170,7 @@ const seasonalTips: Record<
       title: "보온용품 준비",
       description: "난방 전 보온용품 활용",
       icon: <Snowflake className="h-5 w-5" />,
-      saving: 6000,
+      saving: 3000,
       detail: "난방 시작 시기 연기",
     },
   ],
@@ -193,7 +190,7 @@ const commonTips: {
     title: "냉수 사용 습관",
     description: '평상시 수도꼭지 "냉수"쪽으로',
     icon: <Droplets className="h-5 w-5" />,
-    saving: 4000,
+    saving: 1500,
     detail: "불필요한 온수 사용 방지",
   },
   {
@@ -246,7 +243,7 @@ export default function GasSimulationPage() {
   // 샤워 절약액 계산 로직 (15분 기준, 5분 단축 시 8000원 절약)
   useEffect(() => {
     const baseShowerTime = 15; // 기준 샤워 시간
-    const baseSavingFor5Min = 8000; // 5분 단축 시 절약액
+    const baseSavingFor5Min = 4000; // 5분 단축 시 절약액
     const savingPerMinute = baseSavingFor5Min / 5; // 분당 절약액
 
     if (showerTime < baseShowerTime) {
@@ -287,7 +284,6 @@ export default function GasSimulationPage() {
     const data = [];
     let cumulative = 0;
 
-
     // Define month-to-season mapping
     const monthToSeasonMap: Record<number, Season> = {
       1: "winter", // January
@@ -302,7 +298,6 @@ export default function GasSimulationPage() {
       10: "fall", // October
       11: "fall", // November
       12: "winter", // December
-
     };
 
     // Desired order of months for the graph: Dec, Jan, Feb, ..., Nov
@@ -312,7 +307,6 @@ export default function GasSimulationPage() {
       const monthName = `${monthNum}월`;
       const monthSeason = monthToSeasonMap[monthNum];
       let monthlySavingForThisMonth = 0;
-
 
       // Add savings from common tips if they are active
       commonTips.forEach((tip) => {
@@ -351,7 +345,6 @@ export default function GasSimulationPage() {
       [uniqueKey]: !prev[uniqueKey],
     }));
   };
-
 
   const getSeasonName = (season: Season) => {
     const names = {
@@ -400,7 +393,6 @@ export default function GasSimulationPage() {
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-2 bg-transparent">
-
                   <Zap className="h-4 w-4" />
                   전기요금
                 </Button>
@@ -555,7 +547,6 @@ export default function GasSimulationPage() {
                     <div className="text-xs text-blue-600 mt-1">
                       {tip.detail}
                     </div>
-
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -584,7 +575,6 @@ export default function GasSimulationPage() {
                     onCheckedChange={() =>
                       handleTipToggle(tip.id, currentSeason)
                     }
-
                   />
                 </div>
               </div>
@@ -645,7 +635,6 @@ export default function GasSimulationPage() {
                         <br />• 비누칠할 때 물 잠시 끄기
                         <br />• 타이머 사용으로 시간 관리
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -702,7 +691,6 @@ export default function GasSimulationPage() {
                   <div className="text-sm text-gray-700">
                     현재 적용된 절약 팁 기준
                   </div>
-
                 </div>
                 <div className="text-2xl font-bold text-gray-900">
                   ₩{(calculateTotalSavings() * 12).toLocaleString()}
