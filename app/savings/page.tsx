@@ -61,7 +61,6 @@ export default function SavingsPage() {
                     <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
                       <Lightbulb className="h-6 w-6 text-yellow-600" />
                     </div>
-                    <div className="text-2xl">⚡</div>
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">
                     전기요금 시뮬레이션
@@ -100,7 +99,6 @@ export default function SavingsPage() {
                     <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
                       <Flame className="h-6 w-6 text-orange-600" />
                     </div>
-                    <div className="text-2xl">🔥</div>
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">
                     도시가스 시뮬레이션
