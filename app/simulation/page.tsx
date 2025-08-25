@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import React from "react";
-import KakaoHeader from "@/components/KakaoHeader";
-import MainSummarySection from "@/components/MainSummarySection";
-import MainTabNavigation from "@/components/main-tab-navigation";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import React from 'react';
+import KakaoHeader from '@/components/KakaoHeader';
+import MainSummarySection from '@/components/MainSummarySection';
+import MainTabNavigation from '@/components/main-tab-navigation';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
 import {
   ArrowLeft,
   Calculator,
   Lightbulb,
   Flame,
   TrendingUp,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const SavingsPage: React.FC = () => {
   return (
@@ -32,14 +32,15 @@ const SavingsPage: React.FC = () => {
 
         <Tabs value="savings" className="w-full">
           <TabsContent value="savings" className="space-y-6 mt-4">
-            {/* ===== 복붙한 절약 콘텐츠 ===== */}
 
             {/* 메인 소개 카드 */}
             <Card className="border-0 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 text-white">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-lg font-bold">절약 시뮬레이션</h2>
+                    <h2 className="text-base sm:text-lg font-bold">
+                      절약 시뮬레이션
+                    </h2>
                     <p className="text-sm opacity-90">
                       절약 방법별 효과를 미리 계산해보세요
                     </p>
@@ -48,7 +49,7 @@ const SavingsPage: React.FC = () => {
                     <Calculator className="h-6 w-6" />
                   </div>
                 </div>
-                <div className="text-sm opacity-90">
+                <div className="text-sm opacity-90 break-keep leading-relaxed">
                   전기요금과 도시가스 요금을 각각 시뮬레이션하여 최적의 절약
                   방법을 찾아보세요.
                 </div>
@@ -64,12 +65,11 @@ const SavingsPage: React.FC = () => {
                       <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
                         <Lightbulb className="h-6 w-6 text-yellow-600" />
                       </div>
-                      <div className="text-2xl">⚡</div>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">
                       전기요금 시뮬레이션
                     </h3>
-                    <p className="text-sm text-gray-600 mb-4">
+                    <p className="text-sm text-gray-600 mb-4 break-keep leading-relaxed">
                       사용량 절약, 시간대별 요금제, 역률 개선 등 다양한 전기요금
                       절약 방법을 시뮬레이션해보세요.
                     </p>
@@ -106,12 +106,11 @@ const SavingsPage: React.FC = () => {
                       <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
                         <Flame className="h-6 w-6 text-orange-600" />
                       </div>
-                      <div className="text-2xl">🔥</div>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">
                       도시가스 시뮬레이션
                     </h3>
-                    <p className="text-sm text-gray-600 mb-4">
+                    <p className="text-sm text-gray-600 mb-4 break-keep leading-relaxed">
                       사용량 절약, 에너지 바우처, 계절별 사용 패턴 등 도시가스
                       요금 절약 방법을 시뮬레이션해보세요.
                     </p>
@@ -147,7 +146,9 @@ const SavingsPage: React.FC = () => {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="text-lg font-bold">통합 절약 효과</h3>
+                    <h3 className="text-base sm:text-lg font-bold">
+                      통합 절약 효과
+                    </h3>
                     <p className="text-sm opacity-90">
                       전기 + 가스 절약 시 예상 효과
                     </p>
@@ -156,13 +157,15 @@ const SavingsPage: React.FC = () => {
                     <TrendingUp className="h-6 w-6" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <div className="text-2xl font-bold">₩12,000</div>
+                    <div className="text-xl sm:text-2xl font-bold">₩12,000</div>
                     <div className="text-sm opacity-90">월 예상 절약액</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">₩144,000</div>
+                    <div className="text-xl sm:text-2xl font-bold">
+                      ₩144,000
+                    </div>
                     <div className="text-sm opacity-90">연간 예상 절약액</div>
                   </div>
                 </div>
@@ -172,7 +175,7 @@ const SavingsPage: React.FC = () => {
             {/* 최근 시뮬레이션 결과 */}
             <Card className="border-0 rounded-2xl bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-bold">
+                <CardTitle className="text-base sm:text-lg font-bold">
                   최근 시뮬레이션 결과
                 </CardTitle>
                 <CardDescription>
@@ -223,7 +226,7 @@ const SavingsPage: React.FC = () => {
             </Card>
 
             {/* 하단 액션 버튼 */}
-            <div className="grid grid-cols-2 gap-3 pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-6">
               <Link href="/rewards">
                 <Button className="h-12 bg-green-500 hover:bg-green-600 text-white rounded-2xl w-full">
                   <TrendingUp className="h-4 w-4 mr-2" />
@@ -233,7 +236,8 @@ const SavingsPage: React.FC = () => {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="h-12 rounded-2xl border-gray-200 bg-white w-full">
+                  className="h-12 rounded-2xl border-gray-200 bg-white w-full"
+                >
                   홈으로 돌아가기
                 </Button>
               </Link>
