@@ -49,23 +49,23 @@ export default function SimulationHeader({ title, description, link, linkText, i
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-4xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
             <Link href="/simulation">
               <Button variant="ghost" size="icon" className="h-8 w-8">
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
             <div>
-              <h1 className="text-base sm:text-lg font-bold text-gray-900 whitespace-nowrap">
+              <h1 className="hidden sm:block text-base sm:text-lg font-bold text-gray-900">
                 {title}
               </h1>
-              <p className="text-xs text-gray-500">{description}</p>
+              <p className="hidden sm:block text-xs text-gray-500">{description}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link href={link}>
-              <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent whitespace-nowrap">
+              <Button variant="outline" size="sm" className="flex items-center gap-1 bg-transparent">
                 {isElectric ? <Flame className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
                 {linkText}
               </Button>
