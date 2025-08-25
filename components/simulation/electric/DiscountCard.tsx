@@ -2,12 +2,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Percent, Home, Gift } from 'lucide-react';
+import { Percent, Home } from 'lucide-react';
 
 interface DiscountCardProps {
-  electricSavings: { essentialDeduction: boolean; kepcoPayback: boolean; [key: string]: any };
+  electricSavings: { essentialDeduction: boolean; [key: string]: any };
   handleElectricSavingToggle: (savingId: string) => void;
   monthlyUsage: number[];
   currentSeason: string;
@@ -142,38 +141,6 @@ export default function DiscountCard({
                 </div>
               );
             })()}
-          </div>
-        </div>
-
-        {/* 한전 페이백 */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <Gift className="h-5 w-5" />
-            </div>
-            <div className="flex-1">
-              <div className="font-bold text-gray-900">한전 페이백</div>
-              <div className="text-sm text-gray-600">월 2,000원 할인</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="https://en-ter.co.kr/ec/main/main.do"
-              target="_blank"
-              rel="noopener noreferrer">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 px-2 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600">
-                바로가기
-              </Button>
-            </a>
-            <Switch
-              checked={electricSavings.kepcoPayback}
-              onCheckedChange={() =>
-                handleElectricSavingToggle("kepcoPayback")
-              }
-            />
           </div>
         </div>
       </CardContent>

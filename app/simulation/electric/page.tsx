@@ -27,7 +27,6 @@ export default function ElectricSimulationPage() {
   const [monthlyUsage, setMonthlyUsage] = useState([240]);
   const [electricSavings, setElectricSavings] = useState({
     essentialDeduction: false,
-    kepcoPayback: false,
     progressiveTierChange: false,
   });
 
@@ -106,9 +105,6 @@ export default function ElectricSimulationPage() {
         totalSavings += Math.max(0, currentBill - reducedUsageBill);
       }
     }
-    if (electricSavings.kepcoPayback) {
-      totalSavings += 2000;
-    }
     return totalSavings;
   };
 
@@ -124,9 +120,6 @@ export default function ElectricSimulationPage() {
     }
     if (electricSavings.essentialDeduction && usage <= rates.tier1.limit) {
       bill *= 0.9;
-    }
-    if (electricSavings.kepcoPayback) {
-      bill -= 2000;
     }
     return Math.max(0, Math.round(bill));
   };

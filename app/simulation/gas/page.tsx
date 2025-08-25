@@ -2,19 +2,7 @@
 
 import type React from "react";
 import { useState, useEffect } from "react";
-import {
-  ArrowLeft,
-  Flame,
-  Snowflake,
-  Sun,
-  Calendar,
-  Zap,
-  Thermometer,
-  Droplets,
-  Home,
-  AlertCircle,
-  CreditCard,
-} from "lucide-react";
+import { ArrowLeft, Flame, Snowflake, Sun, Calendar, Zap, Thermometer, Droplets, Home, AlertCircle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
