@@ -7,10 +7,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import dynamic from 'next/dynamic';
 
+import { Spinner } from "@/components/ui/spinner";
+
 // Dynamically import tab components
-const ComprehensiveAnalysisTab = dynamic(() => import('@/components/analysis/ComprehensiveAnalysisTab'), { ssr: false, loading: () => <p>Loading...</p> });
-const GasAnalysisTab = dynamic(() => import('@/components/analysis/GasAnalysisTab'), { ssr: false, loading: () => <p>Loading...</p> });
-const ElectricAnalysisTab = dynamic(() => import('@/components/analysis/ElectricAnalysisTab'), { ssr: false, loading: () => <p>Loading...</p> });
+const ComprehensiveAnalysisTab = dynamic(() => import('@/components/analysis/ComprehensiveAnalysisTab'), { ssr: false, loading: () => <div className="flex justify-center p-4"><Spinner /></div> });
+const GasAnalysisTab = dynamic(() => import('@/components/analysis/GasAnalysisTab'), { ssr: false, loading: () => <div className="flex justify-center p-4"><Spinner /></div> });
+const ElectricAnalysisTab = dynamic(() => import('@/components/analysis/ElectricAnalysisTab'), { ssr: false, loading: () => <div className="flex justify-center p-4"><Spinner /></div> });
 
 export default function AnalysisPage() {
   const [analysisTab, setAnalysisTab] = useState("comprehensive");
