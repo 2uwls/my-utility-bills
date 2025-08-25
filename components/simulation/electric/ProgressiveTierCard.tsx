@@ -2,8 +2,10 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Calculator } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell } from 'recharts';
+import { Calculator, HelpCircle } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 interface ProgressiveTierCardProps {
   monthlyUsage: number[];
@@ -36,6 +38,19 @@ export default function ProgressiveTierCard({
         <CardTitle className="text-base sm:text-lg font-bold flex items-center gap-2">
           <Calculator className="h-5 w-5" />
           누진제 구간 변경 시 절약 효과
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs text-wrap">
+                <p>
+                  사용량이 많을수록 전기 요금 단가가 비싸지는 요금 체계입니다.
+                  절약을 통해 낮은 구간의 요금을 적용받을 수 있습니다.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </CardTitle>
         <CardDescription className="break-keep leading-relaxed">
           현재 구간에서 낮은 구간으로 변경 시 절약할 수 있는 금액

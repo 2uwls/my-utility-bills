@@ -2,8 +2,9 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Clock } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
+import { Clock, HelpCircle } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface TimeBasedRatesCardProps {
   contractType: string;
@@ -28,8 +29,41 @@ export default function TimeBasedRatesCard({ contractType, setContractType, time
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="general">일반형</SelectItem>
-              <SelectItem value="night">심야형</SelectItem>
+              <SelectItem value="general">
+                <div className="flex items-center gap-1">
+                  일반형
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="h-3 w-3 text-gray-400 cursor-pointer" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs text-wrap">
+                        <p>
+                          시간대에 상관없이 동일한 요금 단가가 적용되는 요금제입니다.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </SelectItem>
+              <SelectItem value="night">
+                <div className="flex items-center gap-1">
+                  심야형
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="h-3 w-3 text-gray-400 cursor-pointer" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs text-wrap">
+                        <p>
+                          주로 심야 시간대(23시~06시)에 전기 요금 할인이 적용되는 요금제입니다.
+                          심야 전기 사용량이 많은 가구에 유리합니다.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

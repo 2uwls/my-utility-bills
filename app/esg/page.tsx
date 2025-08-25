@@ -8,6 +8,8 @@ import MainSummarySection from "@/components/MainSummarySection";
 import KakaoHeader from "@/components/KakaoHeader";
 import dynamic from 'next/dynamic';
 
+
+
 // Dynamically import tab components
 const DashboardTab = dynamic(() => import('@/components/esg/DashboardTab'), { ssr: false, loading: () => <p>Loading...</p> });
 const ArticlesTab = dynamic(() => import('@/components/esg/ArticlesTab'), { ssr: false, loading: () => <p>Loading...</p> });
