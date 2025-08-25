@@ -34,7 +34,7 @@ export default function ElectricStatusCard({
             <Zap className="h-6 w-6" />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="text-center sm:text-left">
             <div className="text-xl sm:text-2xl font-bold">
               ₩{calculateDiscountedElectricBill().toLocaleString()}

@@ -1,12 +1,13 @@
 'use client';
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft, Flame, Snowflake, Sun, Calendar, Zap, Thermometer, Droplets, Home, AlertCircle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
 import { GAS_SAVING_FORMULAS } from "@/lib/constants/gas-saving-formulas";
+import SimulationHeader from "@/components/SimulationHeader";
 
 // Data and types can be moved to a separate file for better organization
 type Season = "winter" | "spring" | "summer" | "fall";
@@ -43,6 +44,7 @@ const GasStatusCard = dynamic(() => import('@/components/simulation/gas/GasStatu
 const CommonTipsCard = dynamic(() => import('@/components/simulation/gas/CommonTipsCard'), { loading: () => <CardSkeleton />, ssr: false });
 const SeasonalTipsCard = dynamic(() => import('@/components/simulation/gas/SeasonalTipsCard'), { loading: () => <CardSkeleton />, ssr: false });
 const GasCumulativeSavingsCard = dynamic(() => import('@/components/simulation/gas/GasCumulativeSavingsCard'), { loading: () => <CardSkeleton />, ssr: false });
+const NotificationSettingsCard = dynamic(() => import('@/components/simulation/NotificationSettingsCard'), { loading: () => <CardSkeleton />, ssr: false });
 
 export default function GasSimulationPage() {
   const [currentSeason, setCurrentSeason] = useState<Season>("winter");
@@ -149,44 +151,35 @@ export default function GasSimulationPage() {
   const getSeasonName = (season: Season) => ({ winter: "겨울", spring: "봄", summer: "여름", fall: "가을" }[season]);
   const getSeasonIcon = (season: Season) => ({ winter: <Snowflake className="h-4 w-4" />, spring: <Sun className="h-4 w-4" />, summer: <Sun className="h-4 w-4" />, fall: <Calendar className="h-4 w-4" /> }[season]);
 
+  const calculateDiscountedGasBill = useCallback(() => {
+    // This is a dummy function. Replace with actual calculation.
+    return 35000 - calculateTotalSavings();
+  }, [calculateTotalSavings]);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link href="/simulation">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-base sm:text-lg font-bold text-gray-900 whitespace-nowrap">
-                  도시가스 시뮬레이션
-                </h1>
-                <p className="text-xs text-gray-500">계절별 절약 팁과 효과 확인</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link href="/simulation/electric">
-                <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent whitespace-nowrap">
-                  <Zap className="h-4 w-4" />
-                  전기요금
-                </Button>
-              </Link>
-              <div className="w-8 h-8 bg-[#FFE300] rounded-full flex items-center justify-center">
-                <Flame className="h-4 w-4 text-gray-800" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SimulationHeader 
+        title="도시가스 시뮬레이션"
+        description="계절별 절약 팁과 효과 확인"
+        link="/simulation/electric"
+        linkText="전기요금"
+        isElectric={false}
+      />
 
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
         <GasStatusCard 
           currentSeason={currentSeason}
           getSeasonName={getSeasonName}
           calculateTotalSavings={calculateTotalSavings}
+        />
+        <NotificationSettingsCard 
+          calculateBill={calculateDiscountedGasBill}
+          storageKeyEnabled="gasNotificationsEnabled"
+          storageKeyThreshold="gasThresholdAmount"
+          notificationTitle="가스요금 경고"
+          notificationBody={(threshold) => `예상 가스요금이 설정하신 ${threshold.toLocaleString()}원을 초과했습니다.`}
+          buttonClassName="bg-orange-500 text-white hover:bg-orange-600"
+          defaultThreshold={30000}
         />
         <CommonTipsCard 
           commonTips={commonTips}

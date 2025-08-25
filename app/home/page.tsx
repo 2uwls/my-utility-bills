@@ -1,7 +1,7 @@
-"use client";
-import { Users, TrendingUp, Zap } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+'use client';
+import { Users, TrendingUp, Zap } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -11,17 +11,17 @@ import {
   Tooltip,
   Bar,
   Line,
-} from "recharts";
+} from 'recharts';
 
 export default function HomeTabContent() {
   // 홈 탭에서만 쓰는 데이터만 남김
   const comparisonData = [
-    { month: "4월", myUsage: 210, regionAvg: 250, peerAvg: 240 },
-    { month: "5월", myUsage: 220, regionAvg: 255, peerAvg: 245 },
-    { month: "6월", myUsage: 200, regionAvg: 240, peerAvg: 230 },
-    { month: "7월", myUsage: 230, regionAvg: 260, peerAvg: 250 },
-    { month: "8월", myUsage: 240, regionAvg: 265, peerAvg: 255 },
-    { month: "9월", myUsage: 220, regionAvg: 250, peerAvg: 240 },
+    { month: '4월', myUsage: 210, regionAvg: 250, peerAvg: 240 },
+    { month: '5월', myUsage: 220, regionAvg: 255, peerAvg: 245 },
+    { month: '6월', myUsage: 200, regionAvg: 240, peerAvg: 230 },
+    { month: '7월', myUsage: 230, regionAvg: 260, peerAvg: 250 },
+    { month: '8월', myUsage: 240, regionAvg: 265, peerAvg: 255 },
+    { month: '9월', myUsage: 220, regionAvg: 250, peerAvg: 240 },
   ];
 
   // 실제 평균 계산
@@ -117,9 +117,9 @@ export default function HomeTabContent() {
                           <p className="font-medium">{label}</p>
                           {payload.map((entry, index) => (
                             <p key={index} style={{ color: entry.color }}>
-                              {entry.dataKey === "myUsage" && "내 사용량"}
-                              {entry.dataKey === "regionAvg" && "지역평균"}
-                              {entry.dataKey === "peerAvg" && "또래평균"}:{" "}
+                              {entry.dataKey === 'myUsage' && '내 사용량'}
+                              {entry.dataKey === 'regionAvg' && '지역평균'}
+                              {entry.dataKey === 'peerAvg' && '또래평균'}:{' '}
                               {entry.value}kWh
                             </p>
                           ))}

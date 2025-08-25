@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from "react";
-import { ArrowLeft, Flame, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useState, useCallback } from "react";
+import SimulationHeader from "@/components/SimulationHeader";
 import dynamic from 'next/dynamic';
 
 // Loading skeleton component
@@ -20,6 +18,7 @@ const TimeBasedRatesCard = dynamic(() => import('@/components/simulation/electri
 const ProgressiveTierCard = dynamic(() => import('@/components/simulation/electric/ProgressiveTierCard'), { loading: () => <CardSkeleton />, ssr: false });
 const DiscountCard = dynamic(() => import('@/components/simulation/electric/DiscountCard'), { loading: () => <CardSkeleton />, ssr: false });
 const CumulativeSavingsCard = dynamic(() => import('@/components/simulation/electric/CumulativeSavingsCard'), { loading: () => <CardSkeleton />, ssr: false });
+const NotificationSettingsCard = dynamic(() => import('@/components/simulation/NotificationSettingsCard'), { loading: () => <CardSkeleton />, ssr: false });
 
 export default function ElectricSimulationPage() {
   const [contractType, setContractType] = useState("general");
@@ -108,7 +107,7 @@ export default function ElectricSimulationPage() {
     return totalSavings;
   };
 
-  const calculateDiscountedElectricBill = () => {
+  const calculateDiscountedElectricBill = useCallback(() => {
     const usage = monthlyUsage[0];
     const rates = getElectricRates(currentSeason);
     let bill = calculateBaseElectricBill(usage, 3, currentSeason);
@@ -122,7 +121,7 @@ export default function ElectricSimulationPage() {
       bill *= 0.9;
     }
     return Math.max(0, Math.round(bill));
-  };
+  }, [monthlyUsage, currentSeason, electricSavings]);
 
   const getProgressiveComparisonData = () => {
     const usage = monthlyUsage[0];
@@ -178,36 +177,13 @@ export default function ElectricSimulationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link href="/simulation">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-base sm:text-lg font-bold text-gray-900 whitespace-nowrap">
-                  전기요금 절약 시뮬레이션
-                </h1>
-                <p className="text-xs text-gray-500">전기 절약 팁과 효과 확인</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link href="/simulation/gas">
-                <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent whitespace-nowrap">
-                  <Flame className="h-4 w-4" />
-                  도시가스
-                </Button>
-              </Link>
-              <div className="w-8 h-8 bg-[#FFE300] rounded-full flex items-center justify-center">
-                <Zap className="h-4 w-4 text-gray-800" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SimulationHeader 
+        title="전기요금 절약 시뮬레이션"
+        description="전기 절약 팁과 효과 확인"
+        link="/simulation/gas"
+        linkText="도시가스"
+        isElectric={true}
+      />
 
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
         <ElectricStatusCard 
@@ -216,6 +192,15 @@ export default function ElectricSimulationPage() {
           currentSeason={currentSeason}
           calculateDiscountedElectricBill={calculateDiscountedElectricBill}
           calculateElectricSavings={calculateElectricSavings}
+        />
+        <NotificationSettingsCard 
+          calculateBill={calculateDiscountedElectricBill}
+          storageKeyEnabled="electricNotificationsEnabled"
+          storageKeyThreshold="electricThresholdAmount"
+          notificationTitle="전기요금 경고"
+          notificationBody={(threshold) => `예상 전기요금이 설정하신 ${threshold.toLocaleString()}원을 초과했습니다.`}
+          buttonClassName="bg-[#FFE300] text-[#1E1E1E] hover:bg-yellow-500"
+          defaultThreshold={50000}
         />
         <TimeBasedRatesCard 
           contractType={contractType}
