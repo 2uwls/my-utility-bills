@@ -6,6 +6,7 @@ import { ArrowLeft, Flame, Snowflake, Sun, Calendar, Zap, Thermometer, Droplets,
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
+import { GAS_SAVING_FORMULAS } from "@/lib/constants/gas-saving-formulas";
 
 // Data and types can be moved to a separate file for better organization
 type Season = "winter" | "spring" | "summer" | "fall";
@@ -27,33 +28,7 @@ const getTipUniqueKey = (tipId: TipKey, season?: Season): string => {
   return season ? `${season}_${tipId}` : tipId;
 };
 
-const seasonalTips: Record<Season, any[]> = {
-  winter: [
-    { id: "temperature", title: "실내 적정 난방 온도 설정", description: "18~20℃로 설정하기", icon: <Thermometer className="h-5 w-5" />, saving: 6000, detail: "1도만 낮춰도 7% 절약 가능" },
-    { id: "humidity", title: "적정 습도 유지", description: "40~60% 습도 유지하기", icon: <Droplets className="h-5 w-5" />, saving: 2000, detail: "습도가 높으면 체감온도 상승" },
-    { id: "awayMode", title: "외출모드 활용", description: '외출시 보일러 "외출모드"로 전환', icon: <Home className="h-5 w-5" />, saving: 4000, detail: "15도 정도로 자동 조절" },
-    { id: "warmClothes", title: "보온용품 착용", description: "실내 내복, 수면양말 등 착용", icon: <Snowflake className="h-5 w-5" />, saving: 5000, detail: "체감온도 2-3도 상승 효과" },
-    { id: "valveControl", title: "난방 밸브 조정", description: "사용하지 않는 방 밸브 잠그기", icon: <AlertCircle className="h-5 w-5" />, saving: 3000, detail: "불필요한 난방 차단" },
-    { id: "boilerCleaning", title: "보일러 관리", description: "보일러 청소 및 배관 공기 빼기", icon: <AlertCircle className="h-5 w-5" />, saving: 2000, detail: "효율성 10-15% 향상" },
-  ],
-  summer: [
-    { id: "shower", title: "샤워 시간 단축", description: "온수 사용 시간 줄이기", icon: <Droplets className="h-5 w-5" />, saving: 0, detail: "5분 단축 시 월 4,000원 절약" },
-  ],
-  spring: [
-    { id: "awayMode", title: "간헐적 난방 사용", description: "필요시에만 난방 가동", icon: <Home className="h-5 w-5" />, saving: 2000, detail: "봄철 온도 조절" },
-    { id: "boilerCleaning", title: "보일러 점검", description: "난방 시즌 전 점검 및 청소", icon: <AlertCircle className="h-5 w-5" />, saving: 1000, detail: "효율성 향상" },
-  ],
-  fall: [
-    { id: "temperature", title: "초기 난방 온도 조절", description: "서서히 온도 올리기", icon: <Thermometer className="h-5 w-5" />, saving: 4000, detail: "급격한 온도 변화 방지" },
-    { id: "warmClothes", title: "보온용품 준비", description: "난방 전 보온용품 활용", icon: <Snowflake className="h-5 w-5" />, saving: 3000, detail: "난방 시작 시기 연기" },
-  ],
-};
 
-const commonTips: any[] = [
-  { id: "coldWater", title: "냉수 사용 습관", description: '평상시 수도꼭지 "냉수"쪽으로', icon: <Droplets className="h-5 w-5" />, saving: 1500, detail: "불필요한 온수 사용 방지" },
-  { id: "autoPayment", title: "자동이체 할인", description: "자동이체 신청으로 할인", icon: <CreditCard className="h-5 w-5" />, saving: 500, detail: "월 500원 할인" },
-  { id: "cardChange", title: "카드 할인", description: "가스요금 할인 카드 사용", icon: <CreditCard className="h-5 w-5" />, saving: 1000, detail: "월 1,000원 할인" },
-];
 
 // Loading skeleton component
 const CardSkeleton = () => (
@@ -74,6 +49,36 @@ export default function GasSimulationPage() {
   const [savingTips, setSavingTips] = useState<Record<string, boolean>>({});
   const [showerTime, setShowerTime] = useState<number>(15);
   const [showerSavingAmount, setShowerSavingAmount] = useState<number>(0);
+  const [areaInPyeong, setAreaInPyeong] = useState<number>(12); // 12평 기준
+
+  const seasonalTips = {
+    winter: [
+      { id: "temperature", title: "실내 적정 난방 온도 설정", description: "18~20℃로 설정하기", icon: <Thermometer className="h-5 w-5" />, saving: 6000, detail: "1도만 낮춰도 7% 절약 가능" },
+      { id: "humidity", title: "적정 습도 유지", description: "40~60% 습도 유지하기", icon: <Droplets className="h-5 w-5" />, saving: 2000, detail: "습도가 높으면 체감온도 상승" },
+      { id: "awayMode", title: "외출모드 활용", description: '외출시 보일러 "외출모드"로 전환', icon: <Home className="h-5 w-5" />, saving: 4000, detail: "15도 정도로 자동 조절" },
+      { id: "warmClothes", title: "보온용품 착용", description: "실내 내복, 수면양말 등 착용", icon: <Snowflake className="h-5 w-5" />, saving: 5000, detail: "체감온도 2-3도 상승 효과" },
+      { id: "valveControl", title: "난방 밸브 조정", description: "사용하지 않는 방 밸브 잠그기", icon: <AlertCircle className="h-5 w-5" />, saving: GAS_SAVING_FORMULAS.MONTHLY.NO_USE_ROOM_HEATING_VALVE * areaInPyeong, detail: `월 ${ (GAS_SAVING_FORMULAS.MONTHLY.NO_USE_ROOM_HEATING_VALVE * areaInPyeong).toLocaleString() }원 절약` },
+      { id: "boilerCleaning", title: "보일러 관리", description: "보일러 청소 및 배관 공기 빼기", icon: <AlertCircle className="h-5 w-5" />, saving: GAS_SAVING_FORMULAS.MONTHLY.BOILER_CLEANING * areaInPyeong, detail: `월 ${ (GAS_SAVING_FORMULAS.MONTHLY.BOILER_CLEANING * areaInPyeong).toLocaleString() }원 절약` },
+    ],
+    summer: [
+      { id: "shower", title: "샤워 시간 단축", description: "온수 사용 시간 줄이기", icon: <Droplets className="h-5 w-5" />, saving: 0, detail: "5분 단축 시 월 4,000원 절약" },
+    ],
+    spring: [
+      { id: "awayMode", title: "간헐적 난방 사용", description: "필요시에만 난방 가동", icon: <Home className="h-5 w-5" />, saving: 2000, detail: "봄철 온도 조절" },
+      { id: "boilerCleaning", title: "보일러 점검", description: "난방 시즌 전 점검 및 청소", icon: <AlertCircle className="h-5 w-5" />, saving: 1000, detail: "효율성 향상" },
+    ],
+    fall: [
+      { id: "temperature", title: "초기 난방 온도 조절", description: "서서히 온도 올리기", icon: <Thermometer className="h-5 w-5" />, saving: 4000, detail: "급격한 온도 변화 방지" },
+      { id: "warmClothes", title: "보온용품 준비", description: "난방 전 보온용품 활용", icon: <Snowflake className="h-5 w-5" />, saving: 3000, detail: "난방 시작 시기 연기" },
+    ],
+  };
+
+  const commonTips = [
+    { id: "coldWater", title: "냉수 사용 습관", description: '평상시 수도꼭지 "냉수"쪽으로', icon: <Droplets className="h-5 w-5" />, saving: 1500, detail: "불필요한 온수 사용 방지" },
+    { id: "autoPayment", title: "자동이체 할인", description: "자동이체 신청으로 할인", icon: <CreditCard className="h-5 w-5" />, saving: 500, detail: "월 500원 할인" },
+    { id: "cardChange", title: "카드 할인", description: "가스요금 할인 카드 사용", icon: <CreditCard className="h-5 w-5" />, saving: 1000, detail: "월 1,000원 할인" },
+    { id: "boilerWaterTempAdjustment", title: "보일러 온수 온도 조정", description: "55℃→40℃로 설정", icon: <Thermometer className="h-5 w-5" />, saving: GAS_SAVING_FORMULAS.MONTHLY.BOILER_WATER_TEMP_ADJUSTMENT * areaInPyeong, detail: `월 ${ (GAS_SAVING_FORMULAS.MONTHLY.BOILER_WATER_TEMP_ADJUSTMENT * areaInPyeong).toLocaleString() }원 절약` },
+  ];
 
   useEffect(() => {
     const baseShowerTime = 15;
