@@ -120,7 +120,7 @@ export default function KakaoHeader() {
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">
                             {notification.createdAt && notification.createdAt instanceof Date && !isNaN(notification.createdAt.getTime())
-                              ? notification.createdAt.toLocaleDateString()
+                              ? notification.createdAt.toLocaleString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                               : ''}
                           </p>
                             {!notification.read && (
