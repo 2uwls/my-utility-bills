@@ -98,9 +98,6 @@ export default function HomeTabContent() {
                   우수한 절약 실천 중이에요!
                 </div>
               </div>
-              <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
-                <span className="text-lg">🏆</span>
-              </div>
             </div>
           </div>
 
