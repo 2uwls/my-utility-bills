@@ -19,9 +19,26 @@ export const useForestCapture = () => {
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       );
-    console.log(isMobile ? "📱 모바일 캡처 시작!" : "🚀 데스크톱 캡처 시작!");
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    console.log(
+      isIOS
+        ? "🍎 iOS 캡처 시작!"
+        : isMobile
+        ? "📱 안드로이드 캡처 시작!"
+        : "🚀 데스크톱 캡처 시작!"
+    );
 
     try {
+      // iOS Safari에서는 특별한 처리
+      if (isIOS) {
+        console.log("iOS Safari 감지 - 대안 방법 사용");
+        const canvas = await createIOSFallbackCanvas();
+        showShareModal(canvas, isMobile);
+        console.log("✅ iOS 캡처 완료!");
+        return;
+      }
+
+      // 일반적인 캡처 프로세스
       // html2canvas 동적 로드
       if (!window.html2canvas) {
         await loadHtml2Canvas();
@@ -194,6 +211,84 @@ const createFallbackCanvas = (element) => {
   });
 };
 
+// iOS Safari 전용 대안 캔버스 생성
+const createIOSFallbackCanvas = () => {
+  return new Promise((resolve) => {
+    console.log("🍎 iOS 전용 캔버스 생성 중...");
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // iPhone에 최적화된 크기
+    canvas.width = 375;
+    canvas.height = 300;
+
+    // 그라데이션 배경
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, "#87CEEB"); // 하늘색
+    gradient.addColorStop(1, "#98FB98"); // 연두색
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 언덕 그리기
+    ctx.fillStyle = "#32CD32";
+    ctx.beginPath();
+    ctx.ellipse(
+      canvas.width / 2,
+      canvas.height - 30,
+      150,
+      60,
+      0,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
+
+    // 나무들 그리기
+    const trees = [
+      { x: canvas.width * 0.3, y: canvas.height - 80, size: 1 },
+      { x: canvas.width * 0.5, y: canvas.height - 90, size: 1.2 },
+      { x: canvas.width * 0.7, y: canvas.height - 75, size: 0.8 },
+    ];
+
+    trees.forEach((tree) => {
+      // 나무 줄기
+      ctx.fillStyle = "#8B4513";
+      ctx.fillRect(
+        tree.x - 3 * tree.size,
+        tree.y,
+        6 * tree.size,
+        20 * tree.size
+      );
+
+      // 나무 잎
+      ctx.fillStyle = "#228B22";
+      ctx.beginPath();
+      ctx.arc(tree.x, tree.y - 5 * tree.size, 15 * tree.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // 제목
+    ctx.fillStyle = "#2d5a2d";
+    ctx.font = "bold 28px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("🌱 내 절약 숲", canvas.width / 2, 50);
+
+    // 부제목
+    ctx.font = "18px system-ui";
+    ctx.fillStyle = "#4682B4";
+    ctx.fillText("매달 절약하면서 나무를 키워요!", canvas.width / 2, 80);
+
+    // iOS 표시
+    ctx.font = "12px system-ui";
+    ctx.fillStyle = "#666";
+    ctx.fillText("iOS Safari에서 생성됨", canvas.width / 2, canvas.height - 10);
+
+    console.log("🍎 iOS 캔버스 생성 완료!");
+    resolve(canvas);
+  });
+};
+
 // 공유 모달 표시 (모바일 최적화)
 const showShareModal = (canvas, isMobile = false) => {
   // 기존 모달 제거
@@ -254,7 +349,7 @@ const showShareModal = (canvas, isMobile = false) => {
           isMobile
             ? `
         <button id="share-native" style="${mobileButtonStyle("#007AFF")}">
-          📱 앱으로 공유하기
+          공유하기
         </button>
         `
             : `
@@ -290,7 +385,11 @@ const showShareModal = (canvas, isMobile = false) => {
           Twitter에 공유
         </button>
         `
-            : ""
+            : `
+        <button id="share-twitter" style="${mobileButtonStyle("#1DA1F2")}">
+          Twitter에 공유
+        </button>
+        `
         }
       </div>
       
@@ -299,7 +398,7 @@ const showShareModal = (canvas, isMobile = false) => {
           ? `
       <p style="font-size: 14px; color: #666; margin: 0 0 16px 0;">
         "내 절약 숲을 확인해보세요! 🌱✨<br>
-        #절약챌린지 #친환경 #절약숲"
+        #내공과금 #공과금절약 #절약숲"
       </p>
       `
           : ""
@@ -373,66 +472,98 @@ const showShareModal = (canvas, isMobile = false) => {
   const nativeBtn = modal.querySelector("#share-native");
   if (nativeBtn) {
     nativeBtn.onclick = async () => {
-      const shareText =
-        "내 절약 숲을 확인해보세요! 🌱✨ #절약챌린지 #친환경 #절약숲";
+      console.log("🔍 공유 기능 체크...");
+      console.log("navigator.share 지원:", !!navigator.share);
+      console.log("navigator.canShare 지원:", !!navigator.canShare);
 
+      const shareText =
+        "내 절약 숲을 확인해보세요! 🌱✨ #내공과금 #공과금절약 #절약숲";
+
+      // 모바일에서 네이티브 공유 시도
       if (navigator.share) {
         try {
-          canvas.toBlob(async (blob) => {
-            const file = new File([blob], "my-forest.png", {
-              type: "image/png",
-            });
+          // 먼저 이미지를 저장
+          saveImageMobile(dataUrl);
 
-            // 파일 공유 지원 여부 확인
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-              await navigator.share({
-                title: "내 절약 숲 🌱",
-                text: shareText,
-                files: [file],
-              });
-            } else {
-              // 파일 공유 안 되면 텍스트만
+          // 0.5초 후 공유 실행 (이미지 저장 시간 확보)
+          setTimeout(async () => {
+            try {
+              console.log("📱 네이티브 공유 실행...");
+
+              // 텍스트와 URL만 공유 (이미지는 별도 저장됨)
               await navigator.share({
                 title: "내 절약 숲 🌱",
                 text: shareText,
                 url: window.location.href,
               });
 
-              // 이미지는 별도 저장
-              if (isMobile) {
-                saveImageMobile(dataUrl);
-                setTimeout(() => {
-                  alert(
-                    "📱 이미지가 저장되었어요! 갤러리에서 확인하고 함께 공유해보세요!"
-                  );
-                }, 500);
+              console.log("✅ 공유 완료!");
+              modal.remove();
+            } catch (shareErr) {
+              console.log("공유 취소됨:", shareErr.message);
+              if (shareErr.name !== "AbortError") {
+                alert(
+                  "📱 이미지가 갤러리에 저장되었어요!\n원하는 앱에서 직접 이미지를 첨부해서 공유해보세요!"
+                );
               }
             }
-            modal.remove();
-          });
+          }, 500);
         } catch (e) {
-          console.log("공유 취소 또는 실패");
+          console.error("공유 중 오류:", e);
+          alert("📱 이미지 다운로드로 대체합니다!");
+
+          // 실패시 다운로드
+          const link = document.createElement("a");
+          link.download = `my-forest-${Date.now()}.png`;
+          link.href = dataUrl;
+          link.click();
         }
       } else {
-        alert(
-          isMobile
-            ? "공유 기능을 사용할 수 없습니다. 사진 저장을 이용해주세요!"
-            : "이 브라우저는 공유 기능을 지원하지 않습니다"
-        );
+        console.log("❌ 네이티브 공유 미지원");
+
+        // 네이티브 공유 미지원시 이미지 저장
+        saveImageMobile(dataUrl);
+        setTimeout(() => {
+          alert(
+            "📱 이미지가 저장되었어요!\n갤러리에서 확인하고 원하는 앱에서 공유해보세요!"
+          );
+        }, 500);
       }
     };
   }
 
-  // 트위터 버튼
+  // 트위터 버튼 (모바일 포함)
   const twitterBtn = modal.querySelector("#share-twitter");
   if (twitterBtn) {
     twitterBtn.onclick = () => {
-      const text =
-        "내 절약 숲을 확인해보세요! 🌱✨ #내공과금 #공과금절약 #절약숲";
-      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        text
-      )}&url=${encodeURIComponent(window.location.href)}`;
-      window.open(url, "_blank", "width=600,height=400");
+      const shareText =
+        "내 절약 숲을 확인해보세요! 🌱✨ 매달 절약하면서 나무를 키우고 있어요! #내공과금 #공과금절약 #절약숲";
+
+      // 모바일에서는 이미지도 함께 저장
+      if (isMobile) {
+        // 이미지 저장
+        saveImageMobile(dataUrl);
+
+        // 트위터 앱 또는 웹 열기
+        setTimeout(() => {
+          const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            shareText
+          )}\n&url=${encodeURIComponent(window.location.href)}`;
+          window.open(twitterUrl, "_blank");
+
+          setTimeout(() => {
+            alert(
+              "📱 이미지가 저장되었어요!\n\n트위터에서:\n1. 이미지 첨부 버튼 클릭\n2. 갤러리에서 저장된 이미지 선택\n3. 트윗하기! 🐦"
+            );
+          }, 1000);
+        }, 500);
+      } else {
+        // 데스크톱에서는 기존 방식
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          shareText
+        )}&url=${encodeURIComponent(window.location.href)}`;
+        window.open(url, "_blank", "width=600,height=400");
+      }
     };
   }
 
@@ -466,10 +597,10 @@ function shareButtonStyle(bgColor, textColor = "#000000") {
 }
 
 // 모바일용 버튼 스타일
-function mobileButtonStyle(bgColor) {
+function mobileButtonStyle(bgColor, textColor = "#ffffff") {
   return `
     background-color: ${bgColor};
-    color: white;
+    color: ${textColor};
     border: none;
     border-radius: 12px;
     padding: 16px;
@@ -497,7 +628,7 @@ const saveImageMobile = (dataUrl) => {
           <html>
             <body style="margin:0; text-align:center; background:#000;">
               <img src="${dataUrl}" style="max-width:100%; height:auto;">
-              <p style="color:white; padding:20px;">이미지를 길게 누르고 '사진에 저장'을 선택하세요</p>
+              <p style="color:white; padding:20px;">이미지를 길게 누르고 '저장'을 선택하세요</p>
             </body>
           </html>
         `);
