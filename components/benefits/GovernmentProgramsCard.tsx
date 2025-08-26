@@ -9,6 +9,7 @@ import { Gift, Link as LinkIcon } from 'lucide-react';
 export default function GovernmentProgramsCard() {
   const [kepcoPayback, setKepcoPayback] = useState(false);
   const [gasCashback, setGasCashback] = useState(false);
+  const [highEfficiencyRefund, setHighEfficiencyRefund] = useState(false);
 
   return (
     <Card className="border-0 rounded-2xl bg-white">
@@ -78,6 +79,36 @@ export default function GovernmentProgramsCard() {
             <Switch
               checked={gasCashback}
               onCheckedChange={setGasCashback}
+            />
+          </div>
+        </div>
+
+        {/* 고효율 가전제품 구매 환급 */}
+        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-100">
+              <Gift className="h-5 w-5 text-green-600" />
+            </div>
+            <div className="flex-1">
+              <div className="font-bold text-gray-900">고효율 가전제품 구매 환급</div>
+              <div className="text-sm text-gray-600">구매금액의 10% 환급</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href="https://en-ter.co.kr/support/main/main.do"
+              target="_blank"
+              rel="noopener noreferrer">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2 text-xs bg-green-50 hover:bg-green-100 text-green-600">
+                사이트
+              </Button>
+            </a>
+            <Switch
+              checked={highEfficiencyRefund}
+              onCheckedChange={setHighEfficiencyRefund}
             />
           </div>
         </div>

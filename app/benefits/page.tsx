@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import MainSummarySection from '@/components/MainSummarySection';
 import MainTabNavigation from '@/components/main-tab-navigation';
@@ -19,6 +19,11 @@ import GovernmentProgramsCard from '@/components/benefits/GovernmentProgramsCard
 
 const BenefitsPage: React.FC = () => {
   const router = useRouter();
+  const [gasConnected, setGasConnected] = useState(false);
+
+  const handleGasConnect = () => {
+    setGasConnected(true);
+  };
 
   const handleGreenPlanCardClick = () => {
     router.push('/benefits/card-detail');
@@ -189,43 +194,45 @@ const BenefitsPage: React.FC = () => {
                   </Badge>
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                      <span className="text-gray-600 text-xs">○</span>
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-900">
-                        가스료 자동이체
+                {gasConnected ? (
+                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-xs">✓</span>
                       </div>
-                      <div className="text-sm text-gray-500">
-                        설정하고 1% 적립받기
+                      <div>
+                        <div className="font-medium text-gray-900">
+                          가스료 자동이체
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          카카오뱅크 ****1234
+                        </div>
                       </div>
                     </div>
+                    <Badge className="bg-green-100 text-green-700 border-0">
+                      연결됨
+                    </Badge>
                   </div>
-                  <Button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-xl text-sm h-8">
-                    설정하기
-                  </Button>
-                </div>
-
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                      <span className="text-gray-600 text-xs">○</span>
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-900">
-                        수도료 자동이체
+                ) : (
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                        <span className="text-gray-600 text-xs">○</span>
                       </div>
-                      <div className="text-sm text-gray-500">
-                        설정하고 1% 적립받기
+                      <div>
+                        <div className="font-medium text-gray-900">
+                          가스료 자동이체
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          설정하고 1% 적립받기
+                        </div>
                       </div>
                     </div>
+                    <Button onClick={handleGasConnect} className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-xl text-sm h-8">
+                      설정하기
+                    </Button>
                   </div>
-                  <Button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-xl text-sm h-8">
-                    설정하기
-                  </Button>
-                </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
