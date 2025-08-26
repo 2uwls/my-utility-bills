@@ -53,10 +53,13 @@ export default function DiscountCard({
                       <PopoverTrigger asChild>
                         <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
                       </PopoverTrigger>
-                      <PopoverContent className="max-w-xs text-wrap">
-                        <p>
-                          전기 사용량이 일정 기준 이하일 경우 요금의 일부를 할인해주는 제도입니다.
-                        </p>
+                      <PopoverContent>
+                        <div className="max-w-xs text-wrap">
+                          <h4 className="font-bold mb-2">필수사용공제</h4>
+                          <p className="text-xs text-gray-600">
+                            전기 사용량이 일정 기준 이하일 경우 요금의 일부를 할인해주는 제도입니다.
+                          </p>
+                        </div>
                       </PopoverContent>
                     </Popover>
                   ) : (
@@ -65,10 +68,13 @@ export default function DiscountCard({
                         <TooltipTrigger asChild>
                           <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
                         </TooltipTrigger>
-                        <TooltipContent className="max-w-xs text-wrap">
-                          <p>
-                            전기 사용량이 일정 기준 이하일 경우 요금의 일부를 할인해주는 제도입니다.
-                          </p>
+                        <TooltipContent>
+                          <div className="max-w-xs text-wrap">
+                            <h4 className="font-bold mb-2">필수사용공제</h4>
+                            <p className="text-xs text-gray-600">
+                              전기 사용량이 일정 기준 이하일 경우 요금의 일부를 할인해주는 제도입니다.
+                            </p>
+                          </div>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
