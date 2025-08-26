@@ -17,6 +17,7 @@ import {
 export default function HomePage() {
   const [ocrResult, setOcrResult] = useState<any>(null); // OCR 결과 상태
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태
+  const [isLoadingOcr, setIsLoadingOcr] = useState(false); // OCR 로딩 상태
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -53,15 +54,26 @@ export default function HomePage() {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {ocrResult && ocrResult.images && ocrResult.images[0] ? (
-              ocrResult.images[0].inferResult === "FAILURE" ? (
-                <p className="text-sm text-red-500">OCR 처리 중 오류가 발생했습니다. 다시 시도해주세요.</p>
-              ) : ocrResult.images[0].inferText ? (
+            {isLoadingOcr ? (
+              <p className="text-sm text-gray-500">OCR 분석 중...</p>
+            ) : ocrResult && ocrResult.images && ocrResult.images[0] ? (
+              ocrResult.images[0].inferResult === 'FAILURE' ? (
+                <p className="text-sm text-red-500">
+                  OCR 처리 중 오류가 발생했습니다. 다시 시도해주세요.
+                </p>
+              ) : ocrResult.images[0].title.inferText ? (
                 <p className="text-sm whitespace-pre-wrap">
-                  {ocrResult.images[0].inferText}
+                  {ocrResult.images[0].title.inferText.replace(/\s/g, '') === ''
+                    ? '인식된 텍스트가 없습니다.'
+                    : `계량기 숫자 인식 : ${ocrResult.images[0].title.inferText.replace(
+                        /\s/g,
+                        ''
+                      )}`}
                 </p>
               ) : (
-                <p className="text-sm text-gray-500">인식된 텍스트가 없습니다.</p>
+                <p className="text-sm text-gray-500">
+                  인식된 텍스트가 없습니다.
+                </p>
               )
             ) : (
               <p className="text-sm text-gray-500">결과를 불러오는 중...</p>
@@ -91,6 +103,9 @@ export default function HomePage() {
         return;
       }
 
+      setIsLoadingOcr(true); // 로딩 시작
+      setIsModalOpen(true); // 모달 열기
+
       try {
         const response = await fetch('/api/clova-ocr', {
           method: 'POST',
@@ -103,16 +118,18 @@ export default function HomePage() {
         if (!response.ok) {
           const errorData = await response.json();
           alert(`OCR 에러: ${errorData.error || '알 수 없는 에러'}`);
+          setIsLoadingOcr(false); // 로딩 종료
           return;
         }
 
         const result = await response.json();
         console.log('Clova OCR 최종 결과:', result);
         setOcrResult(result); // OCR 결과 상태 업데이트
-        setIsModalOpen(true); // 모달 열기
       } catch (error) {
         console.error('클라이언트 측 OCR 요청 에러:', error);
         alert('OCR 처리 중 오류가 발생했습니다.');
+      } finally {
+        setIsLoadingOcr(false); // 로딩 종료
       }
     };
 
