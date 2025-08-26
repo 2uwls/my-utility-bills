@@ -13,7 +13,13 @@ export const useForestCapture = () => {
     }
 
     setIsCapturing(true);
-    console.log("🚀 숲 캡처 시작!");
+
+    // 모바일 환경 체크
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    console.log(isMobile ? "📱 모바일 캡처 시작!" : "🚀 데스크톱 캡처 시작!");
 
     try {
       // html2canvas 동적 로드
@@ -27,11 +33,11 @@ export const useForestCapture = () => {
         throw new Error("숲 카드를 찾을 수 없습니다");
       }
 
-      // 빠른 캡처
-      const canvas = await captureForestCard(forestCard);
+      // 모바일 최적화 캡처
+      const canvas = await captureForestCard(forestCard, isMobile);
 
-      // 공유 옵션 표시
-      showShareModal(canvas);
+      // 모바일/데스크톱에 맞는 공유 옵션 표시
+      showShareModal(canvas, isMobile);
 
       console.log("✅ 캡처 완료!");
     } catch (error) {
@@ -120,33 +126,76 @@ const findForestCard = () => {
   return null;
 };
 
-// 숲 카드 캡처
-const captureForestCard = (element) => {
+// 숲 카드 캡처 (모바일 최적화)
+const captureForestCard = (element, isMobile = false) => {
   return new Promise((resolve, reject) => {
+    const options = {
+      scale: isMobile ? 1 : 2, // 모바일에서는 스케일 낮춤
+      backgroundColor: "#ffffff",
+      useCORS: isMobile ? false : true, // 모바일에서 CORS 문제 회피
+      allowTaint: isMobile ? true : false, // 모바일에서 더 관대하게
+      logging: isMobile, // 모바일에서만 로깅
+      imageTimeout: isMobile ? 3000 : 5000, // 모바일에서 타임아웃 단축
+      removeContainer: false,
+      width: Math.min(element.offsetWidth, isMobile ? 400 : 800),
+      height: Math.min(element.offsetHeight, isMobile ? 600 : 800),
+      foreignObjectRendering: false, // 모바일 호환성
+      ignoreElements: (el) => {
+        return (
+          el.classList?.contains("fixed") ||
+          el.classList?.contains("z-50") ||
+          (isMobile && el.tagName === "CANVAS") || // 모바일에서 3D 캔버스 제외
+          el.style.display === "none"
+        );
+      },
+    };
+
     window
-      .html2canvas(element, {
-        scale: 2, // SNS용 고해상도
-        backgroundColor: "#ffffff",
-        useCORS: true,
-        allowTaint: false,
-        logging: false,
-        imageTimeout: 5000,
-        removeContainer: false,
-        width: element.offsetWidth,
-        height: element.offsetHeight,
-        ignoreElements: (el) => {
-          return (
-            el.classList?.contains("fixed") || el.classList?.contains("z-50")
-          );
-        },
-      })
+      .html2canvas(element, options)
       .then(resolve)
-      .catch(reject);
+      .catch((error) => {
+        console.error("html2canvas 실패:", error);
+        if (isMobile) {
+          // 모바일에서 실패시 간단한 대안
+          console.log("모바일 대안 방법 시도...");
+          createFallbackCanvas(element).then(resolve).catch(reject);
+        } else {
+          reject(error);
+        }
+      });
   });
 };
 
-// 공유 모달 표시
-const showShareModal = (canvas) => {
+// 모바일용 대안 캔버스 생성
+const createFallbackCanvas = (element) => {
+  return new Promise((resolve) => {
+    const rect = element.getBoundingClientRect();
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = Math.min(rect.width, 400);
+    canvas.height = Math.min(rect.height, 300);
+
+    // 배경
+    ctx.fillStyle = "#f0f8ff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 간단한 숲 그래픽
+    ctx.fillStyle = "#2d5a2d";
+    ctx.font = "24px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("🌱 내 절약 숲", canvas.width / 2, canvas.height / 2 - 20);
+
+    ctx.font = "16px system-ui";
+    ctx.fillStyle = "#666";
+    ctx.fillText("모바일에서 캡처됨", canvas.width / 2, canvas.height / 2 + 20);
+
+    resolve(canvas);
+  });
+};
+
+// 공유 모달 표시 (모바일 최적화)
+const showShareModal = (canvas, isMobile = false) => {
   // 기존 모달 제거
   const existing = document.getElementById("forest-share-modal");
   if (existing) existing.remove();
@@ -156,71 +205,115 @@ const showShareModal = (canvas) => {
   modal.style.cssText = `
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,${isMobile ? "0.8" : "0.5"});
     display: flex;
-    align-items: center;
+    align-items: ${isMobile ? "flex-end" : "center"};
     justify-content: center;
     z-index: 9999;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   `;
 
+  const dataUrl = canvas.toDataURL("image/png", 0.85);
+
   modal.innerHTML = `
     <div style="
       background: white;
-      border-radius: 20px;
-      padding: 30px;
+      border-radius: ${isMobile ? "20px 20px 0 0" : "20px"};
+      padding: ${isMobile ? "24px" : "30px"};
       max-width: 400px;
-      width: 90%;
+      width: ${isMobile ? "100%" : "90%"};
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      box-shadow: 0 ${isMobile ? "-10px 30px" : "20px 50px"} rgba(0,0,0,0.3);
     ">
-      <h2 style="margin: 0 0 20px 0; color: #2d5a2d; font-size: 24px;">🌱 내 숲 공유하기</h2>
+      ${
+        isMobile
+          ? `<div style="width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 20px;"></div>`
+          : ""
+      }
+      
+      <h2 style="margin: 0 0 ${
+        isMobile ? "16px" : "20px"
+      } 0; color: #2d5a2d; font-size: ${
+    isMobile ? "20px" : "24px"
+  };">🌱 내 숲 공유하기</h2>
       
       <div style="
-        width: 200px;
-        height: 120px;
+        width: ${isMobile ? "160px" : "200px"};
+        height: ${isMobile ? "100px" : "120px"};
         margin: 0 auto 20px;
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        background: url(${canvas.toDataURL("image/png")}) center/cover;
+        background: url(${dataUrl}) center/cover;
       "></div>
       
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-        <button id="share-download" style="${shareButtonStyle(
-          "#40C79E",
-          "#ffffff"
-        )}">
-          <FileDown /> 다운로드
+      <div style="display: ${isMobile ? "grid" : "grid"}; ${
+    isMobile ? "gap: 12px" : "grid-template-columns: 1fr 1fr; gap: 10px"
+  }; margin-bottom: 20px;">
+        ${
+          isMobile
+            ? `
+        <button id="share-native" style="${mobileButtonStyle("#007AFF")}">
+          📱 앱으로 공유하기
         </button>
-        <button id="share-copy" style="${shareButtonStyle(
-          "#eeeeee",
-          "#000000"
-        )}">
-          사진 복사
-        </button>
+        `
+            : `
         <button id="share-native" style="${shareButtonStyle(
           "#eeeeee",
           "#000000"
         )}">
           공유하기
         </button>
+        `
+        }
+        <button id="share-download" style="${
+          isMobile
+            ? mobileButtonStyle("#34C759")
+            : shareButtonStyle("#40C79E", "#ffffff")
+        }">
+          ${isMobile ? "사진 저장" : "다운로드"}
+        </button>
+        <button id="share-copy" style="${
+          isMobile
+            ? mobileButtonStyle("#FF9500")
+            : shareButtonStyle("#eeeeee", "#000000")
+        }">
+          ${isMobile ? "사진 복사" : "사진 복사"}
+        </button>
+        ${
+          !isMobile
+            ? `
         <button id="share-twitter" style="${shareButtonStyle(
           "#eeeeee",
           "#000000"
         )}">
-          Twitter에 공유하기
+          Twitter에 공유
         </button>
+        `
+            : ""
+        }
       </div>
+      
+      ${
+        isMobile
+          ? `
+      <p style="font-size: 14px; color: #666; margin: 0 0 16px 0;">
+        "내 절약 숲을 확인해보세요! 🌱✨<br>
+        #절약챌린지 #친환경 #절약숲"
+      </p>
+      `
+          : ""
+      }
       
       <button id="share-close" style="
         background: #f5f5f5;
         border: none;
-        padding: 10px 20px;
-        border-radius: 25px;
+        padding: ${isMobile ? "12px 24px" : "10px 20px"};
+        border-radius: ${isMobile ? "20px" : "25px"};
         cursor: pointer;
-        font-size: 14px;
+        font-size: ${isMobile ? "16px" : "14px"};
         color: #666;
+        ${isMobile ? "width: 100%;" : ""}
       ">닫기</button>
     </div>
   `;
@@ -228,7 +321,6 @@ const showShareModal = (canvas) => {
   document.body.appendChild(modal);
 
   // 이벤트 리스너 - 안전한 방식으로 추가
-  const dataUrl = canvas.toDataURL("image/png", 0.9);
 
   // 다운로드 버튼
   const downloadBtn = modal.querySelector("#share-download");
@@ -277,27 +369,56 @@ const showShareModal = (canvas) => {
     };
   }
 
-  // 네이티브 공유 버튼
+  // 네이티브 공유 버튼 (모바일 최적화)
   const nativeBtn = modal.querySelector("#share-native");
   if (nativeBtn) {
     nativeBtn.onclick = async () => {
+      const shareText =
+        "내 절약 숲을 확인해보세요! 🌱✨ #절약챌린지 #친환경 #절약숲";
+
       if (navigator.share) {
         try {
           canvas.toBlob(async (blob) => {
             const file = new File([blob], "my-forest.png", {
               type: "image/png",
             });
-            await navigator.share({
-              title: "내 절약 숲 🌱",
-              text: "나만의 절약 숲을 확인해보세요!",
-              files: [file],
-            });
+
+            // 파일 공유 지원 여부 확인
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: "내 절약 숲 🌱",
+                text: shareText,
+                files: [file],
+              });
+            } else {
+              // 파일 공유 안 되면 텍스트만
+              await navigator.share({
+                title: "내 절약 숲 🌱",
+                text: shareText,
+                url: window.location.href,
+              });
+
+              // 이미지는 별도 저장
+              if (isMobile) {
+                saveImageMobile(dataUrl);
+                setTimeout(() => {
+                  alert(
+                    "📱 이미지가 저장되었어요! 갤러리에서 확인하고 함께 공유해보세요!"
+                  );
+                }, 500);
+              }
+            }
+            modal.remove();
           });
         } catch (e) {
-          console.log("공유 취소");
+          console.log("공유 취소 또는 실패");
         }
       } else {
-        alert("이 브라우저는 공유 기능을 지원하지 않습니다");
+        alert(
+          isMobile
+            ? "공유 기능을 사용할 수 없습니다. 사진 저장을 이용해주세요!"
+            : "이 브라우저는 공유 기능을 지원하지 않습니다"
+        );
       }
     };
   }
@@ -343,3 +464,51 @@ function shareButtonStyle(bgColor, textColor = "#000000") {
     transition: 0.2s;
   `;
 }
+
+// 모바일용 버튼 스타일
+function mobileButtonStyle(bgColor) {
+  return `
+    background-color: ${bgColor};
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  `;
+}
+
+// 모바일 이미지 저장
+const saveImageMobile = (dataUrl) => {
+  try {
+    const link = document.createElement("a");
+    link.download = `my-forest-${Date.now()}.png`;
+    link.href = dataUrl;
+
+    // iOS Safari 대응
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
+      // iOS에서는 새 창으로 열어서 길게 누르기로 저장하도록 안내
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(`
+          <html>
+            <body style="margin:0; text-align:center; background:#000;">
+              <img src="${dataUrl}" style="max-width:100%; height:auto;">
+              <p style="color:white; padding:20px;">이미지를 길게 누르고 '사진에 저장'을 선택하세요</p>
+            </body>
+          </html>
+        `);
+      }
+    } else {
+      // Android나 데스크톱에서는 직접 다운로드
+      link.click();
+    }
+
+    console.log("💾 모바일 이미지 저장 완료!");
+  } catch (e) {
+    console.error("모바일 이미지 저장 실패:", e);
+  }
+};
