@@ -166,7 +166,7 @@ export default function GasSimulationPage() {
         isElectric={false}
       />
 
-      <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
         <GasStatusCard 
           currentSeason={currentSeason}
           getSeasonName={getSeasonName}

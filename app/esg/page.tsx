@@ -7,12 +7,13 @@ import MainTabNavigation from "@/components/main-tab-navigation";
 import MainSummarySection from "@/components/MainSummarySection";
 import KakaoHeader from "@/components/KakaoHeader";
 import dynamic from 'next/dynamic';
+import { Spinner } from "@/components/ui/spinner";
 
 
 
 // Dynamically import tab components
-const DashboardTab = dynamic(() => import('@/components/esg/DashboardTab'), { ssr: false, loading: () => <p>Loading...</p> });
-const ArticlesTab = dynamic(() => import('@/components/esg/ArticlesTab'), { ssr: false, loading: () => <p>Loading...</p> });
+const DashboardTab = dynamic(() => import('@/components/esg/DashboardTab'), { ssr: false, loading: () => <div className="flex justify-center p-4"><Spinner /></div> });
+const ArticlesTab = dynamic(() => import('@/components/esg/ArticlesTab'), { ssr: false, loading: () => <div className="flex justify-center p-4"><Spinner /></div> });
 
 // Interfaces can be defined here or moved to a types file
 interface TodoItem {
