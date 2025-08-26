@@ -25,12 +25,14 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
+import { useForestCapture } from "@/hooks/useForestCapture";
 
 export default function RewardsPage() {
   const [currentStreak, setCurrentStreak] = useState(2); // 현재 연속 절약 개월
   const [invitedFriends, setInvitedFriends] = useState(7); // 초대한 친구 수
   const [totalTrees, setTotalTrees] = useState(8); // 총 심은 나무 수
   const [selectedTree, setSelectedTree] = useState(null);
+  const { captureAndShare, isCapturing } = useForestCapture();
 
   // 나무 데이터 (절약 달마다 하나씩 추가)
   const trees = [
@@ -243,9 +245,11 @@ export default function RewardsPage() {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-xl bg-transparent">
+              className="rounded-xl bg-transparent"
+              onClick={captureAndShare}
+              disabled={isCapturing}>
               <Share2 className="h-4 w-4 mr-2" />
-              친구 초대
+              {isCapturing ? "캡처 중..." : "숲 공유"}
             </Button>
           </div>
         </div>
@@ -476,7 +480,7 @@ export default function RewardsPage() {
                   </div>
                   <div>
                     <div className="font-bold text-gray-900">물뿌리개 보상</div>
-                    <div className="text-xs text-gray-600">친구 10명 초대</div>
+                    <div className="text-xs text-gray-600">SNS 공유 10회</div>
                   </div>
                 </div>
                 {invitedFriends >= 10 ? (
@@ -487,7 +491,7 @@ export default function RewardsPage() {
                   <Badge
                     variant="outline"
                     className="border-blue-400 text-blue-600">
-                    {10 - invitedFriends}명 남음
+                    {10 - invitedFriends}회 공유
                   </Badge>
                 )}
               </div>
@@ -498,7 +502,7 @@ export default function RewardsPage() {
               <div className="text-xs text-gray-600 mt-2">
                 {invitedFriends >= 10
                   ? "특별한 나무를 심을 수 있어요!"
-                  : `${invitedFriends}/10명 초대 완료`}
+                  : `${invitedFriends}/10회 공유 완료`}
               </div>
             </CardContent>
           </Card>
@@ -570,102 +574,8 @@ export default function RewardsPage() {
           </CardContent>
         </Card>
 
-        {/* 친구 초대 현황 */}
-        <Card className="border-0 rounded-2xl bg-white">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg font-bold flex items-center gap-2">
-              <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                <Users className="h-3 w-3 text-white" />
-              </div>
-              함께하는 친구들
-            </CardTitle>
-            <CardDescription>친구를 초대해서 함께 절약해요</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {/* 초대 현황 */}
-              <div className="bg-purple-50 rounded-xl p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <div className="font-bold text-purple-900">초대 현황</div>
-                    <div className="text-sm text-purple-700">
-                      {invitedFriends}명이 함께하고 있어요
-                    </div>
-                  </div>
-                  <Button className="bg-purple-500 hover:bg-purple-600 text-white rounded-xl">
-                    친구 초대하기
-                  </Button>
-                </div>
-                <Progress
-                  value={(invitedFriends / 10) * 100}
-                  className="h-2 bg-purple-100"
-                />
-                <div className="text-xs text-purple-600 mt-2">
-                  10명 달성 시 특별 보상 획득!
-                </div>
-              </div>
-
-              {/* 친구 목록 */}
-              <div className="space-y-2">
-                <div className="text-sm font-medium text-gray-900 mb-3">
-                  최근 가입한 친구들
-                </div>
-                {[
-                  {
-                    name: "김민수",
-                    savings: 25000,
-                    avatar: "김",
-                    treeType: "large-tree",
-                  },
-                  {
-                    name: "이지영",
-                    savings: 18000,
-                    avatar: "이",
-                    treeType: "flower-tree",
-                  },
-                  {
-                    name: "박준호",
-                    savings: 32000,
-                    avatar: "박",
-                    treeType: "light-bulb-tree",
-                  },
-                ].map((friend, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-yellow-400 text-gray-900 text-xs">
-                          {friend.avatar}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {friend.name}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          이번 달 ₩{friend.savings.toLocaleString()} 절약
-                        </div>
-                      </div>
-                    </div>
-                    <div className="w-6 h-6 relative">
-                      <Image
-                        src={getTreeImageSrc(friend.treeType)}
-                        alt={`${friend.treeType} tree`}
-                        width={24}
-                        height={24}
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* 특별 이벤트 */}
-        <Card className="border-0 rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-400 text-white">
+        <Card className="border-0 rounded-2xl  bg-yellow-400 text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -688,19 +598,6 @@ export default function RewardsPage() {
             </div>
           </CardContent>
         </Card>
-
-        {/* 하단 액션 버튼 */}
-        {/* <div className="grid grid-cols-2 gap-3 pb-6">
-          <Button className="h-12 bg-green-500 hover:bg-green-600 text-white rounded-2xl">
-            <Trophy className="h-4 w-4 mr-2" />
-            랭킹 보기
-          </Button>
-          <Button
-            variant="outline"
-            className="h-12 rounded-2xl border-gray-200 bg-white">
-            <Share2 className="h-4 w-4 mr-2" />숲 공유하기
-          </Button>
-        </div> */}
       </div>
 
       {/* 나무 상세 모달 */}
