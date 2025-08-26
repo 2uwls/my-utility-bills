@@ -5,6 +5,8 @@ import { Switch } from "@/components/ui/switch";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Percent, Home, HelpCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DiscountCardProps {
   electricSavings: { essentialDeduction: boolean; [key: string]: any };
@@ -23,6 +25,7 @@ export default function DiscountCard({
   getEssentialDeductionData,
   getElectricRates
 }: DiscountCardProps) {
+  const isMobile = useIsMobile();
   return (
     <Card className="border-0 rounded-2xl bg-white">
       <CardHeader>
@@ -45,18 +48,31 @@ export default function DiscountCard({
               <div className="flex-1">
                 <div className="font-bold text-gray-900 flex items-center gap-1">
                   필수사용공제
-                  <TooltipProvider delayDuration={200}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
+                  {isMobile ? (
+                    <Popover>
+                      <PopoverTrigger asChild>
                         <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs text-wrap">
+                      </PopoverTrigger>
+                      <PopoverContent className="max-w-xs text-wrap">
                         <p>
                           전기 사용량이 일정 기준 이하일 경우 요금의 일부를 할인해주는 제도입니다.
                         </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                      </PopoverContent>
+                    </Popover>
+                  ) : (
+                    <TooltipProvider delayDuration={200}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-xs text-wrap">
+                          <p>
+                            전기 사용량이 일정 기준 이하일 경우 요금의 일부를 할인해주는 제도입니다.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
                 </div>
                 <div className="text-sm text-gray-600 break-keep">
                   {getElectricRates(currentSeason).tier1.limit}kWh 이하 시
