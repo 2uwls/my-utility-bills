@@ -45,7 +45,7 @@ export default function DiscountCard({
               <div className="flex-1">
                 <div className="font-bold text-gray-900 flex items-center gap-1">
                   필수사용공제
-                  <TooltipProvider>
+                  <TooltipProvider delayDuration={200}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />

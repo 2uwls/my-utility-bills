@@ -38,7 +38,7 @@ export default function ProgressiveTierCard({
         <CardTitle className="text-base sm:text-lg font-bold flex items-center gap-2">
           <Calculator className="h-5 w-5" />
           누진제 구간 변경 시 절약 효과
-          <TooltipProvider>
+          <TooltipProvider delayDuration={200}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
