@@ -16,10 +16,32 @@ import { Badge } from '@/components/ui/badge';
 import { CreditCard } from 'lucide-react';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import GovernmentProgramsCard from '@/components/benefits/GovernmentProgramsCard';
+import CardComparisonDialog from '@/components/benefits/CardComparisonDialog'; // Import the new component
+
+interface CardData {
+  name: string;
+  discounts: string[];
+  annualFee: string;
+  logoText: string;
+  logoBgColor: string;
+}
 
 const BenefitsPage: React.FC = () => {
   const router = useRouter();
   const [gasConnected, setGasConnected] = useState(false);
+  const [isComparisonDialogOpen, setIsComparisonDialogOpen] = useState(false);
+  const [comparedCard, setComparedCard] = useState<CardData | null>(null);
+
+  const greenPlanCardData: CardData = {
+    name: '그린플랜 카드',
+    discounts: [
+      '도시가스·전기요금 할인(조건별 캐시백)',
+      '휴대전화 요금 자동결제 시 캐시백 제공',
+    ],
+    annualFee: '국내 7,900원 / 해외겸용 19,000원',
+    logoText: 'GREEN',
+    logoBgColor: 'bg-green-500',
+  };
 
   const handleGasConnect = () => {
     setGasConnected(true);
@@ -27,6 +49,16 @@ const BenefitsPage: React.FC = () => {
 
   const handleGreenPlanCardClick = () => {
     router.push('/benefits/card-detail');
+  };
+
+  const handleCompareClick = (card: CardData) => {
+    setComparedCard(card);
+    setIsComparisonDialogOpen(true);
+  };
+
+  const handleCloseComparisonDialog = () => {
+    setIsComparisonDialogOpen(false);
+    setComparedCard(null);
   };
 
   return (
@@ -114,6 +146,16 @@ const BenefitsPage: React.FC = () => {
                     <Button
                       variant="outline"
                       className="rounded-xl text-sm h-8 bg-transparent"
+                      onClick={() => handleCompareClick({
+                        name: 'LOCA 365 카드',
+                        discounts: [
+                          '아파트 관리비·공과금 10% 할인',
+                          '교통·통신·배달앱 10% 할인',
+                        ],
+                        annualFee: '20,000원',
+                        logoText: '롯데',
+                        logoBgColor: 'bg-red-600',
+                      })}
                     >
                       비교하기
                     </Button>
@@ -150,6 +192,16 @@ const BenefitsPage: React.FC = () => {
                     <Button
                       variant="outline"
                       className="rounded-xl text-sm h-8 bg-transparent"
+                      onClick={() => handleCompareClick({
+                        name: 'Mr.Life 카드',
+                        discounts: [
+                          '공과금 10% 할인',
+                          '마트·편의점 10% 할인',
+                        ],
+                        annualFee: '15,000원',
+                        logoText: '신한',
+                        logoBgColor: 'bg-blue-700',
+                      })}
                     >
                       비교하기
                     </Button>
@@ -238,6 +290,14 @@ const BenefitsPage: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
+      {comparedCard && (
+        <CardComparisonDialog
+          isOpen={isComparisonDialogOpen}
+          onClose={handleCloseComparisonDialog}
+          card1={greenPlanCardData}
+          card2={comparedCard}
+        />
+      )}
     </div>
   );
 };
