@@ -35,6 +35,15 @@ export default function ProgressiveTierCard({
   const rates = getElectricRates(currentSeason);
   const currentTier = getCurrentTier(monthlyUsage[0]);
 
+  const InfoPopup = () => (
+    <div className="max-w-xs text-wrap">
+      <h4 className="font-bold mb-2">누진제 구간 변경</h4>
+      <p className="text-xs text-gray-600">
+        사용량이 많을수록 전기 요금 단가가 비싸지는 요금 체계입니다. 절약을 통해 낮은 구간의 요금을 적용받을 수 있습니다.
+      </p>
+    </div>
+  );
+
   return (
     <Card className="border-0 rounded-2xl bg-white">
       <CardHeader>
@@ -46,12 +55,7 @@ export default function ProgressiveTierCard({
               <PopoverTrigger asChild>
                 <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
               </PopoverTrigger>
-              <PopoverContent className="max-w-xs text-wrap">
-                <p>
-                  사용량이 많을수록 전기 요금 단가가 비싸지는 요금 체계입니다.
-                  절약을 통해 낮은 구간의 요금을 적용받을 수 있습니다.
-                </p>
-              </PopoverContent>
+              <PopoverContent><InfoPopup /></PopoverContent>
             </Popover>
           ) : (
             <TooltipProvider delayDuration={200}>
@@ -59,12 +63,7 @@ export default function ProgressiveTierCard({
                 <TooltipTrigger asChild>
                   <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-xs text-wrap">
-                  <p>
-                    사용량이 많을수록 전기 요금 단가가 비싸지는 요금 체계입니다.
-                    절약을 통해 낮은 구간의 요금을 적용받을 수 있습니다.
-                  </p>
-                </TooltipContent>
+                <TooltipContent><InfoPopup /></TooltipContent>
               </Tooltip>
             </TooltipProvider>
           )}
