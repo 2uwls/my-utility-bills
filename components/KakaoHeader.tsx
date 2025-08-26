@@ -63,16 +63,7 @@ export default function KakaoHeader() {
             </Link>
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
-            <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-              <SelectTrigger className="w-20 h-8 text-sm border-gray-200">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="2025">2025</SelectItem>
-                <SelectItem value="2024">2024</SelectItem>
-              </SelectContent>
-            </Select>
-            <Link href="/simulation">
+            <Link href="/savings">
               <Button variant="ghost" size="icon" className="h-8 w-8 relative">
                 <Calculator className="h-4 w-4" />
               </Button>

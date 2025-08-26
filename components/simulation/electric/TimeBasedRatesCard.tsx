@@ -5,6 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import { Clock, HelpCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TimeBasedRatesCardProps {
   contractType: string;
@@ -13,12 +15,41 @@ interface TimeBasedRatesCardProps {
 }
 
 export default function TimeBasedRatesCard({ contractType, setContractType, timeBasedRates }: TimeBasedRatesCardProps) {
+  const isMobile = useIsMobile();
+
+  const InfoPopup = () => (
+    <div className="max-w-xs text-wrap">
+      <h4 className="font-bold mb-2">요금제 안내</h4>
+      <p className="font-semibold text-sm">일반형</p>
+      <p className="text-xs mb-2 text-gray-600">시간대에 상관없이 동일한 요금 단가가 적용되는 요금제입니다.</p>
+      <p className="font-semibold text-sm">심야형</p>
+      <p className="text-xs text-gray-600">주로 심야 시간대(23시~06시)에 전기 요금 할인이 적용되는 요금제입니다. 심야 전기 사용량이 많은 가구에 유리합니다.</p>
+    </div>
+  );
+
   return (
     <Card className="border-0 rounded-2xl bg-white">
       <CardHeader>
         <CardTitle className="text-base sm:text-lg font-bold flex items-center gap-2">
           <Clock className="h-5 w-5 text-gray-700" />
           시간대별 요금제 비교
+          {isMobile ? (
+            <Popover>
+              <PopoverTrigger asChild>
+                <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
+              </PopoverTrigger>
+              <PopoverContent><InfoPopup /></PopoverContent>
+            </Popover>
+          ) : (
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <HelpCircle className="h-4 w-4 text-gray-400 cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent><InfoPopup /></TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </CardTitle>
         <CardDescription className="break-keep leading-relaxed">일반형 vs 심야형 요금제 비교</CardDescription>
       </CardHeader>
@@ -29,41 +60,8 @@ export default function TimeBasedRatesCard({ contractType, setContractType, time
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="general">
-                <div className="flex items-center gap-1">
-                  일반형
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <HelpCircle className="h-3 w-3 text-gray-400 cursor-pointer" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs text-wrap">
-                        <p>
-                          시간대에 상관없이 동일한 요금 단가가 적용되는 요금제입니다.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </SelectItem>
-              <SelectItem value="night">
-                <div className="flex items-center gap-1">
-                  심야형
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <HelpCircle className="h-3 w-3 text-gray-400 cursor-pointer" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs text-wrap">
-                        <p>
-                          주로 심야 시간대(23시~06시)에 전기 요금 할인이 적용되는 요금제입니다.
-                          심야 전기 사용량이 많은 가구에 유리합니다.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </SelectItem>
+              <SelectItem value="general">일반형</SelectItem>
+              <SelectItem value="night">심야형</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -96,7 +94,7 @@ export default function TimeBasedRatesCard({ contractType, setContractType, time
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="time" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} domain={[0, "dataMax + 20"]} />
-              <Tooltip
+              <RechartsTooltip
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
                     return (
